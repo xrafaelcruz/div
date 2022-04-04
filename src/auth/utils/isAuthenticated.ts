@@ -1,22 +1,42 @@
 import { getSession } from 'next-auth/react'
 import { GetServerSidePropsContext } from 'next'
 
-const isAuthenticated = async (context: GetServerSidePropsContext) => {
-  const session = await getSession(context)
+import { createUser, getUserByEmail } from 'services/users'
+import { normalizeUser } from 'auth/utils/normalize'
 
-  console.log('isAuthenticated', isAuthenticated)
+function goToLogin(context: GetServerSidePropsContext) {
+  context.res.writeHead(302, { Location: '/login' })
+  context.res.end()
 
-  if (!session) {
-    context.res.writeHead(302, { Location: '/login' })
-    context.res.end()
-
-    return null
-  }
-
-  // @TODO buscar os dados do usuário no banco, de acordo com o email que deve ser unique
-  // Se o usuário não existir, deve ser criado um
-
-  return session.user
+  return null
 }
 
-export default isAuthenticated
+export default async function isAuthenticated(
+  context: GetServerSidePropsContext
+) {
+  const session = await getSession(context)
+
+  if (!session || !session.user?.email) {
+    return goToLogin(context)
+  }
+
+  const foundedUser = await getUserByEmail(session.user.email)
+  if (foundedUser) {
+    return normalizeUser(foundedUser)
+  }
+
+  const createdUser = await createUser({
+    email: session.user.email,
+    name: session.user.name || '',
+    description: '',
+    password: '',
+    photo: session.user.image || '',
+    pix: ''
+  })
+
+  if (!createdUser) {
+    return goToLogin(context)
+  }
+
+  return normalizeUser(createdUser)
+}

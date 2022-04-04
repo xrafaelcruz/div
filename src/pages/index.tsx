@@ -1,5 +1,5 @@
-import { signOut } from 'next-auth/react'
 import { GetServerSidePropsContext } from 'next'
+import { signOut } from 'next-auth/react'
 import Head from 'next/head'
 
 import isAuthenticated from 'auth/utils/isAuthenticated'
@@ -10,6 +10,8 @@ export default function Home({ user }: HomeProps) {
   const handleSignout = () => {
     signOut()
   }
+
+  console.log('user', user)
 
   return (
     <>
