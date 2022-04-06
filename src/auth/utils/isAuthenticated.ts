@@ -15,12 +15,16 @@ export default async function isAuthenticated(
   context: GetServerSidePropsContext
 ) {
   const session = await getSession(context)
+  console.log('session.user?.email', session?.user?.email)
 
   if (!session || !session.user?.email) {
     return goToLogin(context)
   }
 
   const foundedUser = await getUserByEmail(session.user.email)
+
+  console.log('foundedUser', foundedUser)
+
   if (foundedUser) {
     return normalizeUser(foundedUser)
   }

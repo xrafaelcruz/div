@@ -1,12 +1,10 @@
-import { signIn, getSession } from 'next-auth/react'
+import { getSession } from 'next-auth/react'
 import { GetServerSidePropsContext } from 'next'
 import Head from 'next/head'
 
-export default function Login() {
-  const handleSignin = () => {
-    signIn()
-  }
+import Login from 'components/pages/Login'
 
+export default function LoginPage() {
   return (
     <>
       <Head>
@@ -15,11 +13,7 @@ export default function Login() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main>
-        <button onClick={handleSignin} type="button">
-          Sign in
-        </button>
-      </main>
+      <Login />
     </>
   )
 }

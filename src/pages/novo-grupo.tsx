@@ -3,20 +3,20 @@ import Head from 'next/head'
 
 import isAuthenticated from 'auth/utils/isAuthenticated'
 
-import Home from 'components/pages/Home'
+import NewGroup from 'components/pages/NewGroup'
 
-import { HomeProps } from 'components/pages/Home/types'
+import { NewGroupProps } from 'components/pages/NewGroup/types'
 
-export default function HomePage(props: HomeProps) {
+export default function NewGroupPage(props: NewGroupProps) {
   return (
     <>
       <Head>
-        <title>Div - Divisão fácil</title>
-        <meta name="description" content="Home" />
+        <title>Novo grupo</title>
+        <meta name="description" content="Novo grupo" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <Home {...props} />
+      <NewGroup {...props} />
     </>
   )
 }
