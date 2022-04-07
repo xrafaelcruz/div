@@ -25,11 +25,14 @@ export default function Home({ user }: HomeProps) {
       } catch (e) {
         console.log(e)
         alert(e)
+        setGroups([])
       }
     }
 
-    getListGroups()
-  }, [])
+    if (!groups) {
+      getListGroups()
+    }
+  }, [groups, user])
 
   return (
     <Layout hideBack={true}>
@@ -42,11 +45,20 @@ export default function Home({ user }: HomeProps) {
         NOVO GRUPO
       </s.Button>
 
-      <h1>Grupos</h1>
+      <s.Groups>
+        <h1>Grupos</h1>
 
-      {groups?.map((userGroup) => (
-        <div key={userGroup.id}>{userGroup.group.name}</div>
-      ))}
+        <s.List>
+          {groups?.map((userGroup) => (
+            <s.Item
+              key={userGroup.id}
+              onClick={() => router.push(`/grupo?id=${userGroup.group.id}`)}
+            >
+              {userGroup.group.name}
+            </s.Item>
+          ))}
+        </s.List>
+      </s.Groups>
     </Layout>
   )
 }

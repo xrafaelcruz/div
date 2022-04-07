@@ -1,6 +1,32 @@
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 import ButtonOriginal from 'components/Button'
 
 export const Button = styled(ButtonOriginal)`
   align-self: center;
+`
+
+export const Groups = styled.div``
+
+export const List = styled.ul`
+  display: flex;
+  flex-direction: column;
+  list-style: none;
+  gap: 8px;
+  margin: 16px 0 0;
+  padding: 0;
+  width: 100%;
+`
+
+export const Item = styled.li`
+  ${({ theme }) => css`
+    background: ${theme.colors.darkGray1};
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    padding: 16px;
+
+    &:hover {
+      filter: brightness(95%);
+    }
+  `}
 `
