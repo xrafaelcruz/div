@@ -79,6 +79,7 @@ export const FooterButtons = styled.div`
   display: flex;
   gap: 16px;
   justify-content: space-between;
+  margin-bottom: 32px;
   width: 100%;
 
   > * {

@@ -14,7 +14,7 @@ export default function Home(props: HomeProps) {
   // Buscar grupos
 
   return (
-    <Layout>
+    <Layout hideBack={true}>
       <s.Main>
         <Button
           onClick={() => router.push('/novo-grupo')}

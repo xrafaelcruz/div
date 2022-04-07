@@ -4,6 +4,7 @@ export const Main = styled.main`
   display: flex;
   flex-direction: column;
   gap: 32px;
+  padding-bottom: 0;
 `
 
 export const Form = styled.form`

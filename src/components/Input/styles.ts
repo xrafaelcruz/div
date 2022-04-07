@@ -32,7 +32,7 @@ export const Wrapper = styled.div<{ error: boolean }>`
 export const Error = styled.p`
   ${({ theme }) => css`
     font-size: 14px;
-    color: ${theme.colors.gray1};
+    color: ${theme.colors.error};
     height: 22px;
   `}
 `
