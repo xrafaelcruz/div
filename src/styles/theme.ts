@@ -9,7 +9,7 @@ const theme = {
     darkGray2: '#242D3B',
     white: '#ffffff',
     orange: '#fd951f',
-    red: '#8c0000'
+    error: '#ec5990'
     // red: '#DA0707'
   },
   fonts: {

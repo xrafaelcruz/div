@@ -6,7 +6,7 @@ import * as s from './styles'
 const PrivatePage: React.FC = ({ children }) => (
   <s.Wrapper>
     <Header />
-    {children}
+    <s.Content>{children}</s.Content>
     <Footer />
   </s.Wrapper>
 )

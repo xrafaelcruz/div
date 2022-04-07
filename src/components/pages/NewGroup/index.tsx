@@ -2,16 +2,19 @@ import { useRef, useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import { useForm } from 'react-hook-form'
 import { v4 as uuid } from 'uuid'
+import { FaPlus, FaTimes } from 'react-icons/fa'
 
 import Layout from 'components/Layout'
 import Input from 'components/Input'
 import Button from 'components/Button'
 
+import { createGroup } from 'services/groups'
 import { required } from 'utils/validations'
 
-import { NewGroupProps, MemberField } from './types'
+import { NewGroupProps, MemberField, FormData } from './types'
 
 import * as s from './styles'
+import { FooterButtons } from 'components/Button/styles'
 
 export default function NewGroup({ user }: NewGroupProps) {
   const didMount = useRef(false)
@@ -22,7 +25,7 @@ export default function NewGroup({ user }: NewGroupProps) {
     unregister,
     handleSubmit,
     formState: { errors }
-  } = useForm<any>()
+  } = useForm<FormData>()
 
   const [members, setMembers] = useState<MemberField[]>([])
 
@@ -43,8 +46,28 @@ export default function NewGroup({ user }: NewGroupProps) {
     setMembers(newMembers)
   }
 
-  const onSubmit = (data: any) => {
-    console.log(data)
+  const getMemberError = (id: string) => {
+    if (errors.memberName && errors.memberName[id]) {
+      return errors.memberName[id].message
+    }
+
+    return ''
+  }
+
+  const onSubmit = async (data: FormData) => {
+    console.log('data', data)
+
+    try {
+      const createdGroup = await createGroup({
+        idOwnerUser: user.id,
+        name: data.groupName,
+        members: Object.values(data.memberName)
+      })
+
+      router.push(`/grupo?id=${createdGroup?.id}`)
+    } catch (e) {
+      console.log(e)
+    }
   }
 
   return (
@@ -60,40 +83,41 @@ export default function NewGroup({ user }: NewGroupProps) {
               {...register('groupName', { required })}
             />
 
-            <h2>Membros</h2>
+            <s.Members>
+              <h2>Membros</h2>
 
-            {members?.map((member) => (
-              <s.NewMember key={member.id}>
-                <Input
-                  placeholder="Novo membro"
-                  defaultValue={member.value}
-                  error={
-                    errors.memberName && errors.memberName[member.id]
-                      ? errors.memberName[member.id].message
-                      : ''
-                  }
-                  {...register(`memberName.${member.id}`, { required })}
-                />
-                <Button
-                  onClick={() => removeMember(member.id)}
-                  type="button"
-                  variant="secondary"
-                >
-                  X
-                </Button>
-              </s.NewMember>
-            ))}
+              {members?.map((member) => (
+                <s.NewMember key={member.id}>
+                  <Input
+                    placeholder="Novo membro"
+                    defaultValue={member.value}
+                    error={getMemberError(member.id)}
+                    {...register(`memberName.${member.id}`, { required })}
+                  />
 
-            <Button
-              onClick={() => appendMember()}
-              type="button"
-              variant="primary"
-            >
-              +
-            </Button>
+                  <Button
+                    onClick={() => removeMember(member.id)}
+                    type="button"
+                    variant="danger"
+                    size="icon"
+                  >
+                    <FaTimes />
+                  </Button>
+                </s.NewMember>
+              ))}
+
+              <Button
+                onClick={() => appendMember()}
+                type="button"
+                variant="primary"
+                size="icon"
+              >
+                <FaPlus />
+              </Button>
+            </s.Members>
           </s.Fields>
 
-          <s.Buttons>
+          <FooterButtons>
             <Button
               onClick={() => router.back()}
               type="button"
@@ -103,9 +127,9 @@ export default function NewGroup({ user }: NewGroupProps) {
             </Button>
 
             <Button type="submit" variant="primary">
-              SALVAR
+              CRIAR
             </Button>
-          </s.Buttons>
+          </FooterButtons>
         </s.Form>
       </s.Main>
     </Layout>

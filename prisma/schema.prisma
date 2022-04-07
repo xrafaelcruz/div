@@ -8,13 +8,36 @@ datasource db {
 }
 
 model User {
-  id String @id @default(uuid())
-  email String @unique
-  name String
-  password String
-  photo String
-  pix String
+  id          String   @id @default(uuid())
+  email       String   @unique
+  name        String
+  password    String
+  photo       String
+  pix         String
   description String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  Group       Group[]
+}
+
+model Group {
+  id          String      @id @default(uuid())
+  idOwnerUser String
+  user        User        @relation(fields: [idOwnerUser], references: [id])
+  photo       String
+  name        String
+  description String
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+  UserGroup   UserGroup[]
+}
+
+model UserGroup {
+  id           String   @id @default(uuid())
+  userName     String
+  idGroup      String
+  group        Group    @relation(fields: [idGroup], references: [id])
+  inviteStatus String
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
 }

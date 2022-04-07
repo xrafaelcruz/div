@@ -5,7 +5,6 @@ export const Wrapper = styled.div<{ error: boolean }>`
     display: flex;
     flex-direction: column;
     gap: 4px;
-    margin: 0 0 10px;
 
     input {
       background: ${theme.colors.darkGray1};
@@ -24,8 +23,8 @@ export const Wrapper = styled.div<{ error: boolean }>`
 
       ${error &&
       css`
-        outline: 1px solid ${theme.colors.red};
-        border-color: ${theme.colors.red};
+        outline: 1px solid ${theme.colors.error};
+        border-color: ${theme.colors.error};
       `}
     }
   `}
