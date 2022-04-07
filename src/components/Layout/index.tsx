@@ -7,10 +7,16 @@ import { LayoutProps } from './types'
 
 import * as s from './styles'
 
-const Layout = ({ children, hideBack }: PropsWithChildren<LayoutProps>) => (
+const Layout = ({
+  children,
+  hideBack,
+  ...props
+}: PropsWithChildren<LayoutProps>) => (
   <s.Wrapper>
     <Header hideBack={hideBack} />
-    <s.Content>{children}</s.Content>
+    <s.Main>
+      <s.Container {...props}>{children}</s.Container>
+    </s.Main>
     <Footer />
   </s.Wrapper>
 )

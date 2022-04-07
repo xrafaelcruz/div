@@ -7,7 +7,7 @@ import * as s from './styles'
 
 const Header = ({ hideBack }: HeaderProps) => {
   const router = useRouter()
-  console.log('hideBack', hideBack)
+
   return (
     <s.Header>
       <s.Wrapper>

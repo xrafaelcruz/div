@@ -1,30 +1,52 @@
+import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 
+import { listGroups } from 'services/groups'
+
 import Layout from 'components/Layout'
-import Button from 'components/Button'
 
 import { HomeProps } from './types'
+import { UserGroupWithGroup } from 'services/groups/types'
 
 import * as s from './styles'
 
-export default function Home(props: HomeProps) {
+export default function Home({ user }: HomeProps) {
+  const [groups, setGroups] = useState<UserGroupWithGroup[]>()
   const router = useRouter()
 
-  console.log('props', props)
-  // Buscar grupos
+  useEffect(() => {
+    const getListGroups = async () => {
+      try {
+        const list = await listGroups(user.id, user.name)
+
+        if (list) {
+          setGroups(list)
+        }
+      } catch (e) {
+        console.log(e)
+        alert(e)
+      }
+    }
+
+    getListGroups()
+  }, [])
 
   return (
     <Layout hideBack={true}>
-      <s.Main>
-        <Button
-          onClick={() => router.push('/novo-grupo')}
-          type="button"
-          variant="primary"
-          size="big"
-        >
-          NOVO GRUPO
-        </Button>
-      </s.Main>
+      <s.Button
+        onClick={() => router.push('/novo-grupo')}
+        type="button"
+        variant="primary"
+        size="big"
+      >
+        NOVO GRUPO
+      </s.Button>
+
+      <h1>Grupos</h1>
+
+      {groups?.map((userGroup) => (
+        <div key={userGroup.id}>{userGroup.group.name}</div>
+      ))}
     </Layout>
   )
 }

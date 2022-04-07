@@ -32,14 +32,6 @@ const GlobalStyles = createGlobalStyle`
     color: #fff;
   }
 
-  main {
-    flex: 1;
-    padding: 48px 16px;
-    margin: auto;
-    max-width: 480px;
-    width: 100%;
-  }
-
   a {
     cursor: pointer;
     text-decoration: none;

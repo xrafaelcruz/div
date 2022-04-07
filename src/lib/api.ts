@@ -5,3 +5,10 @@ export function POST(url: string, body: any) {
     headers: { 'Content-Type': 'application/json' }
   })
 }
+
+export function GET(url: string) {
+  return fetch(url, {
+    method: 'GET',
+    headers: { 'Content-Type': 'application/json' }
+  })
+}

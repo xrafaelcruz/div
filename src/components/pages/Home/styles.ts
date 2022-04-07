@@ -1,10 +1,6 @@
-import styled, { css } from 'styled-components'
+import styled from 'styled-components'
+import ButtonOriginal from 'components/Button'
 
-export const Main = styled.main`
-  ${({ theme }) => css`
-    align-items: center;
-    display: flex;
-    flex-direction: column;
-    gap: 32px;
-  `}
+export const Button = styled(ButtonOriginal)`
+  align-self: center;
 `

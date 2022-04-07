@@ -2,7 +2,7 @@ import { getSession } from 'next-auth/react'
 import { GetServerSidePropsContext } from 'next'
 
 import { createUser, getUserByEmail } from 'services/users'
-import { normalizeUser } from 'auth/utils/normalize'
+import { normalizeUser } from 'services/utils/normalize'
 
 function goToLogin(context: GetServerSidePropsContext) {
   context.res.writeHead(302, { Location: '/login' })
