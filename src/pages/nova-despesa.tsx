@@ -1,25 +1,24 @@
 import { GetServerSidePropsContext } from 'next'
 import Head from 'next/head'
-import { useRouter } from 'next/router'
 
 import { useAuth } from 'lib/auth/useAuth'
 import { isAuthenticated } from 'lib/auth/isAuthenticated'
 
-import { GroupProps } from 'components/_pages/Group/types'
+import NewExpense from 'components/_pages/NewExpense'
 
-export default function GroupPage(props: GroupProps) {
+import { NewExpenseProps } from 'components/_pages/NewExpense/types'
+
+export default function NewExpensePage(props: NewExpenseProps) {
   useAuth(props.user)
-
-  const router = useRouter()
-  console.log('router.query', router.query)
-
   return (
     <>
       <Head>
-        <title>Grupo</title>
-        <meta name="description" content="Novo grupo" />
+        <title>Nova despesa</title>
+        <meta name="description" content="Nova despesa" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
+
+      <NewExpense {...props} />
     </>
   )
 }

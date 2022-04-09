@@ -17,7 +17,10 @@ const Footer = () => {
           <s.GroupTitle>Grupos</s.GroupTitle>
         </s.ButtonGroups>
 
-        <s.ButtonExpense type="button" onClick={() => router.push('/')}>
+        <s.ButtonExpense
+          type="button"
+          onClick={() => router.push('/nova-despesa')}
+        >
           <FaPlus />
         </s.ButtonExpense>
 

@@ -13,7 +13,6 @@ export const Container = styled.div`
   flex-direction: column;
   gap: 32px;
   height: 100%;
-  overflow-y: auto;
   padding: 48px 16px 0;
   margin: auto;
   max-width: 480px;
@@ -22,5 +21,7 @@ export const Container = styled.div`
 
 export const Main = styled.main`
   flex: 1;
+  max-height: calc(100vh - 100px);
+  overflow-y: auto;
   width: 100%;
 `

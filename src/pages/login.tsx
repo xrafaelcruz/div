@@ -2,7 +2,7 @@ import { getSession } from 'next-auth/react'
 import { GetServerSidePropsContext } from 'next'
 import Head from 'next/head'
 
-import Login from 'components/pages/Login'
+import Login from 'components/_pages/Login'
 
 export default function LoginPage() {
   return (

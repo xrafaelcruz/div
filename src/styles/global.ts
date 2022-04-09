@@ -1,5 +1,6 @@
-import { createGlobalStyle, css } from 'styled-components'
+import { createGlobalStyle } from 'styled-components'
 import theme from './theme'
+import scroll from './scroll'
 
 const GlobalStyles = createGlobalStyle`
   /* latin */
@@ -46,22 +47,16 @@ const GlobalStyles = createGlobalStyle`
     font-size: 18px;
     font-weight: bold;
   }
-`
 
-export const defaultStyles = css`
-  h1 {
-    font-size: 3.8rem;
-    color: ${(props) => props.theme.color.primary};
-
-    @media (max-width: 920px) {
-      font-size: 3.4rem;
-    }
+  fieldset {
+    border: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: 100%;
   }
 
-  time {
-    font-size: 1.6rem;
-    font-weight: 400;
-  }
+  ${scroll};
 `
 
 export default GlobalStyles

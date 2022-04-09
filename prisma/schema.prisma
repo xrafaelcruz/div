@@ -18,26 +18,60 @@ model User {
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
   Group       Group[]
+  // Expense          Expense[]
+  // ExpenseUserGroup ExpenseUserGroup[]
+  // UserGroup        UserGroup[]
 }
 
 model Group {
-  id          String      @id @default(uuid())
-  idOwnerUser String
-  user        User        @relation(fields: [idOwnerUser], references: [id])
-  photo       String
-  name        String
-  description String
-  createdAt   DateTime    @default(now())
-  updatedAt   DateTime    @updatedAt
-  UserGroup   UserGroup[]
+  id               String             @id @default(uuid())
+  idOwnerUser      String
+  user             User               @relation(fields: [idOwnerUser], references: [id])
+  photo            String
+  name             String
+  description      String
+  createdAt        DateTime           @default(now())
+  updatedAt        DateTime           @updatedAt
+  UserGroup        UserGroup[]
+  ExpenseUserGroup ExpenseUserGroup[]
 }
 
 model UserGroup {
   id           String   @id @default(uuid())
   userName     String
+  // idUser       String
+  // user         User     @relation(fields: [idUser], references: [id])
   idGroup      String
   group        Group    @relation(fields: [idGroup], references: [id])
   inviteStatus String
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
+}
+
+model Expense {
+  id               String             @id @default(uuid())
+  userName         String
+  // idPayerUser      String
+  // user             User               @relation(fields: [idPayerUser], references: [id])
+  name             String
+  value            Decimal
+  description      String
+  type             String
+  createdAt        DateTime           @default(now())
+  updatedAt        DateTime           @updatedAt
+  ExpenseUserGroup ExpenseUserGroup[]
+}
+
+model ExpenseUserGroup {
+  id            String   @id @default(uuid())
+  idExpense     String
+  expense       Expense  @relation(fields: [idExpense], references: [id])
+  userName      String
+  // idUser        String
+  // user          User     @relation(fields: [idUser], references: [id])
+  idGroup       String
+  group         Group    @relation(fields: [idGroup], references: [id])
+  paymentStatus String
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
 }

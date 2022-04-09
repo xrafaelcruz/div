@@ -3,6 +3,7 @@ import styled, { css } from 'styled-components'
 export const Footer = styled.footer`
   ${({ theme }) => css`
     background: ${theme.colors.darkGray1};
+    box-shadow: 0px 10px 22px ${theme.colors.black};
     display: flex;
     justify-content: center;
     width: 100%;

@@ -8,6 +8,7 @@ const theme = {
     darkGray2: '#242D3B',
     darkGray3: '#1C232F',
     white: '#ffffff',
+    black: '#000000',
     orange: '#fd951f',
     error: '#ec5990'
     // red: '#DA0707'

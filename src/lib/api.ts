@@ -1,3 +1,18 @@
+if (typeof window !== 'undefined') {
+  const { fetch: originalFetch } = window
+
+  window.fetch = async (...args) => {
+    const [resource, config] = args
+    const response = await originalFetch(resource, config)
+
+    if (!response.ok && response.status >= 300) {
+      return Promise.reject(response)
+    }
+
+    return response
+  }
+}
+
 export function POST(url: string, body: any) {
   return fetch(url, {
     method: 'POST',

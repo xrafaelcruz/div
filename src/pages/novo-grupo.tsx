@@ -1,13 +1,16 @@
 import { GetServerSidePropsContext } from 'next'
 import Head from 'next/head'
 
-import isAuthenticated from 'auth/utils/isAuthenticated'
+import { useAuth } from 'lib/auth/useAuth'
+import { isAuthenticated } from 'lib/auth/isAuthenticated'
 
-import NewGroup from 'components/pages/NewGroup'
+import NewGroup from 'components/_pages/NewGroup'
 
-import { NewGroupProps } from 'components/pages/NewGroup/types'
+import { NewGroupProps } from 'components/_pages/NewGroup/types'
 
 export default function NewGroupPage(props: NewGroupProps) {
+  useAuth(props.user)
+
   return (
     <>
       <Head>

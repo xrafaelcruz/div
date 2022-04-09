@@ -13,7 +13,7 @@ export const Wrapper = styled.div<{ error: boolean }>`
       color: ${theme.colors.white};
       font-size: 16px;
       height: 50px;
-      padding: 16px;
+      padding: 12px 16px;
       transition: border-color 250ms;
       width: 100%;
 
@@ -29,10 +29,10 @@ export const Wrapper = styled.div<{ error: boolean }>`
     }
   `}
 `
+
 export const Error = styled.p`
   ${({ theme }) => css`
     font-size: 14px;
     color: ${theme.colors.error};
-    height: 22px;
   `}
 `
