@@ -1,4 +1,4 @@
-import { getSession } from 'next-auth/react'
+import { getSession, signOut } from 'next-auth/react'
 import { GetServerSidePropsContext } from 'next'
 import { User as PrismaUser } from '@prisma/client'
 
@@ -14,12 +14,17 @@ function normalizeUser(user: PrismaUser): User {
 }
 
 function goToLogin(context: GetServerSidePropsContext) {
-  context.res.writeHead(302, { Location: '/login' })
+  context.res.writeHead(302, { Location: '/login?forceLogout=true' })
   context.res.end()
 
   return null
 }
 
+/**
+ * Função executada apenas no backend
+ * @param
+ * @returns Usuário authenticado ou redirecionamento para login
+ */
 export async function isAuthenticated(context: GetServerSidePropsContext) {
   const session = await getSession(context)
   console.log('session.user?.email', session?.user?.email)

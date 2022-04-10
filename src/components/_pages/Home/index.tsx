@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router'
 
-import useUserGroups from 'services/group/hooks/useUserGroups'
+import useGroup from 'services/group/hooks/useGroup'
 
 import Layout from 'components/Layout'
 
@@ -10,7 +10,7 @@ import * as s from './styles'
 
 export default function Home({ user }: HomeProps) {
   const router = useRouter()
-  const { userGroups } = useUserGroups({ user })
+  const { groups } = useGroup({ user })
 
   return (
     <Layout hideBack={true}>
@@ -27,12 +27,12 @@ export default function Home({ user }: HomeProps) {
         <h1>Grupos</h1>
 
         <s.List>
-          {userGroups?.map((userGroup) => (
+          {groups?.map((group) => (
             <s.Item
-              key={userGroup.id}
-              onClick={() => router.push(`/grupo?id=${userGroup.group.id}`)}
+              key={group.id}
+              onClick={() => router.push(`/grupo?id=${group.id}`)}
             >
-              {userGroup.group.name}
+              {group.name}
             </s.Item>
           ))}
         </s.List>

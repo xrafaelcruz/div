@@ -26,9 +26,9 @@ export const Wrapper = styled.div`
     border-radius: 5px;
     display: flex;
     flex-direction: column;
-    gap: 96px;
+    gap: 50px;
     justify-content: center;
-    min-height: 50vh;
+    min-height: 30vh;
     padding: 32px 16px 64px;
     width: 320px;
     max-width: 100%;

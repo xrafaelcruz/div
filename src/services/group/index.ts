@@ -22,11 +22,11 @@ export async function createGroup(params: t.CreateGroupParams) {
   return createdGroup
 }
 
-export async function listGroups(idUser: string, userName: string) {
-  let groups: t.UserGroupComplete[] | null = null
+export async function getGroups(idUser: string) {
+  let groups: t.Group[] | null = null
 
   try {
-    const url = `${process.env.NEXT_PUBLIC_API_URL}/group/list?idUser=${idUser}&userName=${userName}`
+    const url = `${process.env.NEXT_PUBLIC_API_URL}/group/list?idUser=${idUser}`
     const response = await GET(url)
 
     groups = await response.json()

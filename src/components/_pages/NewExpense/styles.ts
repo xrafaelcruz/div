@@ -42,7 +42,7 @@ export const Members = styled.fieldset`
   }
 `
 
-export const List = styled.ul`
+export const List = styled.div`
   display: flex;
   flex-direction: column;
   list-style: none;
@@ -51,16 +51,44 @@ export const List = styled.ul`
   width: 100%;
 `
 
-export const Item = styled.li`
+export const Label = styled.label`
   ${({ theme }) => css`
+    align-items: center;
     background: ${theme.colors.darkGray1};
     border-radius: 5px;
     cursor: pointer;
+    display: flex;
     font-size: 16px;
-    padding: 16px;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 12px 16px;
+    max-width: 100%;
 
     &:hover {
       filter: brightness(95%);
+    }
+
+    > span {
+      max-width: 360px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+  `}
+`
+
+export const ValuePerMember = styled.p`
+  ${({ theme }) => css`
+    color: ${theme.colors.gray1};
+    font-size: 16px;
+    font-weight: bold;
+    margin: 32px 0;
+    text-align: center;
+
+    span {
+      color: ${theme.colors.primary};
+      display: block;
+      font-size: 24px;
     }
   `}
 `

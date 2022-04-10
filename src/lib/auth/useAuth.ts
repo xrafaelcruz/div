@@ -4,7 +4,6 @@ import { User } from 'services/user/types'
 
 export const useAuth = (user: User) => {
   useEffect(() => {
-    console.log(getAuth())
     if (!getAuth()) {
       setAuth(user)
     }

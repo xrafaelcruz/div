@@ -5,6 +5,7 @@ export const Wrapper = styled.div<{ error: boolean }>`
     display: flex;
     flex-direction: column;
     gap: 4px;
+    position: relative;
 
     input {
       background: ${theme.colors.darkGray1};
@@ -16,6 +17,23 @@ export const Wrapper = styled.div<{ error: boolean }>`
       padding: 12px 16px;
       transition: border-color 250ms;
       width: 100%;
+
+      &[type='checkbox'] {
+        all: unset;
+        border: 2px solid ${theme.colors.primary};
+        border-radius: 5px;
+        display: inline-block;
+        height: 24px;
+        width: 24px;
+
+        &:checked {
+          background-color: ${theme.colors.primary};
+        }
+
+        &:checked + div {
+          visibility: visible;
+        }
+      }
 
       &::placeholder {
         color: ${theme.colors.gray1};
@@ -35,4 +53,14 @@ export const Error = styled.p`
     font-size: 14px;
     color: ${theme.colors.error};
   `}
+`
+
+export const Check = styled.div`
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  height: 100%;
+  visibility: hidden;
+  position: absolute;
+  width: 100%;
 `

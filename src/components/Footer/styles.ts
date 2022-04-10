@@ -68,8 +68,9 @@ export const ButtonExpense = styled.button`
 `
 
 export const ButtonProfile = styled.button<{ photo: string }>`
-  ${({ photo }) => css`
+  ${({ theme, photo }) => css`
     background: url(${photo}) no-repeat;
+    background-color: ${theme.colors.white};
     background-position: center center;
     background-size: cover;
     border: 0;

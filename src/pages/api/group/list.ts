@@ -3,31 +3,23 @@ import prisma from 'lib/prisma'
 
 export default async function List(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === 'GET') {
+    const { idUser } = req.query
+
     try {
-      const { idUser, userName } = req.query
-
       const hasUserId = idUser && typeof idUser === 'string'
-      const hasUserName = userName && typeof userName === 'string'
+      // const hasUserName = userName && typeof userName === 'string'
 
-      if (hasUserId && hasUserName) {
-        const groups = await prisma.userGroup.findMany({
+      if (hasUserId) {
+        const groups = await prisma.group.findMany({
           where: {
-            userName,
-            AND: {
-              group: {
-                idOwnerUser: idUser // @TODO apenas no MVP, depois esse idUser deverá ser usado no lugar de userName
-              }
-            }
-          },
-          include: {
-            group: true
+            idOwnerUser: idUser
           }
         })
 
         return res.status(200).json(groups)
       }
     } catch (e) {
-      const message = 'Erro ao buscar os grupos'
+      const message = `Erro ao buscar os grupos do usuário ${idUser}`
 
       console.log(e)
       console.log(message)

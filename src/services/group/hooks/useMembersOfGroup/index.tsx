@@ -11,20 +11,26 @@ const useMembersOfGroup = (initialIdGroup?: string): UsMembersOfGroupReturn => {
   const getMembersOfGroup = async (idGroup: string, excludeMember?: string) => {
     if (!idGroup) {
       setMembersOfGroup([])
+      return []
     }
 
     try {
       const members = await listMembersOfGroup(idGroup)
 
       if (members) {
-        setMembersOfGroup(
-          members.filter((member) => member.userName !== excludeMember)
+        const filteredMembers = members.filter(
+          (member) => member.userName !== excludeMember
         )
+
+        setMembersOfGroup(filteredMembers)
+
+        return filteredMembers
       }
     } catch (e) {
       console.log(e)
       alert(e)
       setMembersOfGroup([])
+      return []
     }
   }
 

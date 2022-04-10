@@ -1,11 +1,8 @@
 import { NextApiRequest, NextApiResponse } from 'next'
 import prisma from 'lib/prisma'
-import { Expense, ExpenseUserGroup } from '@prisma/client'
+import { Expense, ExpenseUser } from '@prisma/client'
 
-type ExpenseUserGroupToCreation = Omit<
-  ExpenseUserGroup,
-  'id' | 'createdAt' | 'updatedAt'
->
+type ExpenseUserToCreation = Omit<ExpenseUser, 'id' | 'createdAt' | 'updatedAt'>
 
 export default async function Create(
   req: NextApiRequest,
@@ -14,7 +11,7 @@ export default async function Create(
   if (req.method === 'POST') {
     const {
       userName,
-      idPayerUser,
+      // idPayerUser,
       idGroup,
       name,
       value,
@@ -28,8 +25,9 @@ export default async function Create(
     try {
       createdExpense = await prisma.expense.create({
         data: {
-          userName,
-          idPayerUser,
+          userName, // Será substituido pelo idPayerUser
+          // idPayerUser, Não terá no MVP
+          idGroup,
           name,
           value,
           description,
@@ -46,24 +44,23 @@ export default async function Create(
     }
 
     try {
-      const expenseUsersGroup: ExpenseUserGroupToCreation[] = members.map(
+      const expenseUsers: ExpenseUserToCreation[] = members.map(
         (name: string) => ({
           idExpense: createdExpense.id,
-          userName: name,
-          idUser: '',
-          idGroup,
+          userName: name, // Será substituido pelo idUser
+          // idUser: '', Não terá no MVP
           paymentStatus: ''
         })
       )
 
-      await prisma.expenseUserGroup.createMany({
-        data: expenseUsersGroup
+      await prisma.expenseUser.createMany({
+        data: expenseUsers
       })
 
       return res.status(201).json(createdExpense)
     } catch (e) {
       // @TODO se falhar, deve remover essa despesa criada
-      const message = 'Erro ao vincular a despesa a um grupo e a membros'
+      const message = 'Erro ao vincular a despesa aos membros'
 
       console.log(e)
       console.log(message)
