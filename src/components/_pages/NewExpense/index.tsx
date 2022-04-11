@@ -1,4 +1,4 @@
-import { useState, ChangeEvent } from 'react'
+import { useState, ChangeEvent, useEffect, useCallback } from 'react'
 import { useRouter } from 'next/router'
 import { useForm, Controller } from 'react-hook-form'
 
@@ -8,70 +8,27 @@ import Button from 'components/Button'
 
 import { required } from 'utils/validations'
 import { currencyMask, removeCurrencyMask } from 'utils/masks/currency'
+
 import { createExpense } from 'services/expense'
 import useGroup from 'services/group/hooks/useGroup'
-import useMembersOfGroup from 'services/group/hooks/useMembersOfGroup'
+import useUsersGroup from 'services/group/hooks/useMembersOfGroup'
 
-import { NewExpenseProps, MemberField, FormData } from './types'
+import { NewExpenseProps, UserField, FormData } from './types'
+import { UserToCreationExpense } from 'services/expense/types'
 
 import * as s from './styles'
 import { FooterButtons } from 'components/Button/styles'
-import { MemberOfGroup } from 'services/group/types'
+
+const defaultValuePerUser = 'R$ 0,00'
 
 export default function NewExpense({ user }: NewExpenseProps) {
   const router = useRouter()
 
   const { groups } = useGroup({ user })
-  const { membersOfGroup, getMembersOfGroup } = useMembersOfGroup()
-
-  const createMemberFields = (members: MemberOfGroup[] | undefined) => {
-    const membersObject: MemberField = {
-      [user.id]: {
-        userName: user.name,
-        value: false
-      }
-    }
-
-    members?.forEach((member) => {
-      membersObject[member.id] = {
-        userName: member.userName,
-        value: false
-      }
-    })
-
-    return membersObject
-  }
-
-  const updateMemberField =
-    (id: string) => (e: ChangeEvent<HTMLInputElement>) => {
-      memberFields[id].value = e.target.checked
-      setMemberFields(memberFields)
-    }
-
-  const [memberFields, setMemberFields] = useState(
-    createMemberFields(membersOfGroup)
-  )
-
-  const prepareMembersToCreation = (payerUserName: string) => {
-    const members = Object.values(memberFields)
-      .filter((member) => {
-        if (member.userName !== payerUserName && member.value === true) {
-          return true
-        }
-      })
-      .map((member) => member.userName)
-
-    members.push(payerUserName)
-
-    return members
-  }
-
-  const handleChangeGroup =
-    (onChange: any) => async (e: ChangeEvent<HTMLSelectElement>) => {
-      onChange(e)
-      const members = await getMembersOfGroup(e.target.value, user.name)
-      setMemberFields(createMemberFields(members))
-    }
+  const { usersGroup, getUsersGroup } = useUsersGroup()
+  const [userFields, setUserFields] = useState<UserField[]>([])
+  const [valuePerUser, setValuePerUser] = useState(defaultValuePerUser)
+  const [checkedUsers, setCheckedUsers] = useState(0)
 
   const {
     watch,
@@ -81,25 +38,28 @@ export default function NewExpense({ user }: NewExpenseProps) {
     formState: { errors }
   } = useForm<FormData>({ mode: 'onBlur' })
 
-  const canRenderMemberInList = (userName: string) => {
-    return userName !== watch('payerUserName')
+  const prepareUsersToCreation = () => {
+    const users: UserToCreationExpense[] = userFields
+      .filter((userField) => userField.checked === true)
+      .map((userField) => ({
+        name: userField.userName,
+        value: removeCurrencyMask(valuePerUser)
+      }))
+
+    return users
   }
 
   const onSubmit = async (data: FormData) => {
     try {
-      const value = removeCurrencyMask(data.value)
-
-      const members = prepareMembersToCreation(data.payerUserName)
-
       await createExpense({
         userName: data.payerUserName,
         // idPayerUser: '',
         idGroup: data.idGroup,
         name: data.name,
-        value,
+        value: removeCurrencyMask(data.value),
         description: data.description,
         type: '',
-        members
+        users: prepareUsersToCreation()
       })
 
       router.back()
@@ -112,14 +72,94 @@ export default function NewExpense({ user }: NewExpenseProps) {
     }
   }
 
-  // const getValuePerMember = () => {
-  //   const prepareMembersToCreation
-  //   const number = Number(watch('value')) /
+  const updateValuePerUser = (checks: number, value: string) => {
+    if (checks && value) {
+      const expenseValue = removeCurrencyMask(value)
+      const divisionValue = expenseValue / checks
+      const maskedValue = currencyMask(divisionValue.toFixed(2).toString())
 
-  //   const maskedValue = currencyMask(number)
+      setValuePerUser(maskedValue ? maskedValue : defaultValuePerUser)
+    } else {
+      setValuePerUser(defaultValuePerUser)
+    }
+  }
 
-  //   return maskedValue;
-  // }
+  const handleChangeGroup = (onChange: any) => {
+    return async (e: ChangeEvent<HTMLSelectElement>) => {
+      onChange(e)
+
+      const idGroup = e.target.value
+      const loggedUser = user.name
+
+      await getUsersGroup(idGroup, loggedUser)
+    }
+  }
+
+  const handleChangePayerUserName = (onChange: any) => {
+    return async (e: ChangeEvent<HTMLSelectElement>) => {
+      onChange(e)
+
+      const userName = e.target.value
+
+      let newCheckedUsers = checkedUsers
+
+      const newUserFields = userFields.map((userField) => {
+        if (userField.userName === userName && !userField.checked) {
+          userField.checked = true
+          newCheckedUsers++
+        }
+
+        return userField
+      })
+
+      setUserFields(newUserFields)
+      setCheckedUsers(newCheckedUsers)
+
+      updateValuePerUser(newCheckedUsers, watch('value'))
+    }
+  }
+
+  const handleToggleUserField = (userName: string) => {
+    return (e: ChangeEvent<HTMLInputElement>) => {
+      let newCheckedUsers = 0
+
+      const newUserFields = userFields.map((userField) => {
+        if (userField.userName === userName) {
+          userField.checked = e.target.checked
+        }
+
+        if (userField.checked) newCheckedUsers++
+
+        return userField
+      })
+
+      setUserFields(newUserFields)
+      setCheckedUsers(newCheckedUsers)
+
+      updateValuePerUser(newCheckedUsers, watch('value'))
+    }
+  }
+
+  const createUserFields = useCallback(() => {
+    let users: UserField[] = []
+
+    if (usersGroup?.length) {
+      users = usersGroup.map((userGroup) => ({
+        id: userGroup.id,
+        userName: userGroup.userName,
+        checked: true
+      }))
+    }
+
+    setCheckedUsers(users.length)
+    setUserFields(users)
+
+    updateValuePerUser(users.length, watch('value'))
+  }, [usersGroup, watch])
+
+  useEffect(() => {
+    createUserFields()
+  }, [createUserFields, usersGroup])
 
   return (
     <s.Layout>
@@ -159,68 +199,68 @@ export default function NewExpense({ user }: NewExpenseProps) {
             {...register('value', { required })}
             onChange={(event) => {
               event.target.value = currencyMask(event.target.value)
+              updateValuePerUser(checkedUsers, event.target.value)
             }}
           />
 
-          <Input placeholder="Descrição" {...register('description')} />
+          <Input
+            placeholder="Descrição (opcional)"
+            {...register('description')}
+          />
 
-          <s.PayerUser>
-            <h2>Quem pagou</h2>
+          {watch('idGroup') && (
+            <s.PayerUser>
+              <h2>Quem pagou</h2>
 
-            <Select
-              {...register('payerUserName', { required })}
-              error={errors.payerUserName?.message}
-            >
-              <option value="">Selecione o membro</option>
-              <option value={user.name}>{user.name}</option>
-              {membersOfGroup?.map((member) => (
-                <option value={member.userName} key={member.id}>
-                  {member.userName}
-                </option>
-              ))}
-            </Select>
-          </s.PayerUser>
+              <Controller
+                control={control}
+                name="payerUserName"
+                rules={{ required }}
+                render={({ field: { onChange, ...fieldProps } }) => (
+                  <Select
+                    {...fieldProps}
+                    error={errors.payerUserName?.message}
+                    onChange={handleChangePayerUserName(onChange)}
+                    disabled={!watch('idGroup')}
+                  >
+                    <option value="">Selecione o membro</option>
+                    {usersGroup?.map((user) => (
+                      <option value={user.userName} key={user.id}>
+                        {user.userName}
+                      </option>
+                    ))}
+                  </Select>
+                )}
+              />
+            </s.PayerUser>
+          )}
 
-          <s.Members>
-            <h2>Selecione quem irá dividir</h2>
+          {watch('payerUserName') && watch('idGroup') && (
+            <>
+              <s.Users>
+                <h2>Selecione quem irá dividir</h2>
 
-            <s.List>
-              {canRenderMemberInList(user.name) && (
-                <s.Label htmlFor={user.id}>
-                  <span>{user.name}</span>
-                  <Input
-                    type="checkbox"
-                    id={user.id}
-                    defaultChecked={memberFields[user.id]?.value}
-                    onChange={updateMemberField(user.id)}
-                  />
-                </s.Label>
-              )}
+                <s.List>
+                  {userFields?.map((userField) => (
+                    <s.Label key={userField.id} htmlFor={userField.id}>
+                      <span>{userField.userName}</span>
+                      <Input
+                        type="checkbox"
+                        id={userField.id}
+                        checked={userField.checked}
+                        onChange={handleToggleUserField(userField.userName)}
+                      />
+                    </s.Label>
+                  ))}
+                </s.List>
+              </s.Users>
 
-              {membersOfGroup?.map((member) => {
-                if (!canRenderMemberInList(member.userName)) {
-                  return
-                }
-
-                return (
-                  <s.Label key={member.id} htmlFor={member.id}>
-                    <span>{member.userName}</span>
-                    <Input
-                      type="checkbox"
-                      id={member.id}
-                      defaultChecked={memberFields[member.id].value}
-                      onChange={updateMemberField(member.id)}
-                    />
-                  </s.Label>
-                )
-              })}
-            </s.List>
-          </s.Members>
-
-          <s.ValuePerMember>
-            <span>R$ 60,00</span>
-            por pessoa
-          </s.ValuePerMember>
+              <s.ValuePerUser>
+                <span>{valuePerUser}</span>
+                por pessoa
+              </s.ValuePerUser>
+            </>
+          )}
         </s.Fields>
 
         <FooterButtons>

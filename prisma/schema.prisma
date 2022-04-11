@@ -19,22 +19,22 @@ model User {
   updatedAt   DateTime @updatedAt
   Group       Group[]
   // Expense          Expense[]
-  // ExpenseUser ExpenseUser[]
+  // ExpenseUserGroup ExpenseUserGroup[]
   // UserGroup        UserGroup[]
 }
 
 model Group {
-  id          String        @id @default(uuid())
-  idOwnerUser String
-  user        User          @relation(fields: [idOwnerUser], references: [id])
-  photo       String
-  name        String
-  description String
-  createdAt   DateTime      @default(now())
-  updatedAt   DateTime      @updatedAt
-  UserGroup   UserGroup[]
-  ExpenseUser ExpenseUser[]
-  Expense     Expense[]
+  id               String             @id @default(uuid())
+  idOwnerUser      String
+  user             User               @relation(fields: [idOwnerUser], references: [id])
+  photo            String
+  name             String
+  description      String
+  createdAt        DateTime           @default(now())
+  updatedAt        DateTime           @updatedAt
+  UserGroup        UserGroup[]
+  ExpenseUserGroup ExpenseUserGroup[]
+  Expense          Expense[]
 }
 
 model UserGroup {
@@ -50,31 +50,32 @@ model UserGroup {
 }
 
 model Expense {
-  id          String        @id @default(uuid())
-  userName    String
+  id               String             @id @default(uuid())
+  userName         String
   // idPayerUser      String
   // user             User               @relation(fields: [idPayerUser], references: [id])
-  idGroup     String
-  group       Group         @relation(fields: [idGroup], references: [id])
-  name        String
-  value       Decimal
-  description String
-  type        String
-  createdAt   DateTime      @default(now())
-  updatedAt   DateTime      @updatedAt
-  ExpenseUser ExpenseUser[]
+  idGroup          String
+  group            Group              @relation(fields: [idGroup], references: [id])
+  name             String
+  value            Decimal
+  description      String
+  type             String
+  createdAt        DateTime           @default(now())
+  updatedAt        DateTime           @updatedAt
+  ExpenseUserGroup ExpenseUserGroup[]
 }
 
-model ExpenseUser {
+model ExpenseUserGroup {
   id            String   @id @default(uuid())
   idExpense     String
   expense       Expense  @relation(fields: [idExpense], references: [id])
   userName      String
   // idUser        String
   // user          User     @relation(fields: [idUser], references: [id])
+  idGroup       String?
+  Group         Group?   @relation(fields: [idGroup], references: [id])
+  paymentValue  Decimal
   paymentStatus String
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
-  Group         Group?   @relation(fields: [groupId], references: [id])
-  groupId       String?
 }

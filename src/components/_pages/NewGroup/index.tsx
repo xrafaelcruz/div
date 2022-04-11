@@ -10,7 +10,7 @@ import Button from 'components/Button'
 import { createGroup } from 'services/group'
 import { required } from 'utils/validations'
 
-import { NewGroupProps, MemberField, FormData } from './types'
+import { NewGroupProps, UserField, FormData } from './types'
 
 import * as s from './styles'
 import { FooterButtons } from 'components/Button/styles'
@@ -26,28 +26,28 @@ export default function NewGroup({ user }: NewGroupProps) {
     formState: { errors }
   } = useForm<FormData>({ mode: 'onBlur' })
 
-  const [members, setMembers] = useState<MemberField[]>([])
+  const [users, setUsers] = useState<UserField[]>([])
 
   useEffect(() => {
     if (!didMount.current) {
       didMount.current = true
-      setMembers([{ id: user.id, value: user.name }])
+      setUsers([{ id: user.id, value: user.name }])
     }
-  }, [user, setMembers])
+  }, [user, setUsers])
 
-  const appendMember = () => {
-    setMembers([...members, { id: uuid(), value: '' }])
+  const appendUser = () => {
+    setUsers([...users, { id: uuid(), value: '' }])
   }
 
-  const removeMember = (id: string) => {
-    const newMembers = members?.filter((member) => member.id !== id)
-    unregister(`memberName.${id}`)
-    setMembers(newMembers)
+  const removeUser = (id: string) => {
+    const NewUsers = users?.filter((user) => user.id !== id)
+    unregister(`userName.${id}`)
+    setUsers(NewUsers)
   }
 
-  const getMemberError = (id: string) => {
-    if (errors.memberName && errors.memberName[id]) {
-      return errors.memberName[id].message
+  const getUserError = (id: string) => {
+    if (errors.userName && errors.userName[id]) {
+      return errors.userName[id].message
     }
 
     return ''
@@ -58,7 +58,7 @@ export default function NewGroup({ user }: NewGroupProps) {
       const createdGroup = await createGroup({
         idOwnerUser: user.id,
         name: data.groupName,
-        members: Object.values(data.memberName)
+        users: Object.values(data.userName)
       })
 
       router.push(`/grupo?id=${createdGroup?.id}`)
@@ -80,38 +80,38 @@ export default function NewGroup({ user }: NewGroupProps) {
             {...register('groupName', { required })}
           />
 
-          <s.Members>
-            <h2>Membros</h2>
+          <s.Users>
+            <h2>Usuários</h2>
 
-            {members?.map((member) => (
-              <s.NewMember key={member.id}>
+            {users?.map((user) => (
+              <s.NewUser key={user.id}>
                 <Input
                   placeholder="Novo membro"
-                  defaultValue={member.value}
-                  error={getMemberError(member.id)}
-                  {...register(`memberName.${member.id}`, { required })}
+                  defaultValue={user.value}
+                  error={getUserError(user.id)}
+                  {...register(`userName.${user.id}`, { required })}
                 />
 
                 <Button
-                  onClick={() => removeMember(member.id)}
+                  onClick={() => removeUser(user.id)}
                   type="button"
                   variant="danger"
                   size="icon"
                 >
                   <FaTimes />
                 </Button>
-              </s.NewMember>
+              </s.NewUser>
             ))}
 
             <Button
-              onClick={() => appendMember()}
+              onClick={() => appendUser()}
               type="button"
               variant="primary"
               size="icon"
             >
               <FaPlus />
             </Button>
-          </s.Members>
+          </s.Users>
         </s.Fields>
 
         <FooterButtons>

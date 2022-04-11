@@ -1,9 +1,9 @@
-import { MemberOfGroup } from 'services/group/types'
+import { UserGroup } from 'services/group/types'
 
-export type UsMembersOfGroupReturn = {
-  membersOfGroup?: MemberOfGroup[]
-  getMembersOfGroup: (
+export type UseUsersGroupReturn = {
+  usersGroup?: UserGroup[]
+  getUsersGroup: (
     idGroup: string,
-    excludeMember?: string
-  ) => Promise<MemberOfGroup[] | undefined>
+    excludeUser?: string
+  ) => Promise<UserGroup[] | undefined>
 }

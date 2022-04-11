@@ -1,8 +1,21 @@
 import { NextApiRequest, NextApiResponse } from 'next'
-import prisma from 'lib/prisma'
-import { Expense, ExpenseUser } from '@prisma/client'
+import { Expense, ExpenseUserGroup } from '@prisma/client'
+import { Decimal } from '@prisma/client/runtime'
 
-type ExpenseUserToCreation = Omit<ExpenseUser, 'id' | 'createdAt' | 'updatedAt'>
+import prisma from 'lib/prisma'
+
+import { PaymentStatus } from 'lib/prisma/constants'
+
+type ExpenseUserGroupToCreation = Omit<
+  ExpenseUserGroup,
+  'id' | 'createdAt' | 'updatedAt'
+>
+
+type UserToCreation = {
+  name: string // Será substituido pelo idUser
+  // idUser: string - Não terá no MVP
+  value: Decimal
+}
 
 export default async function Create(
   req: NextApiRequest,
@@ -10,17 +23,22 @@ export default async function Create(
 ) {
   if (req.method === 'POST') {
     const {
-      userName,
+      userName, // Nome de quem pagou
       // idPayerUser,
       idGroup,
       name,
       value,
       description,
-      type,
-      members
+      type
     } = req.body
 
     let createdExpense: Expense
+
+    if (!userName || !idGroup || !name || !value || !req.body.users) {
+      const message = 'Erro ao criar a despesa'
+      console.log(message)
+      return res.status(500).json({ error: 'Parâmetros inválidos', message })
+    }
 
     try {
       createdExpense = await prisma.expense.create({
@@ -44,16 +62,21 @@ export default async function Create(
     }
 
     try {
-      const expenseUsers: ExpenseUserToCreation[] = members.map(
-        (name: string) => ({
+      const users: UserToCreation[] = req.body.users
+
+      const expenseUsers: ExpenseUserGroupToCreation[] = users.map(
+        (user): ExpenseUserGroupToCreation => ({
           idExpense: createdExpense.id,
-          userName: name, // Será substituido pelo idUser
+          userName: user.name, // Será substituido pelo idUser
           // idUser: '', Não terá no MVP
-          paymentStatus: ''
+          idGroup,
+          paymentValue: user.value,
+          paymentStatus:
+            user.name === userName ? PaymentStatus.payer : PaymentStatus.pending
         })
       )
 
-      await prisma.expenseUser.createMany({
+      await prisma.expenseUserGroup.createMany({
         data: expenseUsers
       })
 

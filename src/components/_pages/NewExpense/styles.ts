@@ -19,7 +19,7 @@ export const Fields = styled.fieldset`
   flex: 1;
 `
 
-export const NewMember = styled.div`
+export const NewUser = styled.div`
   display: flex;
   gap: 16px;
   justify-content: space-between;
@@ -34,7 +34,7 @@ export const PayerUser = styled.fieldset`
   margin: 24px 0 0;
 `
 
-export const Members = styled.fieldset`
+export const Users = styled.fieldset`
   margin: 24px 0 0;
 
   > button {
@@ -77,7 +77,7 @@ export const Label = styled.label`
   `}
 `
 
-export const ValuePerMember = styled.p`
+export const ValuePerUser = styled.p`
   ${({ theme }) => css`
     color: ${theme.colors.gray1};
     font-size: 16px;

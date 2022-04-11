@@ -20,7 +20,7 @@ export const Fields = styled.fieldset`
   width: 100%;
 `
 
-export const NewMember = styled.div`
+export const NewUser = styled.div`
   display: flex;
   gap: 16px;
   justify-content: space-between;
@@ -31,7 +31,7 @@ export const NewMember = styled.div`
   }
 `
 
-export const Members = styled.fieldset`
+export const Users = styled.fieldset`
   border: 0;
   display: flex;
   flex: 1;

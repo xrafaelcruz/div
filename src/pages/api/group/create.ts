@@ -10,14 +10,18 @@ export default async function Create(
 ) {
   if (req.method === 'POST') {
     try {
-      const { idOwnerUser, name, members } = req.body
+      const { idOwnerUser, name, users } = req.body
 
-      const usersGroup: UserGroupToCreation[] = members.map(
-        (value: string) => ({
-          userName: value,
-          inviteStatus: ''
-        })
-      )
+      if (!idOwnerUser || !name || !users) {
+        const message = 'Erro ao criar o grupo'
+        console.log(message)
+        return res.status(500).json({ error: 'Parâmetros inválidos', message })
+      }
+
+      const usersGroup: UserGroupToCreation[] = users.map((value: string) => ({
+        userName: value,
+        inviteStatus: ''
+      }))
 
       const createdGroup = await prisma.group.create({
         data: {

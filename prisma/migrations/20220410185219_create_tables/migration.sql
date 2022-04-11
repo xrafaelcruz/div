@@ -54,16 +54,17 @@ CREATE TABLE "Expense" (
 );
 
 -- CreateTable
-CREATE TABLE "ExpenseUser" (
+CREATE TABLE "ExpenseUserGroup" (
     "id" TEXT NOT NULL,
     "idExpense" TEXT NOT NULL,
     "userName" TEXT NOT NULL,
+    "idGroup" TEXT,
+    "paymentValue" DECIMAL(65,30) NOT NULL,
     "paymentStatus" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
-    "groupId" TEXT,
 
-    CONSTRAINT "ExpenseUser_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "ExpenseUserGroup_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateIndex
@@ -79,7 +80,7 @@ ALTER TABLE "UserGroup" ADD CONSTRAINT "UserGroup_idGroup_fkey" FOREIGN KEY ("id
 ALTER TABLE "Expense" ADD CONSTRAINT "Expense_idGroup_fkey" FOREIGN KEY ("idGroup") REFERENCES "Group"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "ExpenseUser" ADD CONSTRAINT "ExpenseUser_groupId_fkey" FOREIGN KEY ("groupId") REFERENCES "Group"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE "ExpenseUserGroup" ADD CONSTRAINT "ExpenseUserGroup_idGroup_fkey" FOREIGN KEY ("idGroup") REFERENCES "Group"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "ExpenseUser" ADD CONSTRAINT "ExpenseUser_idExpense_fkey" FOREIGN KEY ("idExpense") REFERENCES "Expense"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "ExpenseUserGroup" ADD CONSTRAINT "ExpenseUserGroup_idExpense_fkey" FOREIGN KEY ("idExpense") REFERENCES "Expense"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

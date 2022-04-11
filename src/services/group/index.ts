@@ -37,17 +37,17 @@ export async function getGroups(idUser: string) {
   return groups
 }
 
-export async function listMembersOfGroup(idGroup: string) {
-  let membersOfGroup: t.MemberOfGroup[] | null = null
+export async function listUsersGroup(idGroup: string) {
+  let usersGroup: t.UserGroup[] | null = null
 
   try {
-    const url = `${process.env.NEXT_PUBLIC_API_URL}/group/members?idGroup=${idGroup}`
+    const url = `${process.env.NEXT_PUBLIC_API_URL}/group/users?idGroup=${idGroup}`
     const response = await GET(url)
 
-    membersOfGroup = await response.json()
+    usersGroup = await response.json()
   } catch (e) {
     throw new Error('Erro ao buscar os membros do grupo')
   }
 
-  return membersOfGroup
+  return usersGroup
 }

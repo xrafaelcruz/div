@@ -12,7 +12,7 @@ export type FormData = {
   value: string
   description: string
   type: string
-  memberName: Record<string, string>
+  userName: Record<string, string>
 }
 
-export type MemberField = Record<string, { userName: string; value: boolean }>
+export type UserField = { id: string; userName: string; checked: boolean }

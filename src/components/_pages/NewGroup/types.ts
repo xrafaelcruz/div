@@ -6,10 +6,10 @@ export type NewGroupProps = {
 
 export type FormData = {
   groupName: string
-  memberName: Record<string, string>
+  userName: Record<string, string>
 }
 
-export type MemberField = {
+export type UserField = {
   id: string
   value: string
 }

@@ -1,46 +1,58 @@
 import { useEffect, useState } from 'react'
 
-import { listMembersOfGroup } from 'services/group'
+import { listUsersGroup } from 'services/group'
 
-import { UsMembersOfGroupReturn } from './types'
-import { MemberOfGroup } from 'services/group/types'
+import { UseUsersGroupReturn } from './types'
+import { UserGroup } from 'services/group/types'
 
-const useMembersOfGroup = (initialIdGroup?: string): UsMembersOfGroupReturn => {
-  const [membersOfGroup, setMembersOfGroup] = useState<MemberOfGroup[]>()
+const useUsersGroup = (initialIdGroup?: string): UseUsersGroupReturn => {
+  const [usersGroup, setUsersGroup] = useState<UserGroup[]>()
 
-  const getMembersOfGroup = async (idGroup: string, excludeMember?: string) => {
+  const getUsersGroup = async (idGroup: string, loggedUser?: string) => {
     if (!idGroup) {
-      setMembersOfGroup([])
+      setUsersGroup([])
       return []
     }
 
     try {
-      const members = await listMembersOfGroup(idGroup)
+      const users = await listUsersGroup(idGroup)
 
-      if (members) {
-        const filteredMembers = members.filter(
-          (member) => member.userName !== excludeMember
-        )
+      if (users) {
+        let firstUser: UserGroup | undefined = undefined
 
-        setMembersOfGroup(filteredMembers)
+        const filteredUsers = users.filter((user) => {
+          const ok = user.userName !== loggedUser
 
-        return filteredMembers
+          if (!ok) {
+            firstUser = user
+          }
+
+          return ok
+        })
+
+        if (firstUser) {
+          filteredUsers.unshift(firstUser)
+        }
+
+        setUsersGroup(filteredUsers)
+
+        return filteredUsers
       }
     } catch (e) {
       console.log(e)
       alert(e)
-      setMembersOfGroup([])
+      setUsersGroup([])
       return []
     }
   }
 
   useEffect(() => {
-    if (!membersOfGroup && initialIdGroup) {
-      getMembersOfGroup(initialIdGroup)
+    if (!usersGroup && initialIdGroup) {
+      getUsersGroup(initialIdGroup)
     }
-  }, [initialIdGroup, membersOfGroup])
+  }, [initialIdGroup, usersGroup])
 
-  return { membersOfGroup, getMembersOfGroup }
+  return { usersGroup, getUsersGroup }
 }
 
-export default useMembersOfGroup
+export default useUsersGroup

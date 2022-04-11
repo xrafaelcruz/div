@@ -21,6 +21,11 @@ export type ExpenseUserGroupComplete = Omit<
   group: Group
 }
 
+export type UserToCreationExpense = {
+  name: string
+  value: number
+}
+
 export type CreateExpenseParams = {
   userName: string
   // idPayerUser: string
@@ -29,5 +34,5 @@ export type CreateExpenseParams = {
   value: number
   description: string
   type: string
-  members: string[]
+  users: UserToCreationExpense[]
 }

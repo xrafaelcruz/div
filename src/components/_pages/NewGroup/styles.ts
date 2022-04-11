@@ -20,7 +20,7 @@ export const Fields = styled.fieldset`
   flex: 1;
 `
 
-export const NewMember = styled.div`
+export const NewUser = styled.div`
   display: flex;
   gap: 16px;
   justify-content: space-between;
@@ -31,7 +31,7 @@ export const NewMember = styled.div`
   }
 `
 
-export const Members = styled.fieldset`
+export const Users = styled.fieldset`
   > button {
     align-self: center;
   }
