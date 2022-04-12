@@ -27,6 +27,16 @@ export const variants = {
       height: 50px;
       text-transform: uppercase;
     `}
+  `,
+
+  outlined: css`
+    ${({ theme }) => css`
+      background: transparent;
+      color: ${theme.colors.white};
+      border: 1px solid ${theme.colors.gray2};
+      height: 32px;
+      font-size: 14px;
+    `}
   `
 }
 

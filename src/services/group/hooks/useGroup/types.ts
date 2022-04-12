@@ -1,10 +1,12 @@
-import { User } from 'services/user/types'
-import { Group } from 'services/group/types'
+import { GroupDetails } from 'services/group/types'
+import { Expense } from 'services/expense/types'
 
 export type UseGroupProps = {
-  user: User
+  idGroup?: string
+  hasExpenses?: boolean
 }
 
 export type UseGroupReturn = {
-  groups?: Group[]
+  group?: GroupDetails
+  expenses?: Expense[]
 }

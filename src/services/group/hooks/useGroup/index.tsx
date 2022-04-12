@@ -1,34 +1,54 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
+import { useRouter } from 'next/router'
 
-import { getGroups } from 'services/group'
+import { getGroupService } from 'services/group'
+import { listExpenses } from 'services/expense'
 
-import { UseGroupProps, UseGroupReturn } from './types'
-import { Group } from 'services/group/types'
+import { GroupDetails } from 'services/group/types'
+import { Expense } from 'services/expense/types'
+import { UseGroupReturn, UseGroupProps } from './types'
 
-const useGroup = ({ user }: UseGroupProps): UseGroupReturn => {
-  const [groups, setGroups] = useState<Group[]>()
+const useGroup = ({ idGroup, hasExpenses }: UseGroupProps): UseGroupReturn => {
+  const requestedGroups = useRef(false)
+  const requestedExpenses = useRef(false)
+
+  const router = useRouter()
+  const [group, setGroup] = useState<GroupDetails>()
+  const [expenses, setExpenses] = useState<Expense[]>()
 
   useEffect(() => {
-    const getListGroups = async () => {
+    const getGroup = async () => {
       try {
-        const list = await getGroups(user.id)
-
-        if (list) {
-          setGroups(list)
-        }
+        const foundedGroup = await getGroupService(idGroup)
+        setGroup(foundedGroup)
       } catch (e) {
-        console.log(e)
-        alert(e)
-        setGroups([])
+        router.push('/')
       }
     }
 
-    if (!groups) {
-      getListGroups()
+    if (!group && !requestedGroups.current) {
+      requestedGroups.current = true
+      getGroup()
     }
-  }, [groups, user])
+  }, [idGroup, group, router])
 
-  return { groups }
+  useEffect(() => {
+    const requestListExpenses = async () => {
+      try {
+        const foundedExpenses = await listExpenses(idGroup)
+        setExpenses(foundedExpenses)
+      } catch (e) {
+        router.push('/')
+      }
+    }
+
+    if (hasExpenses && group && idGroup && !requestedExpenses.current) {
+      requestedExpenses.current = true
+      requestListExpenses()
+    }
+  }, [hasExpenses, group, idGroup, expenses, router])
+
+  return { group, expenses }
 }
 
 export default useGroup

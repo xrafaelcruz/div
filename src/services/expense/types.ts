@@ -1,24 +1,13 @@
-import {
-  Expense as PrismaExpense,
-  ExpenseUserGroup as PrismaExpenseUserGroup
-} from '@prisma/client'
-import { User } from 'services/user/types'
+import { Expense as PrismaExpense } from '@prisma/client'
 import { Group } from 'services/group/types'
 
-export type Expense = Omit<PrismaExpense, 'createdAt' | 'updatedAt'> & {
-  createdAt: string
-  updatedAt: string
-}
-
-export type ExpenseUserGroupComplete = Omit<
-  PrismaExpenseUserGroup,
-  'createdAt' | 'updatedAt'
+export type Expense = Omit<
+  PrismaExpense,
+  'createdAt' | 'updatedAt' | 'value'
 > & {
   createdAt: string
   updatedAt: string
-  expense: Expense
-  user: User
-  group: Group
+  value: number
 }
 
 export type UserToCreationExpense = {

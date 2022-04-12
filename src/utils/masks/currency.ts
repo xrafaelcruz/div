@@ -1,5 +1,5 @@
-export const currencyMask = (value: string) => {
-  value = value.replace('.', '').replace(',', '').replace(/\D/g, '')
+export const currencyMask = (value: string | number) => {
+  value = value.toString().replace('.', '').replace(',', '').replace(/\D/g, '')
 
   const options = { minimumFractionDigits: 2 }
   const result = new Intl.NumberFormat('pt-BR', options).format(

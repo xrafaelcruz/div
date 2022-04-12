@@ -1,17 +1,15 @@
 import { GetServerSidePropsContext } from 'next'
 import Head from 'next/head'
-import { useRouter } from 'next/router'
 
 import { useAuth } from 'lib/auth/useAuth'
 import { isAuthenticated } from 'lib/auth/isAuthenticated'
+
+import Group from 'components/_pages/Group'
 
 import { GroupProps } from 'components/_pages/Group/types'
 
 export default function GroupPage(props: GroupProps) {
   useAuth(props.user)
-
-  const router = useRouter()
-  console.log('router.query', router.query)
 
   return (
     <>
@@ -20,6 +18,8 @@ export default function GroupPage(props: GroupProps) {
         <meta name="description" content="Novo grupo" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
+
+      <Group />
     </>
   )
 }

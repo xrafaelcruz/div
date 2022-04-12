@@ -2,7 +2,7 @@ import { Expense as PrismaExpense } from '@prisma/client'
 
 import { POST, GET } from 'lib/api'
 
-import { CreateExpenseParams, ExpenseUserGroupComplete } from './types'
+import { CreateExpenseParams, Expense } from './types'
 
 export async function createExpense(params: CreateExpenseParams) {
   let createdExpense: PrismaExpense | null = null
@@ -19,21 +19,21 @@ export async function createExpense(params: CreateExpenseParams) {
   return createdExpense
 }
 
-export async function listExpenses(idUser: string, userName: string) {
-  let expenses: ExpenseUserGroupComplete[] | null = null
+export async function listExpenses(idGroup?: string) {
+  let result: Expense[]
 
-  try {
-    const url = `${process.env.NEXT_PUBLIC_API_URL}/expense/list?idUser=${idUser}&userName=${userName}`
-    const response = await GET(url)
-
-    expenses = await response.json()
-
-    // if (expenses !== null) {
-    //   console.log('normalizeUserGroup', normalizeUserexpenses(expenses))
-    // }
-  } catch (e) {
-    throw new Error('Erro ao buscar as despesas')
+  if (!idGroup) {
+    throw new Error(`idGroup vazio`)
   }
 
-  return expenses
+  try {
+    const url = `${process.env.NEXT_PUBLIC_API_URL}/expense/list?idGroup=${idGroup}`
+    const response = await GET(url)
+
+    result = await response.json()
+  } catch (e) {
+    throw new Error(`Erro ao buscar as despesas do grupo ${idGroup}`)
+  }
+
+  return result
 }

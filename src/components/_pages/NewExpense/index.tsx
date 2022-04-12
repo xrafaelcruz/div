@@ -10,7 +10,7 @@ import { required } from 'utils/validations'
 import { currencyMask, removeCurrencyMask } from 'utils/masks/currency'
 
 import { createExpense } from 'services/expense'
-import useGroup from 'services/group/hooks/useGroup'
+import useGroupList from 'services/group/hooks/useGroupList'
 import useUsersGroup from 'services/group/hooks/useMembersOfGroup'
 
 import { NewExpenseProps, UserField, FormData } from './types'
@@ -24,7 +24,7 @@ const defaultValuePerUser = 'R$ 0,00'
 export default function NewExpense({ user }: NewExpenseProps) {
   const router = useRouter()
 
-  const { groups } = useGroup({ user })
+  const { groups } = useGroupList({ user })
   const { usersGroup, getUsersGroup } = useUsersGroup()
   const [userFields, setUserFields] = useState<UserField[]>([])
   const [valuePerUser, setValuePerUser] = useState(defaultValuePerUser)
@@ -76,7 +76,7 @@ export default function NewExpense({ user }: NewExpenseProps) {
     if (checks && value) {
       const expenseValue = removeCurrencyMask(value)
       const divisionValue = expenseValue / checks
-      const maskedValue = currencyMask(divisionValue.toFixed(2).toString())
+      const maskedValue = currencyMask(divisionValue.toFixed(2))
 
       setValuePerUser(maskedValue ? maskedValue : defaultValuePerUser)
     } else {

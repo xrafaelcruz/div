@@ -9,6 +9,12 @@ export type Group = Omit<PrismaGroup, 'createdAt' | 'updatedAt'> & {
   updatedAt: string
 }
 
+export type GroupDetails = {
+  details: Group
+  usersCount: number
+  total: number
+}
+
 export type User = Omit<PrismaUser, 'createdAt' | 'updatedAt'> & {
   createdAt: string
   updatedAt: string

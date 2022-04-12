@@ -22,8 +22,31 @@ export async function createGroup(params: t.CreateGroupParams) {
   return createdGroup
 }
 
-export async function getGroups(idUser: string) {
+export async function getGroupService(idGroup?: string) {
+  let group: t.GroupDetails
+
+  if (!idGroup) {
+    throw new Error(`idGroup vazio`)
+  }
+
+  try {
+    const url = `${process.env.NEXT_PUBLIC_API_URL}/group?idGroup=${idGroup}`
+    const response = await GET(url)
+
+    group = await response.json()
+  } catch (e) {
+    throw new Error(`Erro ao buscar o grupo ${idGroup}`)
+  }
+
+  return group
+}
+
+export async function getGroupListService(idUser: string) {
   let groups: t.Group[] | null = null
+
+  if (!idUser) {
+    throw new Error(`idUser vazio`)
+  }
 
   try {
     const url = `${process.env.NEXT_PUBLIC_API_URL}/group/list?idUser=${idUser}`

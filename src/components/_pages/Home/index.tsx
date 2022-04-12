@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router'
 
-import useGroup from 'services/group/hooks/useGroup'
+import useGroupList from 'services/group/hooks/useGroupList'
 
 import Layout from 'components/Layout'
 
@@ -10,7 +10,7 @@ import * as s from './styles'
 
 export default function Home({ user }: HomeProps) {
   const router = useRouter()
-  const { groups } = useGroup({ user })
+  const { groups } = useGroupList({ user })
 
   return (
     <Layout hideBack={true}>

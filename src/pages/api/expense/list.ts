@@ -1,4 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next'
+import { Expense } from '@prisma/client'
 import prisma from 'lib/prisma'
 
 export default async function List(req: NextApiRequest, res: NextApiResponse) {

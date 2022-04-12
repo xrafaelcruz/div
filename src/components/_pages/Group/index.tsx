@@ -1,14 +1,42 @@
-import Layout from 'components/Layout'
+import { useRouter } from 'next/router'
 
-import { GroupProps } from './types'
+import useGroup from 'services/group/hooks/useGroup'
+
+import Layout from 'components/Layout'
+import Button from 'components/Button'
+import GroupHeader from 'components/GroupHeader'
+import GroupExpenses from 'components/GroupExpenses'
 
 import * as s from './styles'
 
-export default function Group({ user }: GroupProps) {
+export default function Group() {
+  const router = useRouter()
+  const { id } = router.query
+
+  const { group, expenses } = useGroup({
+    idGroup: id as string,
+    hasExpenses: true
+  })
+
   return (
     <Layout>
       <s.Main>
-        <h1>grupo</h1>
+        <GroupHeader group={group} />
+
+        <s.Buttons>
+          <Button type="button" variant="outlined">
+            Membros
+          </Button>
+          <Button type="button" variant="outlined">
+            Pagamentos
+          </Button>
+        </s.Buttons>
+
+        <s.Button type="button" variant="primary" size="big">
+          NOVA DESPESA
+        </s.Button>
+
+        <GroupExpenses expenses={expenses} />
       </s.Main>
     </Layout>
   )
