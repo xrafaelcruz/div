@@ -7,8 +7,6 @@ import { useRouter } from 'next/router'
 
 import Login from 'components/_pages/Login'
 
-import { clearAuth } from 'lib/auth/utils'
-
 type LoginPageProps = {
   session: Session
 }
@@ -19,14 +17,10 @@ export default function LoginPage({ session }: LoginPageProps) {
   const router = useRouter()
   const { forceLogout } = router.query
 
-  console.log('forceLogout', forceLogout)
-  console.log('session', session)
-
   useEffect(() => {
     const didMountFunction = async () => {
       if (!renderPage) {
         if (forceLogout) {
-          clearAuth()
           await router.replace('/login', undefined, { shallow: true })
           await signOut({ callbackUrl: '/login' })
         } else if (session && typeof window !== undefined) {

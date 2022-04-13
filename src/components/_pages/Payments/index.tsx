@@ -20,7 +20,7 @@ export default function Payments({ user }: t.PaymentsProps) {
   })
 
   return (
-    <Layout>
+    <Layout user={user}>
       <s.Main>
         <GroupHeader group={group} />
 

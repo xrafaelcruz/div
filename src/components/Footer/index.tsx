@@ -1,12 +1,11 @@
-import { getAuth } from 'lib/auth/utils'
 import { useRouter } from 'next/router'
 import { FaUserFriends, FaPlus } from 'react-icons/fa'
 
 import * as s from './styles'
+import * as t from './types'
 
-const Footer = () => {
+const Footer = ({ user }: t.FooterProps) => {
   const router = useRouter()
-  const user = getAuth()
 
   return (
     <s.Footer>
@@ -25,8 +24,8 @@ const Footer = () => {
 
         <s.ButtonProfile
           type="button"
-          onClick={() => router.push('/')}
           photo={user?.photo || ''}
+          onClick={() => router.push('/perfil')}
         />
       </s.Wrapper>
     </s.Footer>

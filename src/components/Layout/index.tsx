@@ -9,6 +9,7 @@ import * as s from './styles'
 
 const Layout = ({
   children,
+  user,
   hideBack,
   ...props
 }: PropsWithChildren<LayoutProps>) => (
@@ -17,7 +18,7 @@ const Layout = ({
     <s.Main>
       <s.Container {...props}>{children}</s.Container>
     </s.Main>
-    <Footer />
+    <Footer user={user} />
   </s.Wrapper>
 )
 

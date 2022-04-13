@@ -1,7 +1,6 @@
 import { GetServerSidePropsContext } from 'next'
 import Head from 'next/head'
 
-import { useAuth } from 'lib/auth/useAuth'
 import { isAuthenticated } from 'lib/auth/isAuthenticated'
 
 import Group from 'components/_pages/Group'
@@ -9,8 +8,6 @@ import Group from 'components/_pages/Group'
 import { GroupProps } from 'components/_pages/Group/types'
 
 export default function GroupPage(props: GroupProps) {
-  useAuth(props.user)
-
   return (
     <>
       <Head>
@@ -19,7 +16,7 @@ export default function GroupPage(props: GroupProps) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <Group />
+      <Group {...props} />
     </>
   )
 }

@@ -168,7 +168,7 @@ export default function NewExpense({ user }: NewExpenseProps) {
   }, [createUserFields, usersGroup])
 
   return (
-    <s.Layout>
+    <s.Layout user={user}>
       <h1>Nova despesa</h1>
 
       <s.Form onSubmit={handleSubmit(onSubmit)}>

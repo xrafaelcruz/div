@@ -3,20 +3,20 @@ import Head from 'next/head'
 
 import { isAuthenticated } from 'lib/auth/isAuthenticated'
 
-import Payments from 'components/_pages/Payments'
+import Profile from 'components/_pages/Profile'
 
-import { PaymentsProps } from 'components/_pages/Payments/types'
+import { ProfileProps } from 'components/_pages/Profile/types'
 
-export default function PaymentsPage(props: PaymentsProps) {
+export default function ProfilePage(props: ProfileProps) {
   return (
     <>
       <Head>
-        <title>Grupo</title>
-        <meta name="description" content="Pagamentos" />
+        <title>Perfil</title>
+        <meta name="description" content="Perfil" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <Payments {...props} />
+      <Profile {...props} />
     </>
   )
 }

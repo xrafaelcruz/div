@@ -8,8 +8,9 @@ import GroupHeader from 'components/GroupHeader'
 import GroupExpenses from 'components/GroupExpenses'
 
 import * as s from './styles'
+import * as t from './types'
 
-export default function Group() {
+export default function Group({ user }: t.GroupProps) {
   const router = useRouter()
   const { id } = router.query
 
@@ -19,14 +20,14 @@ export default function Group() {
   })
 
   return (
-    <Layout>
+    <Layout user={user}>
       <s.Main>
         <GroupHeader group={group} />
 
         <s.Buttons>
-          <Button type="button" variant="outlined">
+          {/* <Button type="button" variant="outlined">
             Membros
-          </Button>
+          </Button> */}
           <Button
             type="button"
             variant="outlined"

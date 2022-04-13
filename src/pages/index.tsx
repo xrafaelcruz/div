@@ -1,7 +1,6 @@
 import { GetServerSidePropsContext } from 'next'
 import Head from 'next/head'
 
-import { useAuth } from 'lib/auth/useAuth'
 import { isAuthenticated } from 'lib/auth/isAuthenticated'
 
 import Home from 'components/_pages/Home'
@@ -9,8 +8,6 @@ import Home from 'components/_pages/Home'
 import { HomeProps } from 'components/_pages/Home/types'
 
 export default function HomePage(props: HomeProps) {
-  useAuth(props.user)
-
   return (
     <>
       <Head>

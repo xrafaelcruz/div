@@ -13,7 +13,7 @@ export default function Home({ user }: HomeProps) {
   const { groups } = useGroupList({ user })
 
   return (
-    <Layout hideBack={true}>
+    <Layout user={user} hideBack={true}>
       <s.Button
         onClick={() => router.push('/novo-grupo')}
         type="button"

@@ -69,7 +69,7 @@ export default function NewGroup({ user }: NewGroupProps) {
   }
 
   return (
-    <s.Layout>
+    <s.Layout user={user}>
       <h1>Novo grupo</h1>
 
       <s.Form onSubmit={handleSubmit(onSubmit)}>
