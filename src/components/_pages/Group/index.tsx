@@ -27,12 +27,21 @@ export default function Group() {
           <Button type="button" variant="outlined">
             Membros
           </Button>
-          <Button type="button" variant="outlined">
-            Pagamentos
+          <Button
+            type="button"
+            variant="outlined"
+            onClick={() => router.push(`/pagamentos?idGrupo=${id}`)}
+          >
+            Resultados
           </Button>
         </s.Buttons>
 
-        <s.Button type="button" variant="primary" size="big">
+        <s.Button
+          type="button"
+          variant="primary"
+          size="big"
+          onClick={() => router.push(`/nova-despesa`)}
+        >
           NOVA DESPESA
         </s.Button>
 

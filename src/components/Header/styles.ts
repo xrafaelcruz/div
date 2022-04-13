@@ -31,7 +31,7 @@ export const ButtonBack = styled.button`
     color: ${theme.colors.white};
     cursor: pointer;
     display: flex;
-    left: 0;
+    left: 16px;
     position: absolute;
     top: 0;
     transition: color 250ms;

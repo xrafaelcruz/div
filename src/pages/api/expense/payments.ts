@@ -1,5 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next'
 import prisma from 'lib/prisma'
+import { PaymentStatus } from 'lib/prisma/constants'
 
 export default async function Payments(
   req: NextApiRequest,
@@ -18,19 +19,25 @@ export default async function Payments(
       const hasIdGroup = idGroup && typeof idGroup === 'string'
 
       if (hasIdGroup) {
-        const expenses = await prisma.expense.findMany({
+        // @TODO melhorar o retorno
+        const payments = await prisma.expenseUserGroup.findMany({
           where: {
-            idGroup
+            idGroup,
+            paymentStatus: {
+              not: {
+                equals: PaymentStatus.payer
+              }
+            }
           },
-          orderBy: {
-            createdAt: 'desc'
+          include: {
+            expense: true
           }
         })
 
-        return res.status(200).json(expenses)
+        return res.status(200).json(payments)
       }
     } catch (e) {
-      const message = `Erro ao buscar as despesas do grupo ${idGroup}`
+      const message = `Erro ao buscar os pagamentos do grupo ${idGroup}`
 
       console.log(e)
       console.log(message)

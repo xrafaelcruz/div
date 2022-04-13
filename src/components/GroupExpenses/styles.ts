@@ -5,6 +5,7 @@ export const ExpenseList = styled.ul`
   flex-direction: column;
   list-style: none;
   gap: 8px;
+  margin-top: 8px;
   padding: 0;
   width: 100%;
 `

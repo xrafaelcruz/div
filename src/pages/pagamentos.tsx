@@ -4,22 +4,22 @@ import Head from 'next/head'
 import { useAuth } from 'lib/auth/useAuth'
 import { isAuthenticated } from 'lib/auth/isAuthenticated'
 
-import Group from 'components/_pages/Group'
+import Payments from 'components/_pages/Payments'
 
-import { GroupProps } from 'components/_pages/Group/types'
+import { PaymentsProps } from 'components/_pages/Payments/types'
 
-export default function GroupPage(props: GroupProps) {
+export default function PaymentsPage(props: PaymentsProps) {
   useAuth(props.user)
 
   return (
     <>
       <Head>
         <title>Grupo</title>
-        <meta name="description" content="Detalhes do grupo" />
+        <meta name="description" content="Pagamentos" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <Group />
+      <Payments {...props} />
     </>
   )
 }

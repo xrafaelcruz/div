@@ -1,12 +1,14 @@
 import { GroupDetails } from 'services/group/types'
-import { Expense } from 'services/expense/types'
+import { Expense, Payment } from 'services/expense/types'
 
 export type UseGroupProps = {
   idGroup?: string
   hasExpenses?: boolean
+  hasPayments?: boolean
 }
 
 export type UseGroupReturn = {
   group?: GroupDetails
   expenses?: Expense[]
+  payments?: Payment[]
 }

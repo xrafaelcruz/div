@@ -1,5 +1,9 @@
-import { Expense as PrismaExpense } from '@prisma/client'
-import { Group } from 'services/group/types'
+import {
+  Expense as PrismaExpense,
+  ExpenseUserGroup as PrismaExpenseUserGroup
+} from '@prisma/client'
+
+import { PaymentStatus } from 'lib/prisma/constants'
 
 export type Expense = Omit<
   PrismaExpense,
@@ -7,7 +11,18 @@ export type Expense = Omit<
 > & {
   createdAt: string
   updatedAt: string
-  value: number
+  value: string
+}
+
+export type Payment = Omit<
+  PrismaExpenseUserGroup,
+  'createdAt' | 'updatedAt' | 'paymentValue' | 'paymentStatus'
+> & {
+  createdAt: string
+  updatedAt: string
+  paymentValue: string
+  paymentStatus: keyof typeof PaymentStatus
+  expense: Expense
 }
 
 export type UserToCreationExpense = {
