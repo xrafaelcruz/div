@@ -40,7 +40,7 @@ export default function Group() {
           type="button"
           variant="primary"
           size="big"
-          onClick={() => router.push(`/nova-despesa`)}
+          onClick={() => router.push(`/nova-despesa?idGrupo=${id}`)}
         >
           NOVA DESPESA
         </s.Button>

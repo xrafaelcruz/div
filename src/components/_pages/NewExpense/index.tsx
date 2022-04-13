@@ -23,9 +23,10 @@ const defaultValuePerUser = 'R$ 0,00'
 
 export default function NewExpense({ user }: NewExpenseProps) {
   const router = useRouter()
+  const { idGrupo } = router.query
 
   const { groups } = useGroupList({ user })
-  const { usersGroup, getUsersGroup } = useUsersGroup()
+  const { usersGroup, getUsersGroup } = useUsersGroup(idGrupo as string)
   const [userFields, setUserFields] = useState<UserField[]>([])
   const [valuePerUser, setValuePerUser] = useState(defaultValuePerUser)
   const [checkedUsers, setCheckedUsers] = useState(0)
@@ -36,7 +37,12 @@ export default function NewExpense({ user }: NewExpenseProps) {
     register,
     handleSubmit,
     formState: { errors }
-  } = useForm<FormData>({ mode: 'onBlur' })
+  } = useForm<FormData>({
+    mode: 'onBlur',
+    defaultValues: {
+      idGroup: (idGrupo as string) ?? ''
+    }
+  })
 
   const prepareUsersToCreation = () => {
     const users: UserToCreationExpense[] = userFields
