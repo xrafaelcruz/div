@@ -5,15 +5,6 @@ import {
 
 import { PaymentStatus } from 'lib/prisma/constants'
 
-export type Expense = Omit<
-  PrismaExpense,
-  'createdAt' | 'updatedAt' | 'value'
-> & {
-  createdAt: string
-  updatedAt: string
-  value: string
-}
-
 export type Payment = Omit<
   PrismaExpenseUserGroup,
   'createdAt' | 'updatedAt' | 'paymentValue' | 'paymentStatus'
@@ -23,6 +14,24 @@ export type Payment = Omit<
   paymentValue: string
   paymentStatus: keyof typeof PaymentStatus
   expense: Expense
+}
+
+export type Expense = Omit<
+  PrismaExpense,
+  'createdAt' | 'updatedAt' | 'value'
+> & {
+  createdAt: string
+  updatedAt: string
+  value: string
+}
+
+export type ExpenseWithUsers = Omit<
+  PrismaExpense,
+  'createdAt' | 'updatedAt' | 'value'
+> & {
+  createdAt: string
+  updatedAt: string
+  ExpenseUserGroup: Omit<Payment, 'expense'>
 }
 
 export type UserToCreationExpense = {

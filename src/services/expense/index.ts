@@ -1,8 +1,45 @@
 import { Expense as PrismaExpense } from '@prisma/client'
 
-import { POST, GET } from 'lib/api'
+import { POST, GET, REMOVE } from 'lib/api'
 
-import { CreateExpenseParams, Expense, Payment } from './types'
+import {
+  CreateExpenseParams,
+  Expense,
+  Payment,
+  ExpenseWithUsers
+} from './types'
+
+export async function getExpenseService(idExpense?: string) {
+  let result: ExpenseWithUsers
+
+  if (!idExpense) {
+    throw new Error(`idExpense vazio`)
+  }
+
+  try {
+    const url = `${process.env.NEXT_PUBLIC_API_URL}/expense?idExpense=${idExpense}`
+    const response = await GET(url)
+
+    result = await response.json()
+  } catch (e) {
+    throw new Error(`Erro ao buscar a despesa ${idExpense}`)
+  }
+
+  return result
+}
+
+export async function deleteExpenseService(idExpense?: string) {
+  if (!idExpense) {
+    throw new Error(`idExpense vazio`)
+  }
+
+  try {
+    const url = `${process.env.NEXT_PUBLIC_API_URL}/expense/delete?idExpense=${idExpense}`
+    await REMOVE(url)
+  } catch (e) {
+    throw new Error(`Erro ao deletar a despesa ${idExpense}`)
+  }
+}
 
 export async function createExpense(params: CreateExpenseParams) {
   let createdExpense: PrismaExpense | null = null

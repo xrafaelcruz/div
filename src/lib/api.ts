@@ -27,3 +27,10 @@ export function GET(url: string) {
     headers: { 'Content-Type': 'application/json' }
   })
 }
+
+export function REMOVE(url: string) {
+  return fetch(url, {
+    method: 'delete',
+    headers: { 'Content-Type': 'application/json' }
+  })
+}

@@ -10,11 +10,16 @@ export const ExpenseList = styled.ul`
   width: 100%;
 `
 
-export const ExpenseItem = styled.li`
+export const ExpenseItem = styled.button`
   ${({ theme }) => css`
     background: ${theme.colors.darkGray1};
+    border: 0;
     border-radius: 5px;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
     font-size: 16px;
+    gap: 4px;
     padding: 8px 16px;
 
     &:last-of-type {
@@ -23,7 +28,7 @@ export const ExpenseItem = styled.li`
   `}
 `
 
-export const ExpenseName = styled.p`
+export const ExpenseName = styled.span`
   ${({ theme }) => css`
     color: ${theme.colors.white};
     font-size: 16px;
@@ -31,14 +36,14 @@ export const ExpenseName = styled.p`
   `}
 `
 
-export const ExpensePayerUser = styled.p`
+export const ExpensePayerUser = styled.span`
   ${({ theme }) => css`
     color: ${theme.colors.gray1};
     font-size: 14px;
   `}
 `
 
-export const ExpenseValue = styled.p`
+export const ExpenseValue = styled.span`
   ${({ theme }) => css`
     color: ${theme.colors.primary};
     font-size: 14px;
