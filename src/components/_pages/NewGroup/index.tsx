@@ -6,6 +6,7 @@ import { FaPlus, FaTimes } from 'react-icons/fa'
 
 import Input from 'components/Input'
 import Button from 'components/Button'
+import Textarea from 'components/Textarea'
 
 import { createGroup } from 'services/group'
 import { required } from 'utils/validations'
@@ -57,7 +58,8 @@ export default function NewGroup({ user }: NewGroupProps) {
     try {
       const createdGroup = await createGroup({
         idOwnerUser: user.id,
-        name: data.groupName,
+        name: data.name,
+        description: data.description,
         users: Object.values(data.userName)
       })
 
@@ -76,9 +78,11 @@ export default function NewGroup({ user }: NewGroupProps) {
         <s.Fields>
           <Input
             placeholder="Nome"
-            error={errors.groupName?.message}
-            {...register('groupName', { required })}
+            error={errors.name?.message}
+            {...register('name', { required })}
           />
+
+          <Textarea placeholder="Descrição" {...register('description')} />
 
           <s.Users>
             <h2>Usuários</h2>

@@ -5,7 +5,8 @@ export type NewGroupProps = {
 }
 
 export type FormData = {
-  groupName: string
+  name: string
+  description?: string
   userName: Record<string, string>
 }
 

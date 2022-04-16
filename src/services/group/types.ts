@@ -32,6 +32,7 @@ export type UserGroupComplete = Omit<
 export type CreateGroupParams = {
   idOwnerUser: string
   name: string
+  description?: string
   users: string[]
 }
 

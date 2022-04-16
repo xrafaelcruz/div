@@ -27,7 +27,6 @@ model Group {
   id               String             @id @default(uuid())
   idOwnerUser      String
   user             User               @relation(fields: [idOwnerUser], references: [id])
-  photo            String
   name             String
   description      String
   createdAt        DateTime           @default(now())

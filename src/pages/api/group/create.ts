@@ -10,7 +10,7 @@ export default async function Create(
 ) {
   if (req.method === 'POST') {
     try {
-      const { idOwnerUser, name, users } = req.body
+      const { idOwnerUser, name, description, users } = req.body
 
       if (!idOwnerUser || !name || !users) {
         const message = 'Erro ao criar o grupo'
@@ -27,8 +27,7 @@ export default async function Create(
         data: {
           idOwnerUser,
           name,
-          photo: '',
-          description: '',
+          description: description as string,
           UserGroup: {
             create: usersGroup
           }
