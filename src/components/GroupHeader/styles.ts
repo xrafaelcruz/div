@@ -12,3 +12,18 @@ export const UsersCount = styled.p`
     font-size: 14px;
   `}
 `
+
+export const Total = styled.p`
+  ${({ theme }) => css`
+    color: ${theme.colors.gray1};
+    font-size: 14px;
+  `}
+`
+
+export const Description = styled.p`
+  ${({ theme }) => css`
+    color: ${theme.colors.white};
+    font-size: 16px;
+    font-style: italic;
+  `}
+`
