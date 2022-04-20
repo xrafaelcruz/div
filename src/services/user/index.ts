@@ -1,21 +1,27 @@
 import { User } from '@prisma/client'
-import { CreateUserParams } from './types'
+import { CreateUserParams, SessionUser } from './types'
 
 import prisma from 'lib/prisma'
 
-export async function getUserByEmail(email: string) {
-  let foundedUser: User | null = null
+async function updateUser(user: SessionUser) {
+  let result: User | null = null
+
+  if (!user.email || !user.name) {
+    return null
+  }
 
   try {
-    const user = await prisma.user.findUnique({
-      where: { email }
+    result = await prisma.user.update({
+      where: {
+        email: user.email
+      },
+      data: {
+        name: user.name,
+        photo: user.image || ''
+      }
     })
-
-    if (user) {
-      foundedUser = user
-    }
   } catch (e) {
-    const message = 'Erro ao buscar um usuário por email'
+    const message = 'Erro ao atualizar o usuário'
 
     console.log(e)
     console.log(message)
@@ -23,7 +29,38 @@ export async function getUserByEmail(email: string) {
     throw new Error(message)
   }
 
-  return foundedUser
+  return result
+}
+
+export async function getUserByEmail(user: SessionUser) {
+  let result: User | null = null
+
+  if (!user.email || !user.name) {
+    return null
+  }
+
+  let foundedUser
+
+  try {
+    foundedUser = await prisma.user.findUnique({
+      where: { email: user.email }
+    })
+  } catch (e) {
+    const message = 'Erro ao buscar o usuário por email'
+
+    console.log(e)
+    console.log(message)
+
+    throw new Error(message)
+  }
+
+  if (foundedUser && !foundedUser.name) {
+    await updateUser(user)
+  } else if (foundedUser) {
+    result = foundedUser
+  }
+
+  return result
 }
 
 export async function createUser(data: CreateUserParams) {
@@ -32,8 +69,12 @@ export async function createUser(data: CreateUserParams) {
   try {
     createdUser = await prisma.user.create({ data })
   } catch (e) {
+    const message = 'Erro ao criar o usuário'
+
     console.log(e)
-    console.log('Erro ao criar um usuário')
+    console.log(message)
+
+    throw new Error(message)
   }
 
   return createdUser

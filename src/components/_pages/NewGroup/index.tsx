@@ -17,7 +17,6 @@ import * as s from './styles'
 import { FooterButtons } from 'components/Button/styles'
 
 export default function NewGroup({ user }: NewGroupProps) {
-  const didMount = useRef(false)
   const router = useRouter()
 
   const {
@@ -25,16 +24,14 @@ export default function NewGroup({ user }: NewGroupProps) {
     unregister,
     handleSubmit,
     formState: { errors }
-  } = useForm<FormData>({ mode: 'onBlur' })
+  } = useForm<FormData>({
+    mode: 'onBlur',
+    defaultValues: {
+      emailLoggedUser: user.email
+    }
+  })
 
   const [users, setUsers] = useState<UserField[]>([])
-
-  useEffect(() => {
-    if (!didMount.current) {
-      didMount.current = true
-      setUsers([{ id: user.id, value: user.name }])
-    }
-  }, [user, setUsers])
 
   const appendUser = () => {
     setUsers([...users, { id: uuid(), value: '' }])
@@ -42,13 +39,13 @@ export default function NewGroup({ user }: NewGroupProps) {
 
   const removeUser = (id: string) => {
     const NewUsers = users?.filter((user) => user.id !== id)
-    unregister(`userName.${id}`)
+    unregister(`email.${id}`)
     setUsers(NewUsers)
   }
 
   const getUserError = (id: string) => {
-    if (errors.userName && errors.userName[id]) {
-      return errors.userName[id].message
+    if (errors.email && errors.email[id]) {
+      return errors.email[id].message
     }
 
     return ''
@@ -56,11 +53,16 @@ export default function NewGroup({ user }: NewGroupProps) {
 
   const onSubmit = async (data: FormData) => {
     try {
+      const usersToCreation = [
+        user.email,
+        ...(data.email ? Object.values(data.email) : [])
+      ]
+
       const createdGroup = await createGroup({
-        idOwnerUser: user.id,
+        ownerUserEmail: user.email,
         name: data.name,
         description: data.description,
-        users: Object.values(data.userName)
+        emails: usersToCreation
       })
 
       router.push(`/grupo?id=${createdGroup?.id}`)
@@ -82,18 +84,30 @@ export default function NewGroup({ user }: NewGroupProps) {
             {...register('name', { required })}
           />
 
-          <Textarea placeholder="Descrição" {...register('description')} />
+          <Textarea
+            placeholder="Descrição (opcional)"
+            {...register('description')}
+          />
 
           <s.Users>
             <h2>Usuários</h2>
 
+            <Input
+              disabled
+              type="email"
+              placeholder="Digite o email do usuário"
+              error={errors.emailLoggedUser?.message}
+              {...register('emailLoggedUser', { required })}
+            />
+
             {users?.map((user) => (
               <s.NewUser key={user.id}>
                 <Input
-                  placeholder="Novo membro"
+                  type="email"
+                  placeholder="Digite o email do usuário"
                   defaultValue={user.value}
                   error={getUserError(user.id)}
-                  {...register(`userName.${user.id}`, { required })}
+                  {...register(`email.${user.id}`, { required })}
                 />
 
                 <Button

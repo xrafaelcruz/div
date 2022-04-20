@@ -18,6 +18,9 @@ export default async function List(req: NextApiRequest, res: NextApiResponse) {
         },
         orderBy: {
           createdAt: 'desc'
+        },
+        include: {
+          user: true
         }
       })
 

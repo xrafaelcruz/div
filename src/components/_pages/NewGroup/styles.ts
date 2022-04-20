@@ -16,7 +16,7 @@ export const Form = styled.form`
 `
 
 export const Fields = styled.fieldset`
-  gap: 32px;
+  gap: 8px;
   flex: 1;
 `
 
@@ -32,6 +32,8 @@ export const NewUser = styled.div`
 `
 
 export const Users = styled.fieldset`
+  margin-top: 24px;
+
   > button {
     align-self: center;
   }

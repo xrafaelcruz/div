@@ -30,14 +30,14 @@ export type UserGroupComplete = Omit<
 }
 
 export type CreateGroupParams = {
-  idOwnerUser: string
+  ownerUserEmail: string
   name: string
   description?: string
-  users: string[]
+  emails: string[]
 }
 
 export type UserGroup = Omit<PrismaUserGroup, 'createdAt' | 'updatedAt'> & {
   createdAt: string
   updatedAt: string
-  // user: User - Não terá no MVP
+  user: User
 }

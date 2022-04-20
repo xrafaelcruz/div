@@ -8,25 +8,25 @@ datasource db {
 }
 
 model User {
-  id          String   @id @default(uuid())
-  email       String   @unique
-  name        String
-  password    String
-  photo       String
-  pix         String
-  description String
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-  Group       Group[]
-  // Expense          Expense[]
-  // ExpenseUserGroup ExpenseUserGroup[]
-  // UserGroup        UserGroup[]
+  id               String             @id @default(uuid())
+  email            String             @unique
+  name             String
+  password         String
+  photo            String
+  pix              String
+  description      String
+  createdAt        DateTime           @default(now())
+  updatedAt        DateTime           @updatedAt
+  Group            Group[]
+  UserGroup        UserGroup[]
+  Expense          Expense[]
+  ExpenseUserGroup ExpenseUserGroup[]
 }
 
 model Group {
   id               String             @id @default(uuid())
-  idOwnerUser      String
-  user             User               @relation(fields: [idOwnerUser], references: [id])
+  ownerUserEmail      String
+  user             User               @relation(fields: [ownerUserEmail], references: [email])
   name             String
   description      String
   createdAt        DateTime           @default(now())
@@ -38,9 +38,8 @@ model Group {
 
 model UserGroup {
   id           String   @id @default(uuid())
-  userName     String
-  // idUser       String
-  // user         User     @relation(fields: [idUser], references: [id])
+  userEmail    String
+  user         User     @relation(fields: [userEmail], references: [email])
   idGroup      String
   group        Group    @relation(fields: [idGroup], references: [id])
   inviteStatus String
@@ -50,9 +49,8 @@ model UserGroup {
 
 model Expense {
   id               String             @id @default(uuid())
-  userName         String
-  // idPayerUser      String
-  // user             User               @relation(fields: [idPayerUser], references: [id])
+  userEmail        String
+  user             User               @relation(fields: [userEmail], references: [email])
   idGroup          String
   group            Group              @relation(fields: [idGroup], references: [id])
   name             String
@@ -68,9 +66,8 @@ model ExpenseUserGroup {
   id            String   @id @default(uuid())
   idExpense     String
   expense       Expense  @relation(fields: [idExpense], references: [id])
-  userName      String
-  // idUser        String
-  // user          User     @relation(fields: [idUser], references: [id])
+  userEmail     String
+  user          User     @relation(fields: [userEmail], references: [email])
   idGroup       String?
   Group         Group?   @relation(fields: [idGroup], references: [id])
   paymentValue  Decimal

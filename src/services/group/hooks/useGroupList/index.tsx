@@ -13,7 +13,7 @@ const useGroupList = ({ user }: UseGroupProps): UseGroupReturn => {
   useEffect(() => {
     const getGroupList = async () => {
       try {
-        const list = await getGroupListService(user.id)
+        const list = await getGroupListService(user.email)
 
         if (list) {
           setGroups(list)

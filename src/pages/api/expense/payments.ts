@@ -30,7 +30,12 @@ export default async function Payments(
             }
           },
           include: {
-            expense: true
+            expense: {
+              include: {
+                user: true
+              }
+            },
+            user: true
           }
         })
 

@@ -46,7 +46,7 @@ export default function Group({ user }: t.GroupProps) {
           NOVA DESPESA
         </s.Button>
 
-        <GroupExpenses expenses={expenses} />
+        <GroupExpenses user={user} expenses={expenses} />
       </s.Main>
     </Layout>
   )

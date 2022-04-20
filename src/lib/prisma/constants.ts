@@ -3,3 +3,9 @@ export const PaymentStatus = {
   paid: 'pagou',
   pending: 'pendente'
 }
+
+export const InviteStatus = {
+  pending: 'pendente',
+  accept: 'aceito',
+  canceled: 'cancelado'
+}

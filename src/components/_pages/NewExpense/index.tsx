@@ -18,6 +18,7 @@ import { UserToCreationExpense } from 'services/expense/types'
 
 import * as s from './styles'
 import { FooterButtons } from 'components/Button/styles'
+import { getUserName } from 'utils/user'
 
 const defaultValuePerUser = 'R$ 0,00'
 
@@ -31,6 +32,7 @@ export default function NewExpense({ user }: NewExpenseProps) {
   const [valuePerUser, setValuePerUser] = useState(defaultValuePerUser)
   const [checkedUsers, setCheckedUsers] = useState(0)
 
+  console.log('usersGroup', usersGroup)
   const {
     watch,
     control,
@@ -48,7 +50,7 @@ export default function NewExpense({ user }: NewExpenseProps) {
     const users: UserToCreationExpense[] = userFields
       .filter((userField) => userField.checked === true)
       .map((userField) => ({
-        name: userField.userName,
+        email: userField.email,
         value: removeCurrencyMask(valuePerUser)
       }))
 
@@ -58,8 +60,7 @@ export default function NewExpense({ user }: NewExpenseProps) {
   const onSubmit = async (data: FormData) => {
     try {
       await createExpense({
-        userName: data.payerUserName,
-        // idPayerUser: '',
+        payerUserEmail: data.payerUserEmail,
         idGroup: data.idGroup,
         name: data.name,
         value: removeCurrencyMask(data.value),
@@ -105,12 +106,12 @@ export default function NewExpense({ user }: NewExpenseProps) {
     return async (e: ChangeEvent<HTMLSelectElement>) => {
       onChange(e)
 
-      const userName = e.target.value
+      const { value } = e.target
 
       let newCheckedUsers = checkedUsers
 
       const newUserFields = userFields.map((userField) => {
-        if (userField.userName === userName && !userField.checked) {
+        if (userField.email === value && !userField.checked) {
           userField.checked = true
           newCheckedUsers++
         }
@@ -125,12 +126,12 @@ export default function NewExpense({ user }: NewExpenseProps) {
     }
   }
 
-  const handleToggleUserField = (userName: string) => {
+  const handleToggleUserField = (value: string) => {
     return (e: ChangeEvent<HTMLInputElement>) => {
       let newCheckedUsers = 0
 
       const newUserFields = userFields.map((userField) => {
-        if (userField.userName === userName) {
+        if (userField.email === value) {
           userField.checked = e.target.checked
         }
 
@@ -152,7 +153,8 @@ export default function NewExpense({ user }: NewExpenseProps) {
     if (usersGroup?.length) {
       users = usersGroup.map((userGroup) => ({
         id: userGroup.id,
-        userName: userGroup.userName,
+        name: getUserName(userGroup.user),
+        email: userGroup.user.email,
         checked: true
       }))
     }
@@ -220,19 +222,19 @@ export default function NewExpense({ user }: NewExpenseProps) {
 
               <Controller
                 control={control}
-                name="payerUserName"
+                name="payerUserEmail"
                 rules={{ required }}
                 render={({ field: { onChange, ...fieldProps } }) => (
                   <Select
                     {...fieldProps}
-                    error={errors.payerUserName?.message}
+                    error={errors.payerUserEmail?.message}
                     onChange={handleChangePayerUserName(onChange)}
                     disabled={!watch('idGroup')}
                   >
                     <option value="">Selecione o membro</option>
-                    {usersGroup?.map((user) => (
-                      <option value={user.userName} key={user.id}>
-                        {user.userName}
+                    {usersGroup?.map((userGroup) => (
+                      <option value={userGroup.user.email} key={userGroup.id}>
+                        {getUserName(userGroup.user)}
                       </option>
                     ))}
                   </Select>
@@ -241,7 +243,7 @@ export default function NewExpense({ user }: NewExpenseProps) {
             </s.PayerUser>
           )}
 
-          {watch('payerUserName') && watch('idGroup') && (
+          {watch('payerUserEmail') && watch('idGroup') && (
             <>
               <s.Users>
                 <h2>Selecione quem irá dividir</h2>
@@ -249,12 +251,12 @@ export default function NewExpense({ user }: NewExpenseProps) {
                 <s.List>
                   {userFields?.map((userField) => (
                     <s.Label key={userField.id} htmlFor={userField.id}>
-                      <span>{userField.userName}</span>
+                      <span>{getUserName(userField)}</span>
                       <Input
                         type="checkbox"
                         id={userField.id}
                         checked={userField.checked}
-                        onChange={handleToggleUserField(userField.userName)}
+                        onChange={handleToggleUserField(userField.email)}
                       />
                     </s.Label>
                   ))}

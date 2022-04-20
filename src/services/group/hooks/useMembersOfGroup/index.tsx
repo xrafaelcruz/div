@@ -15,16 +15,16 @@ const useUsersGroup = (initialIdGroup?: string): UseUsersGroupReturn => {
     }
 
     try {
-      const users = await listUsersGroup(idGroup)
+      const userGroupArray = await listUsersGroup(idGroup)
 
-      if (users) {
+      if (userGroupArray) {
         let firstUser: UserGroup | undefined = undefined
 
-        const filteredUsers = users.filter((user) => {
-          const ok = user.userName !== loggedUser
+        const filteredUsers = userGroupArray.filter((userGroup) => {
+          const ok = userGroup.userEmail !== loggedUser
 
           if (!ok) {
-            firstUser = user
+            firstUser = userGroup
           }
 
           return ok

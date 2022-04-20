@@ -12,16 +12,16 @@ export default async function Users(req: NextApiRequest, res: NextApiResponse) {
         return res.status(500).json({ error: 'Parâmetros inválidos', message })
       }
 
-      const groupWithUsers = await prisma.group.findUnique({
+      const users = await prisma.userGroup.findMany({
         where: {
-          id: idGroup as string
+          idGroup: idGroup as string
         },
         include: {
-          UserGroup: true
+          user: true
         }
       })
 
-      return res.status(200).json(groupWithUsers?.UserGroup)
+      return res.status(200).json(users)
     } catch (e) {
       const message = `Erro ao buscar os usuários do grupo ${idGroup}`
 

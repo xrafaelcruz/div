@@ -5,14 +5,17 @@ export type NewExpenseProps = {
 }
 
 export type FormData = {
-  payerUserName: string
-  idPayerUser: string
+  payerUserEmail: string
   idGroup: string
   name: string
   value: string
   description: string
   type: string
-  userName: Record<string, string>
 }
 
-export type UserField = { id: string; userName: string; checked: boolean }
+export type UserField = {
+  id: string
+  name: string
+  email: string
+  checked: boolean
+}

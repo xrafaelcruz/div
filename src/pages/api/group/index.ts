@@ -11,6 +11,8 @@ export default async function Get(req: NextApiRequest, res: NextApiResponse) {
       return res.status(500).json({ error: 'Parâmetros inválidos', message })
     }
 
+    // Verificar se o usuário está vinculado com o grupo para saber se ele poder fazer essa request
+
     try {
       const result = await prisma.group.findUnique({
         where: {

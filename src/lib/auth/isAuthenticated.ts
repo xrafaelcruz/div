@@ -34,11 +34,13 @@ export async function isAuthenticated(context: GetServerSidePropsContext) {
   }
 
   try {
-    const foundedUser = await getUserByEmail(session.user.email)
+    const foundedUser = await getUserByEmail(session.user)
 
     console.log('foundedUser', foundedUser)
 
     if (foundedUser) {
+      foundedUser.photo = session.user.image || foundedUser.photo
+
       return normalizeUser(foundedUser)
     }
   } catch (e) {

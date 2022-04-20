@@ -1,16 +1,19 @@
 import { PaymentStatus } from 'lib/prisma/constants'
 import { convertToMoney } from 'utils/normalize'
+import { getUserName } from 'utils/user'
+
+import { User } from 'services/user/types'
 
 import * as t from './types'
 import * as s from './styles'
 
 const GroupPayments = ({ payments, user }: t.GroupPaymentsProps) => {
-  const getName = (name: string) => {
-    if (name === user.name) {
+  const getName = (currentUser: User) => {
+    if (currentUser.id === user.id) {
       return 'Você'
     }
 
-    return name
+    return getUserName(currentUser)
   }
 
   const getPaymentStatus = (paymentStatus: string) => {
@@ -22,27 +25,33 @@ const GroupPayments = ({ payments, user }: t.GroupPaymentsProps) => {
   }
 
   const highlightPaymentValue = (
-    paymentOwner: string,
+    emailPaymentOwner: string,
     paymentStatus: string,
-    expensePayer: string
+    emailExpensePayer: string
   ) => {
     if (paymentStatus === PaymentStatus.paid) {
       return 'style1'
     }
 
-    if (paymentOwner === user.name && paymentStatus === PaymentStatus.pending) {
+    if (
+      emailPaymentOwner === user.email &&
+      paymentStatus === PaymentStatus.pending
+    ) {
       return 'style2'
     }
 
     if (
-      paymentOwner !== user.name &&
+      emailPaymentOwner !== user.email &&
       paymentStatus === PaymentStatus.pending &&
-      expensePayer === user.name
+      emailExpensePayer === user.email
     ) {
       return 'style3'
     }
 
-    if (paymentOwner !== user.name && paymentStatus === PaymentStatus.pending) {
+    if (
+      emailPaymentOwner !== user.email &&
+      paymentStatus === PaymentStatus.pending
+    ) {
       return 'style4'
     }
   }
@@ -55,14 +64,14 @@ const GroupPayments = ({ payments, user }: t.GroupPaymentsProps) => {
         {payments?.map((payment) => (
           <s.Item key={payment.id}>
             <s.Text>
-              <s.Highlight>{getName(payment.userName)}</s.Highlight>
+              <s.Highlight>{getName(payment.user)}</s.Highlight>
             </s.Text>
 
             <s.Text
               status={highlightPaymentValue(
-                payment.userName,
+                payment.userEmail,
                 payment.paymentStatus,
-                payment.expense.userName
+                payment.expense.userEmail
               )}
             >
               {getPaymentStatus(payment.paymentStatus)}{' '}
@@ -72,8 +81,7 @@ const GroupPayments = ({ payments, user }: t.GroupPaymentsProps) => {
             </s.Text>
 
             <s.Text>
-              para{' '}
-              <s.Highlight>{getName(payment.expense.userName)}</s.Highlight>
+              para <s.Highlight>{getName(payment.expense.user)}</s.Highlight>
             </s.Text>
           </s.Item>
         ))}

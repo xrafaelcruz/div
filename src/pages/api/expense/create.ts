@@ -12,8 +12,7 @@ type ExpenseUserGroupToCreation = Omit<
 >
 
 type UserToCreation = {
-  name: string // Será substituido pelo idUser
-  // idUser: string - Não terá no MVP
+  email: string
   value: Decimal
 }
 
@@ -22,19 +21,11 @@ export default async function Create(
   res: NextApiResponse
 ) {
   if (req.method === 'POST') {
-    const {
-      userName, // Nome de quem pagou
-      // idPayerUser,
-      idGroup,
-      name,
-      value,
-      description,
-      type
-    } = req.body
+    const { payerUserEmail, idGroup, name, value, description, type } = req.body
 
     let createdExpense: Expense
 
-    if (!userName || !idGroup || !name || !value || !req.body.users) {
+    if (!payerUserEmail || !idGroup || !name || !value || !req.body.users) {
       const message = 'Erro ao criar a despesa'
       console.log(message)
       return res.status(500).json({ error: 'Parâmetros inválidos', message })
@@ -43,8 +34,7 @@ export default async function Create(
     try {
       createdExpense = await prisma.expense.create({
         data: {
-          userName, // Será substituido pelo idPayerUser
-          // idPayerUser, Não terá no MVP
+          userEmail: payerUserEmail,
           idGroup,
           name,
           value,
@@ -64,17 +54,22 @@ export default async function Create(
     try {
       const users: UserToCreation[] = req.body.users
 
+      console.log('users', users)
+
       const expenseUsers: ExpenseUserGroupToCreation[] = users.map(
         (user): ExpenseUserGroupToCreation => ({
           idExpense: createdExpense.id,
-          userName: user.name, // Será substituido pelo idUser
-          // idUser: '', Não terá no MVP
+          userEmail: user.email,
           idGroup,
           paymentValue: user.value,
           paymentStatus:
-            user.name === userName ? PaymentStatus.payer : PaymentStatus.pending
+            user.email === payerUserEmail
+              ? PaymentStatus.payer
+              : PaymentStatus.pending
         })
       )
+
+      console.log('expenseUsers', expenseUsers)
 
       await prisma.expenseUserGroup.createMany({
         data: expenseUsers

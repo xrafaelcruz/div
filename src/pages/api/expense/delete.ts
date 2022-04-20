@@ -25,15 +25,14 @@ export default async function Remove(
 
       console.log('users', users)
 
-      const usersName = users.map((user) => user.userName) // @TODO deve ser user.id
+      const emails = users.map((user) => user.userEmail)
 
       await prisma.expenseUserGroup.deleteMany({
         where: {
-          // @TODO deve ser id
           idExpense: idExpense as string,
           AND: {
-            userName: {
-              in: usersName
+            userEmail: {
+              in: emails
             }
           }
         }

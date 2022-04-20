@@ -4,6 +4,7 @@ import {
 } from '@prisma/client'
 
 import { PaymentStatus } from 'lib/prisma/constants'
+import { User } from 'services/user/types'
 
 export type Payment = Omit<
   PrismaExpenseUserGroup,
@@ -14,6 +15,7 @@ export type Payment = Omit<
   paymentValue: string
   paymentStatus: keyof typeof PaymentStatus
   expense: Expense
+  user: User
 }
 
 export type Expense = Omit<
@@ -23,6 +25,7 @@ export type Expense = Omit<
   createdAt: string
   updatedAt: string
   value: string
+  user: User
 }
 
 export type ExpenseWithUsers = Omit<
@@ -35,13 +38,12 @@ export type ExpenseWithUsers = Omit<
 }
 
 export type UserToCreationExpense = {
-  name: string
+  email: string
   value: number
 }
 
 export type CreateExpenseParams = {
-  userName: string
-  // idPayerUser: string
+  payerUserEmail: string
   idGroup: string
   name: string
   value: number

@@ -41,15 +41,15 @@ export async function getGroupService(idGroup?: string) {
   return group
 }
 
-export async function getGroupListService(idUser: string) {
+export async function getGroupListService(userEmail: string) {
   let groups: t.Group[] | null = null
 
-  if (!idUser) {
-    throw new Error(`idUser vazio`)
+  if (!userEmail) {
+    throw new Error(`userEmail vazio`)
   }
 
   try {
-    const url = `${process.env.NEXT_PUBLIC_API_URL}/group/list?idUser=${idUser}`
+    const url = `${process.env.NEXT_PUBLIC_API_URL}/group/list?userEmail=${userEmail}`
     const response = await GET(url)
 
     groups = await response.json()

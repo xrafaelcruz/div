@@ -16,7 +16,7 @@ CREATE TABLE "User" (
 -- CreateTable
 CREATE TABLE "Group" (
     "id" TEXT NOT NULL,
-    "idOwnerUser" TEXT NOT NULL,
+    "ownerUserEmail" TEXT NOT NULL,
     "name" TEXT NOT NULL,
     "description" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -28,7 +28,7 @@ CREATE TABLE "Group" (
 -- CreateTable
 CREATE TABLE "UserGroup" (
     "id" TEXT NOT NULL,
-    "userName" TEXT NOT NULL,
+    "userEmail" TEXT NOT NULL,
     "idGroup" TEXT NOT NULL,
     "inviteStatus" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -40,7 +40,7 @@ CREATE TABLE "UserGroup" (
 -- CreateTable
 CREATE TABLE "Expense" (
     "id" TEXT NOT NULL,
-    "userName" TEXT NOT NULL,
+    "userEmail" TEXT NOT NULL,
     "idGroup" TEXT NOT NULL,
     "name" TEXT NOT NULL,
     "value" DECIMAL(65,30) NOT NULL,
@@ -56,7 +56,7 @@ CREATE TABLE "Expense" (
 CREATE TABLE "ExpenseUserGroup" (
     "id" TEXT NOT NULL,
     "idExpense" TEXT NOT NULL,
-    "userName" TEXT NOT NULL,
+    "userEmail" TEXT NOT NULL,
     "idGroup" TEXT,
     "paymentValue" DECIMAL(65,30) NOT NULL,
     "paymentStatus" TEXT NOT NULL,
@@ -70,13 +70,22 @@ CREATE TABLE "ExpenseUserGroup" (
 CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
 
 -- AddForeignKey
-ALTER TABLE "Group" ADD CONSTRAINT "Group_idOwnerUser_fkey" FOREIGN KEY ("idOwnerUser") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "Group" ADD CONSTRAINT "Group_ownerUserEmail_fkey" FOREIGN KEY ("ownerUserEmail") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "UserGroup" ADD CONSTRAINT "UserGroup_userEmail_fkey" FOREIGN KEY ("userEmail") REFERENCES "User"("email") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "UserGroup" ADD CONSTRAINT "UserGroup_idGroup_fkey" FOREIGN KEY ("idGroup") REFERENCES "Group"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
+ALTER TABLE "Expense" ADD CONSTRAINT "Expense_userEmail_fkey" FOREIGN KEY ("userEmail") REFERENCES "User"("email") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
 ALTER TABLE "Expense" ADD CONSTRAINT "Expense_idGroup_fkey" FOREIGN KEY ("idGroup") REFERENCES "Group"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "ExpenseUserGroup" ADD CONSTRAINT "ExpenseUserGroup_userEmail_fkey" FOREIGN KEY ("userEmail") REFERENCES "User"("email") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "ExpenseUserGroup" ADD CONSTRAINT "ExpenseUserGroup_idGroup_fkey" FOREIGN KEY ("idGroup") REFERENCES "Group"("id") ON DELETE SET NULL ON UPDATE CASCADE;
