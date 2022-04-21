@@ -1,6 +1,7 @@
 import { useRouter } from 'next/router'
 
 import useGroupList from 'services/group/hooks/useGroupList'
+import { convertToMoney } from 'utils/normalize'
 
 import Layout from 'components/Layout'
 
@@ -33,6 +34,7 @@ export default function Home({ user }: HomeProps) {
               onClick={() => router.push(`/grupo?id=${group.id}`)}
             >
               {group.name}
+              <s.Value>{convertToMoney(group.total)}</s.Value>
             </s.Item>
           ))}
         </s.List>

@@ -13,6 +13,31 @@ export default async function Get(req: NextApiRequest, res: NextApiResponse) {
 
     // Verificar se o usuário está vinculado com o grupo para saber se ele poder fazer essa request
 
+    let total = 0
+
+    try {
+      const result = await prisma.expense.groupBy({
+        by: ['idGroup'],
+        where: {
+          idGroup: idGroup as string
+        },
+        _sum: {
+          value: true
+        }
+      })
+
+      if (result[0]._sum.value) {
+        total = Number(result[0]._sum.value)
+      }
+    } catch (e) {
+      const message = `Erro ao buscar o total de despesas do grupo ${idGroup}`
+
+      console.log(e)
+      console.log(message)
+
+      return res.status(500).json({ error: e, message })
+    }
+
     try {
       const result = await prisma.group.findUnique({
         where: {
@@ -29,7 +54,7 @@ export default async function Get(req: NextApiRequest, res: NextApiResponse) {
         return res.status(200).json({
           details: details,
           usersCount: UserGroup.length,
-          total: 0 // @TODO
+          total
         })
       }
 

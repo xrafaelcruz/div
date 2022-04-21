@@ -11,6 +11,8 @@ export default async function List(req: NextApiRequest, res: NextApiResponse) {
       return res.status(500).json({ error: 'Parâmetros inválidos', message })
     }
 
+    let groups = []
+
     try {
       const userGroups = await prisma.userGroup.findMany({
         where: {
@@ -21,11 +23,45 @@ export default async function List(req: NextApiRequest, res: NextApiResponse) {
         }
       })
 
-      const groups = userGroups.map((userGroup) => userGroup.group)
-
-      return res.status(200).json(groups)
+      groups = userGroups.map((userGroup) => userGroup.group)
     } catch (e) {
       const message = `Erro ao buscar os grupos do usuário ${userEmail}`
+
+      console.log(e)
+      console.log(message)
+
+      return res.status(500).json({ error: e, message })
+    }
+
+    // @TODO pegar o total
+
+    try {
+      const groupsSum = await prisma.expense.groupBy({
+        by: ['idGroup'],
+        where: {
+          idGroup: {
+            in: groups.map((group) => group.id)
+          }
+        },
+        _sum: {
+          value: true
+        }
+      })
+
+      const finalGroups = groups.map((group) => {
+        const founded = groupsSum.find(
+          (groupSum) => groupSum.idGroup === group.id
+        )
+
+        return {
+          ...group,
+          total: Number(founded?._sum.value)
+        }
+      })
+
+      return res.status(200).json(finalGroups)
+    } catch (e) {
+      const message = `Erro ao buscar o total de despesas dos grupos`
 
       console.log(e)
       console.log(message)

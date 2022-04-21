@@ -33,3 +33,12 @@ export const Item = styled.li`
     }
   `}
 `
+
+export const Value = styled.span`
+  ${({ theme }) => css`
+    display: block;
+    color: ${theme.colors.primary};
+    font-size: 14px;
+    margin-top: 4px;
+  `}
+`

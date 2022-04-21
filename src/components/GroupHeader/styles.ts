@@ -15,7 +15,7 @@ export const UsersCount = styled.p`
 
 export const Total = styled.p`
   ${({ theme }) => css`
-    color: ${theme.colors.gray1};
+    color: ${theme.colors.primary};
     font-size: 14px;
   `}
 `

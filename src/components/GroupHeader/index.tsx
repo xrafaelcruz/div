@@ -1,3 +1,5 @@
+import { convertToMoney } from 'utils/normalize'
+
 import * as t from './types'
 import * as s from './styles'
 
@@ -9,7 +11,7 @@ const GroupHeader = ({ group }: t.GroupHeaderProps) => (
       {group?.usersCount} {`membro${group?.usersCount !== 1 ? 's' : ''}`}
     </s.UsersCount>
 
-    <s.Total>{group?.total ? `Total ${group?.total}` : ''}</s.Total>
+    <s.Total>{group?.total ? `${convertToMoney(group?.total)}` : ''}</s.Total>
 
     <s.Description>{group?.details.description}</s.Description>
   </s.Header>

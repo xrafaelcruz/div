@@ -7,6 +7,7 @@ import {
 export type Group = Omit<PrismaGroup, 'createdAt' | 'updatedAt'> & {
   createdAt: string
   updatedAt: string
+  total: number
 }
 
 export type GroupDetails = {
