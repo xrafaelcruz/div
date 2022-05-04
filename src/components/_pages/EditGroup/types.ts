@@ -1,5 +1,5 @@
 import { User } from 'services/user/types'
 
-export type NewGroupProps = {
+export type EditGroupProps = {
   user: User
 }

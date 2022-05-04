@@ -87,6 +87,7 @@ export const Button = styled.button<ButtonProps>`
 
 export const FooterButtons = styled.div`
   display: flex;
+  flex-wrap: wrap;
   gap: 16px;
   justify-content: space-between;
   margin-bottom: 32px;

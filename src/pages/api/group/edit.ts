@@ -1,23 +1,25 @@
 import { NextApiRequest, NextApiResponse } from 'next'
 import { UserGroup, User } from '@prisma/client'
-
-import prisma from 'lib/prisma'
 import { InviteStatus } from 'lib/prisma/constants'
+import prisma from 'lib/prisma'
 
 import { CreateUserParams } from 'services/user/types'
 
-type UserGroupToCreation = Pick<UserGroup, 'userEmail' | 'inviteStatus'>
+type UserGroupToCreation = Pick<
+  UserGroup,
+  'idGroup' | 'userEmail' | 'inviteStatus'
+>
 
-export default async function Create(
+export default async function Update(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  if (req.method === 'POST') {
-    const { ownerUserEmail, name, description } = req.body
+  if (req.method === 'PUT') {
+    const { id, name, description } = req.body
     const emails = req.body.emails as string[]
 
-    if (!ownerUserEmail || !name || !emails) {
-      const message = 'Erro ao criar o grupo'
+    if (!id || !name || !emails) {
+      const message = 'Erro ao editar o grupo'
       console.log(message)
       return res.status(500).json({ error: 'Parâmetros inválidos', message })
     }
@@ -49,8 +51,6 @@ export default async function Create(
           })
         }
       })
-
-      console.log('usersToCreation', usersToCreation)
     } catch (e) {
       const message = 'Erro ao buscar os usuários'
 
@@ -75,33 +75,68 @@ export default async function Create(
       return res.status(500).json({ error: e, message })
     }
 
+    let users: User[] = []
+
     try {
-      const usersGroup: UserGroupToCreation[] = uniqueEmails.map(
-        (email: string) => ({
-          userEmail: email,
-          inviteStatus:
-            email === ownerUserEmail
-              ? InviteStatus.accept
-              : InviteStatus.pending
-        })
-      )
-
-      console.log('ownerUserEmail', ownerUserEmail)
-
-      const createdGroup = await prisma.group.create({
-        data: {
-          ownerUserEmail,
-          name,
-          description: description || '',
-          UserGroup: {
-            create: usersGroup
-          }
+      const usersGroup = await prisma.userGroup.findMany({
+        where: {
+          idGroup: id as string
+        },
+        include: {
+          user: true
         }
       })
 
-      return res.status(201).json(createdGroup)
+      users = usersGroup.map((userGroup) => userGroup.user)
     } catch (e) {
-      const message = 'Erro ao criar o grupo'
+      const message = `Erro ao buscar os usuários do grupo ${id}`
+
+      console.log(e)
+      console.log(message)
+
+      return res.status(500).json({ error: e, message })
+    }
+
+    try {
+      const emailsToCreation = uniqueEmails.filter((email) => {
+        const founded = users.find((user) => user.email === email)
+        return !founded
+      })
+
+      const usersGroup: UserGroupToCreation[] = emailsToCreation.map(
+        (email: string) => ({
+          idGroup: id,
+          userEmail: email,
+          inviteStatus: InviteStatus.pending
+        })
+      )
+
+      await prisma.userGroup.createMany({
+        data: usersGroup
+      })
+    } catch (e) {
+      const message = 'Erro ao adicionar usuários ao grupo'
+
+      console.log(e)
+      console.log(message)
+
+      return res.status(500).json({ error: e, message })
+    }
+
+    try {
+      await prisma.group.update({
+        data: {
+          name,
+          description
+        },
+        where: {
+          id
+        }
+      })
+
+      return res.status(200).json({})
+    } catch (e) {
+      const message = 'Erro ao atualizar o grupo'
 
       console.log(e)
       console.log(message)

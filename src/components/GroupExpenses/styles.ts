@@ -1,5 +1,9 @@
 import styled, { css } from 'styled-components'
 
+export const Section = styled.section`
+  flex: 1;
+`
+
 export const ExpenseList = styled.ul`
   display: flex;
   flex-direction: column;
@@ -47,5 +51,18 @@ export const ExpenseValue = styled.span`
   ${({ theme }) => css`
     color: ${theme.colors.primary};
     font-size: 14px;
+  `}
+`
+
+export const NotFound = styled.span`
+  ${({ theme }) => css`
+    align-items: center;
+    font-size: 20px;
+    font-weight: bold;
+    color: ${theme.colors.gray1};
+    display: flex;
+    flex: 1;
+    justify-content: center;
+    height: 100%;
   `}
 `

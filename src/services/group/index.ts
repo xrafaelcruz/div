@@ -1,6 +1,6 @@
 import { Group as PrismaGroup } from '@prisma/client'
 
-import { POST, GET } from 'lib/api'
+import { POST, GET, PUT, REMOVE } from 'lib/api'
 
 import * as t from './types'
 
@@ -20,6 +20,15 @@ export async function createGroup(params: t.CreateGroupParams) {
   }
 
   return createdGroup
+}
+
+export async function editGroupService(params: t.EditGroupParams) {
+  try {
+    const url = `${process.env.NEXT_PUBLIC_API_URL}/group/edit`
+    await PUT(url, params)
+  } catch (e) {
+    throw new Error('Erro ao editar o grupo')
+  }
 }
 
 export async function getGroupService(idGroup?: string) {
@@ -73,4 +82,25 @@ export async function listUsersGroup(idGroup: string) {
   }
 
   return usersGroup
+}
+
+export async function removeUserGroupService(
+  idGroup: string,
+  userEmail: string
+) {
+  try {
+    const url = `${process.env.NEXT_PUBLIC_API_URL}/group/remove-user?idGroup=${idGroup}&userEmail=${userEmail}`
+    await REMOVE(url)
+  } catch (e) {
+    throw new Error('Erro ao excluir o usuário do grupo')
+  }
+}
+
+export async function removeGroupService(idGroup: string) {
+  try {
+    const url = `${process.env.NEXT_PUBLIC_API_URL}/group/remove-group?idGroup=${idGroup}`
+    await REMOVE(url)
+  } catch (e) {
+    throw new Error('Erro ao excluir o grupo')
+  }
 }

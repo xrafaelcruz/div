@@ -3,7 +3,7 @@ import { useRouter } from 'next/router'
 import useGroup from 'services/group/hooks/useGroup'
 
 import Layout from 'components/Layout'
-// import Button from 'components/Button'
+import Button from 'components/Button'
 import GroupHeader from 'components/GroupHeader'
 import GroupPayments from 'components/GroupPayments'
 
@@ -24,11 +24,17 @@ export default function Payments({ user }: t.PaymentsProps) {
       <s.Main>
         <GroupHeader group={group} />
 
-        {/* <s.Buttons>
-          <Button type="button" variant="outlined">
+        <s.Buttons>
+          <Button
+            type="button"
+            variant="outlined"
+            onClick={() => router.push(`/editar-grupo?id=${idGrupo}`)}
+          >
             Editar grupo
           </Button>
-        </s.Buttons> */}
+        </s.Buttons>
+
+        <h2>Resultados</h2>
 
         <GroupPayments user={user} payments={payments} />
       </s.Main>

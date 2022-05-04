@@ -10,10 +10,8 @@ export type Group = Omit<PrismaGroup, 'createdAt' | 'updatedAt'> & {
   total: number
 }
 
-export type GroupDetails = {
-  details: Group
-  usersCount: number
-  total: number
+export type GroupDetails = Group & {
+  users: PrismaUserGroup[]
 }
 
 export type User = Omit<PrismaUser, 'createdAt' | 'updatedAt'> & {
@@ -32,6 +30,13 @@ export type UserGroupComplete = Omit<
 
 export type CreateGroupParams = {
   ownerUserEmail: string
+  name: string
+  description?: string
+  emails: string[]
+}
+
+export type EditGroupParams = {
+  id: string
   name: string
   description?: string
   emails: string[]

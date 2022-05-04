@@ -35,6 +35,16 @@ export default function Group({ user }: t.GroupProps) {
           >
             Resultados
           </Button>
+
+          {user.email === group?.ownerUserEmail && (
+            <Button
+              type="button"
+              variant="outlined"
+              onClick={() => router.push(`/editar-grupo?id=${id}`)}
+            >
+              Editar
+            </Button>
+          )}
         </s.Buttons>
 
         <s.Button

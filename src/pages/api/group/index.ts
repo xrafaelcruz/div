@@ -26,7 +26,7 @@ export default async function Get(req: NextApiRequest, res: NextApiResponse) {
         }
       })
 
-      if (result[0]._sum.value) {
+      if (result[0] && result[0]._sum && result[0]._sum.value) {
         total = Number(result[0]._sum.value)
       }
     } catch (e) {
@@ -39,7 +39,7 @@ export default async function Get(req: NextApiRequest, res: NextApiResponse) {
     }
 
     try {
-      const result = await prisma.group.findUnique({
+      const group = await prisma.group.findUnique({
         where: {
           id: idGroup as string
         },
@@ -48,14 +48,9 @@ export default async function Get(req: NextApiRequest, res: NextApiResponse) {
         }
       })
 
-      if (result) {
-        const { UserGroup, ...details } = result
-
-        return res.status(200).json({
-          details: details,
-          usersCount: UserGroup.length,
-          total
-        })
+      if (group) {
+        const { UserGroup, ...rest } = group
+        return res.status(200).json({ ...rest, users: UserGroup, total })
       }
 
       throw new Error('Grupo não encontrado')

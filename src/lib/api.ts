@@ -21,6 +21,14 @@ export function POST(url: string, body: any) {
   })
 }
 
+export function PUT(url: string, body: any) {
+  return fetch(url, {
+    method: 'put',
+    body: JSON.stringify(body),
+    headers: { 'Content-Type': 'application/json' }
+  })
+}
+
 export function GET(url: string) {
   return fetch(url, {
     method: 'GET',

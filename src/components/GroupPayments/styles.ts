@@ -1,5 +1,9 @@
 import styled, { css } from 'styled-components'
 
+export const Section = styled.section`
+  flex: 1;
+`
+
 export const List = styled.ul`
   display: flex;
   flex-direction: column;
@@ -68,4 +72,17 @@ export const Text = styled.p<{ status?: string }>`
 export const PaymentValue = styled.span`
   font-size: 14px;
   font-weight: bold;
+`
+
+export const NotFound = styled.span`
+  ${({ theme }) => css`
+    align-items: center;
+    font-size: 20px;
+    font-weight: bold;
+    color: ${theme.colors.gray1};
+    display: flex;
+    flex: 1;
+    justify-content: center;
+    height: 100%;
+  `}
 `

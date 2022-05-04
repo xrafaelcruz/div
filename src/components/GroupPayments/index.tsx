@@ -57,36 +57,40 @@ const GroupPayments = ({ payments, user }: t.GroupPaymentsProps) => {
   }
 
   return (
-    <section>
+    <s.Section>
       <h2>{payments?.length ? 'Resultados' : ''}</h2>
 
-      <s.List>
-        {payments?.map((payment) => (
-          <s.Item key={payment.id}>
-            <s.Text>
-              <s.Highlight>{getName(payment.user)}</s.Highlight>
-            </s.Text>
+      {payments?.length ? (
+        <s.List>
+          {payments.map((payment) => (
+            <s.Item key={payment.id}>
+              <s.Text>
+                <s.Highlight>{getName(payment.user)}</s.Highlight>
+              </s.Text>
 
-            <s.Text
-              status={highlightPaymentValue(
-                payment.userEmail,
-                payment.paymentStatus,
-                payment.expense.userEmail
-              )}
-            >
-              {getPaymentStatus(payment.paymentStatus)}{' '}
-              <s.PaymentValue>
-                {convertToMoney(payment.paymentValue)}
-              </s.PaymentValue>
-            </s.Text>
+              <s.Text
+                status={highlightPaymentValue(
+                  payment.userEmail,
+                  payment.paymentStatus,
+                  payment.expense.userEmail
+                )}
+              >
+                {getPaymentStatus(payment.paymentStatus)}{' '}
+                <s.PaymentValue>
+                  {convertToMoney(payment.paymentValue)}
+                </s.PaymentValue>
+              </s.Text>
 
-            <s.Text>
-              para <s.Highlight>{getName(payment.expense.user)}</s.Highlight>
-            </s.Text>
-          </s.Item>
-        ))}
-      </s.List>
-    </section>
+              <s.Text>
+                para <s.Highlight>{getName(payment.expense.user)}</s.Highlight>
+              </s.Text>
+            </s.Item>
+          ))}
+        </s.List>
+      ) : (
+        <s.NotFound>Nenhuma despesa registrada ainda</s.NotFound>
+      )}
+    </s.Section>
   )
 }
 

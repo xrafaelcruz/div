@@ -17,7 +17,7 @@ export const Wrapper = styled.div`
   height: 50px;
   justify-content: center;
   max-width: 480px;
-  padding: 0 16px;
+  padding: 0 8px;
   position: relative;
   width: 100%;
 `
@@ -31,7 +31,7 @@ export const ButtonBack = styled.button`
     color: ${theme.colors.white};
     cursor: pointer;
     display: flex;
-    left: 16px;
+    left: 8px;
     position: absolute;
     top: 0;
     transition: color 250ms;

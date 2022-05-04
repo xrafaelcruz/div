@@ -20,12 +20,12 @@ const GroupExpenses = ({ user, expenses }: t.GroupExpensesProps) => {
   }
 
   return (
-    <section>
+    <s.Section>
       <h2>{expenses?.length ? 'Despesas' : ''}</h2>
 
-      <s.ExpenseList>
-        {expenses?.map((expense) => {
-          return (
+      {expenses?.length ? (
+        <s.ExpenseList>
+          {expenses.map((expense) => (
             <s.ExpenseItem
               key={expense.id}
               onClick={() => router.push(`/despesa?id=${expense.id}`)}
@@ -36,10 +36,12 @@ const GroupExpenses = ({ user, expenses }: t.GroupExpensesProps) => {
               </s.ExpensePayerUser>
               <s.ExpenseValue>{convertToMoney(expense.value)}</s.ExpenseValue>
             </s.ExpenseItem>
-          )
-        })}
-      </s.ExpenseList>
-    </section>
+          ))}
+        </s.ExpenseList>
+      ) : (
+        <s.NotFound>Nenhuma despesa registrada ainda</s.NotFound>
+      )}
+    </s.Section>
   )
 }
 
