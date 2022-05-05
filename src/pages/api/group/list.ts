@@ -1,5 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next'
 import prisma from 'lib/prisma'
+import { InviteStatus } from 'lib/prisma/constants'
 
 export default async function List(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === 'GET') {
@@ -16,7 +17,8 @@ export default async function List(req: NextApiRequest, res: NextApiResponse) {
     try {
       const userGroups = await prisma.userGroup.findMany({
         where: {
-          userEmail: userEmail as string
+          userEmail: userEmail as string,
+          inviteStatus: InviteStatus.accept as string
         },
         include: {
           group: true

@@ -22,12 +22,13 @@ export default function Group({ user }: t.GroupProps) {
   return (
     <Layout user={user}>
       <s.Main>
-        <GroupHeader group={group} />
+        <GroupHeader group={group} user={user} />
 
         <s.Buttons>
-          {/* <Button type="button" variant="outlined">
-            Membros
-          </Button> */}
+          <Button type="button" variant="outlined">
+            Usuários
+          </Button>
+
           <Button
             type="button"
             variant="outlined"

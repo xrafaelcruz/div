@@ -84,5 +84,6 @@ export const NotFound = styled.span`
     flex: 1;
     justify-content: center;
     height: 100%;
+    text-align: center;
   `}
 `

@@ -104,3 +104,12 @@ export async function removeGroupService(idGroup: string) {
     throw new Error('Erro ao excluir o grupo')
   }
 }
+
+export async function exitGroupService(idGroup: string, userEmail: string) {
+  try {
+    const url = `${process.env.NEXT_PUBLIC_API_URL}/group/exit?idGroup=${idGroup}&userEmail=${userEmail}`
+    await REMOVE(url)
+  } catch (e) {
+    throw new Error('Erro ao sair do grupo')
+  }
+}
