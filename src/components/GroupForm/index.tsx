@@ -71,17 +71,17 @@ const GroupForm = ({ user, group }: GroupFormProps) => {
   }
 
   const onSubmit = async (data: FormData) => {
-    if (user.email === group?.ownerUserEmail) {
-      try {
-        if (isEdit) {
+    try {
+      if (isEdit) {
+        if (user.email === group?.ownerUserEmail) {
           edit(data)
-        } else {
-          create(data)
         }
-      } catch (e) {
-        console.log(e)
-        alert(e)
+      } else {
+        create(data)
       }
+    } catch (e) {
+      console.log(e)
+      alert(e)
     }
   }
 

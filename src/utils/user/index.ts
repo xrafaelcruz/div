@@ -3,4 +3,5 @@ type Params = {
   email: string
 }
 
-export const getUserName = (user: Params) => (user.name ? user.name : user.email)
+export const getUserName = (user: Params) =>
+  user.name ? user.name : user.email

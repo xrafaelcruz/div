@@ -25,7 +25,14 @@ export default async function Create(
 
     let createdExpense: Expense
 
-    if (!payerUserEmail || !idGroup || !name || !value || !req.body.users) {
+    if (
+      !payerUserEmail ||
+      !idGroup ||
+      !name ||
+      !value ||
+      !type ||
+      !req.body.users
+    ) {
       const message = 'Erro ao criar a despesa'
       console.log(message)
       return res.status(500).json({ error: 'Parâmetros inválidos', message })

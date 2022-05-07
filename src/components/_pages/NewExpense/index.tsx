@@ -5,6 +5,7 @@ import { useForm, Controller } from 'react-hook-form'
 import Input from 'components/Input'
 import Select from 'components/Select'
 import Button from 'components/Button'
+import Modal from 'components/Modal'
 
 import { required } from 'utils/validations'
 import { currencyMask, removeCurrencyMask } from 'utils/masks/currency'
@@ -19,6 +20,7 @@ import { UserToCreationExpense } from 'services/expense/types'
 import * as s from './styles'
 import { FooterButtons } from 'components/Button/styles'
 import { getUserName } from 'utils/user'
+import { ExpenseTypes } from 'constants/expenseTypes'
 
 const defaultValuePerUser = 'R$ 0,00'
 
@@ -26,14 +28,16 @@ export default function NewExpense({ user }: NewExpenseProps) {
   const router = useRouter()
   const { idGrupo } = router.query
 
+  const [modalOpen, setModalOpen] = useState(false)
+
   const { groups } = useGroupList({ user })
   const { usersGroup, getUsersGroup } = useUsersGroup(idGrupo as string)
   const [userFields, setUserFields] = useState<UserField[]>([])
   const [valuePerUser, setValuePerUser] = useState(defaultValuePerUser)
   const [checkedUsers, setCheckedUsers] = useState(0)
 
-  console.log('usersGroup', usersGroup)
   const {
+    reset,
     watch,
     control,
     register,
@@ -45,6 +49,15 @@ export default function NewExpense({ user }: NewExpenseProps) {
       idGroup: (idGrupo as string) ?? ''
     }
   })
+
+  const modalOnClickYes = async () => {
+    reset()
+    setModalOpen(false)
+  }
+
+  const modalOnClickNo = () => {
+    router.back()
+  }
 
   const prepareUsersToCreation = () => {
     const users: UserToCreationExpense[] = userFields
@@ -65,14 +78,11 @@ export default function NewExpense({ user }: NewExpenseProps) {
         name: data.name,
         value: removeCurrencyMask(data.value),
         description: data.description,
-        type: '',
+        type: data.type,
         users: prepareUsersToCreation()
       })
 
-      router.back()
-      // Abrir a modal para confirma se quer criar outra
-      // se sim, reseta os campos
-      // se não, router.back()
+      setModalOpen(true)
     } catch (e) {
       console.log(e)
       alert(e)
@@ -201,6 +211,19 @@ export default function NewExpense({ user }: NewExpenseProps) {
             {...register('name', { required })}
           />
 
+          <Select
+            placeholder="Tipo"
+            error={errors.type?.message}
+            {...register('type', { required })}
+          >
+            <option value="">Selecione o tipo da despesa</option>
+            {ExpenseTypes.map(({ type }) => (
+              <option value={type} key={type}>
+                {type}
+              </option>
+            ))}
+          </Select>
+
           <Input
             placeholder="Valor R$"
             error={errors.value?.message}
@@ -285,6 +308,14 @@ export default function NewExpense({ user }: NewExpenseProps) {
           </Button>
         </FooterButtons>
       </s.Form>
+
+      {modalOpen && (
+        <Modal
+          text="Deseja adicionar outra despesa?"
+          onClickNo={modalOnClickNo}
+          onClickYes={modalOnClickYes}
+        />
+      )}
     </s.Layout>
   )
 }
