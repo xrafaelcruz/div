@@ -6,6 +6,13 @@ import * as t from './types'
 
 const Footer = ({ user }: t.FooterProps) => {
   const router = useRouter()
+  const { idGroup } = router.query
+
+  const handleNewExpense = () => {
+    if (router.pathname !== '/nova-despesa') {
+      router.push(`/nova-despesa${idGroup ? `?idGroup=${idGroup}` : ''}`)
+    }
+  }
 
   return (
     <s.Footer>
@@ -15,10 +22,7 @@ const Footer = ({ user }: t.FooterProps) => {
           <s.GroupTitle>Grupos</s.GroupTitle>
         </s.ButtonGroups>
 
-        <s.ButtonExpense
-          type="button"
-          onClick={() => router.push('/nova-despesa')}
-        >
+        <s.ButtonExpense type="button" onClick={handleNewExpense}>
           <FaPlus />
         </s.ButtonExpense>
 

@@ -1,13 +1,13 @@
 import { GetServerSidePropsContext } from 'next'
 import Head from 'next/head'
 
-import { isAuthenticated } from 'lib/auth/isAuthenticated'
+import { isAuthenticated } from 'lib/auth'
 
-import Expense from 'components/_pages/Expense'
+import Expense from 'components/_pages/EditExpense'
 
-import { ExpenseProps } from 'components/_pages/Expense/types'
+import { EditExpenseProps } from 'components/_pages/EditExpense/types'
 
-export default function ExpensePage(props: ExpenseProps) {
+export default function EditExpensePage(props: EditExpenseProps) {
   return (
     <>
       <Head>

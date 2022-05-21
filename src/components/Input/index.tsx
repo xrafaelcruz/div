@@ -6,9 +6,13 @@ import { InputProps } from './types'
 import * as s from './styles'
 
 const Input = forwardRef<HTMLInputElement, InputProps>(
-  ({ error, className, ...props }, ref) => (
-    <s.Wrapper className={className} error={!!error}>
-      <input {...props} ref={ref} />
+  ({ id, label, optional, error, className, ...props }, ref) => (
+    <s.Wrapper className={className} error={!!error} type={props.type}>
+      <s.Label htmlFor={id}>
+        {label} {optional && <s.Optional>(Opcional)</s.Optional>}
+      </s.Label>
+
+      <input {...props} id={id} ref={ref} />
 
       {error && <s.Error>{error}</s.Error>}
 

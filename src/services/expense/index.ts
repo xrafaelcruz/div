@@ -1,9 +1,10 @@
 import { Expense as PrismaExpense } from '@prisma/client'
 
-import { POST, GET, REMOVE } from 'lib/api'
+import { POST, PUT, GET, REMOVE } from 'lib/api'
 
 import {
   CreateExpenseParams,
+  UpdateExpenseParams,
   Expense,
   Payment,
   ExpenseWithUsers
@@ -51,6 +52,21 @@ export async function createExpense(params: CreateExpenseParams) {
     createdExpense = await response.json()
   } catch (e) {
     throw new Error('Erro ao criar a despesa')
+  }
+
+  return createdExpense
+}
+
+export async function updateExpense(params: UpdateExpenseParams) {
+  let createdExpense: PrismaExpense | null = null
+
+  try {
+    const url = `${process.env.NEXT_PUBLIC_API_URL}/expense/update`
+    const response = await PUT(url, params)
+
+    createdExpense = await response.json()
+  } catch (e) {
+    throw new Error('Erro ao editar a despesa')
   }
 
   return createdExpense

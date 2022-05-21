@@ -34,7 +34,8 @@ export type ExpenseWithUsers = Omit<
 > & {
   createdAt: string
   updatedAt: string
-  ExpenseUserGroup: Omit<Payment, 'expense'>
+  value: string
+  ExpenseUserGroup: Omit<Payment, 'expense'>[]
 }
 
 export type UserToCreationExpense = {
@@ -50,4 +51,8 @@ export type CreateExpenseParams = {
   description: string
   type: string
   users: UserToCreationExpense[]
+}
+
+export type UpdateExpenseParams = CreateExpenseParams & {
+  id: string
 }

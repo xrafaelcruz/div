@@ -28,7 +28,11 @@ const GroupExpenses = ({ user, expenses }: t.GroupExpensesProps) => {
           {expenses.map((expense) => (
             <s.ExpenseItem
               key={expense.id}
-              onClick={() => router.push(`/despesa?id=${expense.id}`)}
+              onClick={() =>
+                router.push(
+                  `/despesa?id=${expense.id}&idGroup=${expense.idGroup}`
+                )
+              }
             >
               <s.ExpenseName>{expense.name}</s.ExpenseName>
               <s.ExpensePayerUser>

@@ -1,9 +1,12 @@
 import { NextApiRequest, NextApiResponse } from 'next'
 import prisma from 'lib/prisma'
+import { checkToken } from 'lib/auth'
 import { InviteStatus } from 'lib/prisma/constants'
 
 export default async function List(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === 'GET') {
+    checkToken(req, res)
+
     const { userEmail } = req.query
 
     if (!userEmail) {
@@ -34,8 +37,6 @@ export default async function List(req: NextApiRequest, res: NextApiResponse) {
 
       return res.status(500).json({ error: e, message })
     }
-
-    // @TODO pegar o total
 
     try {
       const groupsSum = await prisma.expense.groupBy({

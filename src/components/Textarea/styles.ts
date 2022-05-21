@@ -32,6 +32,19 @@ export const Wrapper = styled.div<{ error: boolean }>`
   `}
 `
 
+export const Label = styled.label`
+  ${({ theme }) => css`
+    font-size: 14px;
+    font-weight: bold;
+    color: ${theme.colors.white};
+  `}
+`
+export const Optional = styled.label`
+  ${({ theme }) => css`
+    color: ${theme.colors.gray1};
+  `}
+`
+
 export const Error = styled.p`
   ${({ theme }) => css`
     font-size: 14px;

@@ -1,6 +1,11 @@
-import { getSession, signOut } from 'next-auth/react'
-import { GetServerSidePropsContext } from 'next'
+import { getSession } from 'next-auth/react'
+import {
+  GetServerSidePropsContext,
+  NextApiRequest,
+  NextApiResponse
+} from 'next'
 import { User as PrismaUser } from '@prisma/client'
+import { getToken } from 'next-auth/jwt'
 
 import { createUser, getUserByEmail } from 'services/user'
 import { User } from 'services/user/types'
@@ -64,5 +69,18 @@ export async function isAuthenticated(context: GetServerSidePropsContext) {
     }
   } catch (e) {
     return goToLogin(context)
+  }
+}
+
+/**
+ * Função executada apenas no backend
+ * @param
+ * @returns Retorna 401 se o usuário não estiver autenticado
+ */
+export async function checkToken(req: NextApiRequest, res: NextApiResponse) {
+  const token = await getToken({ req, secret: process.env.GOOGLE_SECRET })
+
+  if (!token) {
+    return res.status(401).json({})
   }
 }

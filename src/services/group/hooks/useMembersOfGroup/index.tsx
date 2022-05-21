@@ -21,13 +21,13 @@ const useUsersGroup = (initialIdGroup?: string): UseUsersGroupReturn => {
         let firstUser: UserGroup | undefined = undefined
 
         const filteredUsers = userGroupArray.filter((userGroup) => {
-          const ok = userGroup.userEmail !== loggedUser
+          const isLoggedUser = userGroup.userEmail === loggedUser
 
-          if (!ok) {
+          if (isLoggedUser) {
             firstUser = userGroup
           }
 
-          return ok
+          return !isLoggedUser
         })
 
         if (firstUser) {

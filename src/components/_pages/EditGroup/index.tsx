@@ -8,10 +8,10 @@ import * as t from './types'
 
 export default function EditGroup({ user }: t.EditGroupProps) {
   const router = useRouter()
-  const { id } = router.query
+  const { idGroup } = router.query
 
   const { group } = useGroup({
-    idGroup: id as string,
+    idGroup: idGroup as string,
     hasExpenses: true
   })
 

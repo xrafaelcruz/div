@@ -1,5 +1,9 @@
 export const ExpenseTypes = [
   {
+    type: 'não informado',
+    icon: ''
+  },
+  {
     type: 'comida',
     icon: ''
   },

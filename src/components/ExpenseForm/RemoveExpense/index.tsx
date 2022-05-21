@@ -2,25 +2,24 @@ import { useState } from 'react'
 import { useRouter } from 'next/router'
 
 import Modal from 'components/Modal'
-import { removeGroupService } from 'services/group'
+import { deleteExpenseService } from 'services/expense'
 
 import * as s from './styles'
 import * as t from './types'
 
-const RemoveGroup = ({ idGroup }: t.RemoveGroupProps) => {
-  // @TODO verificar se o usuário logado é o dono do gurpo para executar essa ação
+const RemoveExpense = ({ idExpense }: t.RemoveExpenseProps) => {
   const router = useRouter()
 
   const [modalOpen, setModalOpen] = useState(false)
 
-  const handleRemoveGroup = () => {
+  const handleRemoveExpense = () => {
     setModalOpen(true)
   }
 
   const modalOnClickYes = async () => {
     try {
-      if (idGroup) {
-        await removeGroupService(idGroup)
+      if (idExpense) {
+        await deleteExpenseService(idExpense)
         router.push('/')
       }
     } catch (e) {
@@ -35,15 +34,15 @@ const RemoveGroup = ({ idGroup }: t.RemoveGroupProps) => {
 
   return (
     <>
-      {idGroup && (
-        <s.Button type="button" variant="danger" onClick={handleRemoveGroup}>
+      {idExpense && (
+        <s.Button type="button" variant="danger" onClick={handleRemoveExpense}>
           Excluir
         </s.Button>
       )}
 
-      {idGroup && modalOpen && (
+      {idExpense && modalOpen && (
         <Modal
-          text="Tem certeza que quer excluir o grupo"
+          text="Tem certeza que quer excluir a despesa"
           onClickNo={modalOnClickNo}
           onClickYes={modalOnClickYes}
         />
@@ -52,4 +51,4 @@ const RemoveGroup = ({ idGroup }: t.RemoveGroupProps) => {
   )
 }
 
-export default RemoveGroup
+export default RemoveExpense

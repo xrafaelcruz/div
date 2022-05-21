@@ -6,6 +6,19 @@ export const Wrapper = styled.div`
   gap: 4px;
 `
 
+export const Label = styled.label`
+  ${({ theme }) => css`
+    font-size: 14px;
+    font-weight: bold;
+    color: ${theme.colors.white};
+  `}
+`
+export const Optional = styled.label`
+  ${({ theme }) => css`
+    color: ${theme.colors.gray1};
+  `}
+`
+
 export const SelectWrapper = styled.div<{ error: boolean }>`
   ${({ error, theme }) => css`
     background: ${theme.colors.darkGray1};

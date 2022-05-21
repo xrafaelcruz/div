@@ -31,7 +31,7 @@ export default function Home({ user }: HomeProps) {
           {groups?.map((group) => (
             <s.Item
               key={group.id}
-              onClick={() => router.push(`/grupo?id=${group.id}`)}
+              onClick={() => router.push(`/grupo?idGroup=${group.id}`)}
             >
               {group.name}
               <s.Value>{convertToMoney(group.total)}</s.Value>

@@ -28,6 +28,20 @@ export default function Profile({ user }: t.ProfileProps) {
             <s.InfoLabel>EMAIL</s.InfoLabel>
             <s.InfoValue>{user.email}</s.InfoValue>
           </s.Info>
+
+          {user.pix && (
+            <s.Info>
+              <s.InfoLabel>PIX</s.InfoLabel>
+              <s.InfoValue>{user.pix}</s.InfoValue>
+            </s.Info>
+          )}
+
+          {user.description && (
+            <s.Info>
+              <s.InfoLabel>DESCRIÇÃO</s.InfoLabel>
+              <s.InfoValue>{user.description}</s.InfoValue>
+            </s.Info>
+          )}
         </s.Infos>
       </s.Main>
     </Layout>

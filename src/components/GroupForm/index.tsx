@@ -52,7 +52,7 @@ const GroupForm = ({ user, group }: GroupFormProps) => {
       emails: usersToCreation
     })
 
-    router.push(`/grupo?id=${createdGroup?.id}`)
+    router.push(`/grupo?idGroup=${createdGroup?.id}`)
   }
 
   const edit = async (data: FormData) => {
@@ -66,7 +66,7 @@ const GroupForm = ({ user, group }: GroupFormProps) => {
         emails: usersToEdit
       })
 
-      router.push(`/grupo?id=${group.id}`)
+      router.push(`/grupo?idGroup=${group.id}`)
     }
   }
 

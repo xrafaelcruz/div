@@ -12,10 +12,10 @@ import * as t from './types'
 
 export default function Group({ user }: t.GroupProps) {
   const router = useRouter()
-  const { id } = router.query
+  const { idGroup } = router.query
 
   const { group, expenses } = useGroup({
-    idGroup: id as string,
+    idGroup: idGroup as string,
     hasExpenses: true
   })
 
@@ -32,7 +32,7 @@ export default function Group({ user }: t.GroupProps) {
           <Button
             type="button"
             variant="outlined"
-            onClick={() => router.push(`/pagamentos?idGrupo=${id}`)}
+            onClick={() => router.push(`/pagamentos?idGroup=${idGroup}`)}
           >
             Resultados
           </Button>
@@ -41,7 +41,7 @@ export default function Group({ user }: t.GroupProps) {
             <Button
               type="button"
               variant="outlined"
-              onClick={() => router.push(`/editar-grupo?id=${id}`)}
+              onClick={() => router.push(`/editar-grupo?idGroup=${idGroup}`)}
             >
               Editar
             </Button>
@@ -52,7 +52,7 @@ export default function Group({ user }: t.GroupProps) {
           type="button"
           variant="primary"
           size="big"
-          onClick={() => router.push(`/nova-despesa?idGrupo=${id}`)}
+          onClick={() => router.push(`/nova-despesa?idGroup=${idGroup}`)}
         >
           NOVA DESPESA
         </s.Button>

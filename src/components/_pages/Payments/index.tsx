@@ -12,10 +12,10 @@ import * as t from './types'
 
 export default function Payments({ user }: t.PaymentsProps) {
   const router = useRouter()
-  const { idGrupo } = router.query
+  const { idGroup } = router.query
 
   const { group, payments } = useGroup({
-    idGroup: idGrupo as string,
+    idGroup: idGroup as string,
     hasPayments: true
   })
 
@@ -28,7 +28,7 @@ export default function Payments({ user }: t.PaymentsProps) {
           <Button
             type="button"
             variant="outlined"
-            onClick={() => router.push(`/editar-grupo?id=${idGrupo}`)}
+            onClick={() => router.push(`/editar-grupo?id=${idGroup}`)}
           >
             Editar grupo
           </Button>

@@ -5,8 +5,12 @@ import { SelectProps } from './types'
 import * as s from './styles'
 
 const Select = forwardRef<HTMLSelectElement, SelectProps>(
-  ({ error, children, className, ...props }, ref) => (
+  ({ id, label, optional, error, children, className, ...props }, ref) => (
     <s.Wrapper className={className}>
+      <s.Label htmlFor={id}>
+        {label} {optional && <s.Optional>(Opcional)</s.Optional>}
+      </s.Label>
+
       <s.SelectWrapper error={!!error}>
         <select {...props} ref={ref}>
           {children}

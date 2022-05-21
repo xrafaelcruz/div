@@ -1,7 +1,7 @@
 import styled, { css } from 'styled-components'
 
-export const Wrapper = styled.div<{ error: boolean }>`
-  ${({ theme, error }) => css`
+export const Wrapper = styled.div<{ error: boolean; type: any }>`
+  ${({ theme, error, type }) => css`
     display: flex;
     flex-direction: column;
     gap: 4px;
@@ -45,6 +45,24 @@ export const Wrapper = styled.div<{ error: boolean }>`
         border-color: ${theme.colors.error};
       `}
     }
+
+    ${type === 'checkbox' &&
+    css`
+      gap: 0;
+    `}
+  `}
+`
+
+export const Label = styled.label`
+  ${({ theme }) => css`
+    font-size: 14px;
+    font-weight: bold;
+    color: ${theme.colors.white};
+  `}
+`
+export const Optional = styled.label`
+  ${({ theme }) => css`
+    color: ${theme.colors.gray1};
   `}
 `
 

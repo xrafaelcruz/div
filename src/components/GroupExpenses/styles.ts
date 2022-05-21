@@ -29,6 +29,10 @@ export const ExpenseItem = styled.button`
     &:last-of-type {
       margin-bottom: 32px;
     }
+
+    &:hover {
+      filter: brightness(95%);
+    }
   `}
 `
 

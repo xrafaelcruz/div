@@ -1,7 +1,7 @@
 import { GetServerSidePropsContext } from 'next'
 import Head from 'next/head'
 
-import { isAuthenticated } from 'lib/auth/isAuthenticated'
+import { isAuthenticated } from 'lib/auth'
 
 import NewExpense from 'components/_pages/NewExpense'
 

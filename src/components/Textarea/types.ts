@@ -1,5 +1,7 @@
 import { TextareaHTMLAttributes } from 'react'
 
-export type InputProps = TextareaHTMLAttributes<HTMLTextAreaElement> & {
+export type TextareaProps = TextareaHTMLAttributes<HTMLTextAreaElement> & {
+  label?: string
+  optional?: boolean
   error?: string
 }
