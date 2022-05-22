@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router'
-import { FaLongArrowAltLeft } from 'react-icons/fa'
+import { FaLongArrowAltLeft, FaBell } from 'react-icons/fa'
 
 import { HeaderProps } from './types'
 
@@ -18,6 +18,13 @@ const Header = ({ hideBack }: HeaderProps) => {
         )}
 
         <h2>DIV</h2>
+
+        <s.ButtonNotification
+          type="button"
+          onClick={() => router.push('/notificacoes')}
+        >
+          <FaBell />
+        </s.ButtonNotification>
       </s.Wrapper>
     </s.Header>
   )

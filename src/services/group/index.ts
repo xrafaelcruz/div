@@ -1,6 +1,7 @@
 import { Group as PrismaGroup } from '@prisma/client'
 
 import { POST, GET, PUT, REMOVE } from 'lib/api'
+import { InviteStatus } from 'lib/prisma/constants'
 
 import * as t from './types'
 
@@ -82,6 +83,33 @@ export async function listUsersGroup(idGroup: string) {
   }
 
   return usersGroup
+}
+
+export async function getGroupInvitesService(userEmail: string) {
+  let groupInvites: t.GroupInvite[] | null = null
+
+  try {
+    const url = `${process.env.NEXT_PUBLIC_API_URL}/group/invites?userEmail=${userEmail}`
+    const response = await GET(url)
+
+    groupInvites = await response.json()
+  } catch (e) {
+    throw new Error('Erro ao buscar os convites de grupos do usuário')
+  }
+
+  return groupInvites
+}
+
+export async function updateUserGroupInvitesService(
+  idUserGroup: string,
+  status: keyof typeof InviteStatus
+) {
+  try {
+    const url = `${process.env.NEXT_PUBLIC_API_URL}/group/edit-invite`
+    await PUT(url, { idUserGroup, inviteStatus: status })
+  } catch (e) {
+    throw new Error('Erro ao atualizar o convite')
+  }
 }
 
 export async function removeUserGroupService(

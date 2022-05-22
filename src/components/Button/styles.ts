@@ -41,6 +41,13 @@ export const variants = {
 }
 
 export const sizes = {
+  small: css`
+    font-size: 14px;
+    height: 32px;
+    padding: 8px 16px;
+    width: auto;
+  `,
+
   big: css`
     width: 170px;
   `,

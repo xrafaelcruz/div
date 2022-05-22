@@ -219,7 +219,7 @@ const ExpenseForm = ({ user, expense }: t.ExpenseFormProps) => {
           </Button>
 
           <Button type="submit" variant="primary">
-            {isEdit ? 'EDITAR' : 'CRIAR'}
+            {isEdit ? 'SALVAR' : 'CRIAR'}
           </Button>
 
           <RemoveExpense idExpense={expense?.id} />

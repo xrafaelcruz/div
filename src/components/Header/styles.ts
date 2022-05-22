@@ -45,3 +45,25 @@ export const ButtonBack = styled.button`
     }
   `}
 `
+
+export const ButtonNotification = styled.button`
+  ${({ theme }) => css`
+    bottom: 0;
+    background: transparent;
+    border: 0;
+    color: ${theme.colors.white};
+    cursor: pointer;
+    position: absolute;
+    right: 8px;
+    top: 0;
+    transition: color 250ms;
+
+    > svg {
+      font-size: 20px;
+    }
+
+    &:hover {
+      color: ${theme.colors.primary};
+    }
+  `}
+`
