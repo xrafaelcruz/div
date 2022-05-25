@@ -2,25 +2,19 @@ import { useEffect, useRef, useState } from 'react'
 import { useRouter } from 'next/router'
 
 import { getGroupService } from 'services/group'
-import { getExpenseListService, getPaymentsService } from 'services/expense'
+import { getExpenseListService } from 'services/expense'
 
 import { GroupDetails } from 'services/group/types'
-import { Expense, Payment } from 'services/expense/types'
+import { Expense } from 'services/expense/types'
 import { UseGroupReturn, UseGroupProps } from './types'
 
-const useGroup = ({
-  idGroup,
-  hasExpenses,
-  hasPayments
-}: UseGroupProps): UseGroupReturn => {
+const useGroup = ({ idGroup, hasExpenses }: UseGroupProps): UseGroupReturn => {
   const requestedGroups = useRef(false)
   const requestedExpenses = useRef(false)
-  const requestedPayments = useRef(false)
 
   const router = useRouter()
   const [group, setGroup] = useState<GroupDetails>()
   const [expenses, setExpenses] = useState<Expense[]>()
-  const [payments, setPayments] = useState<Payment[]>()
 
   useEffect(() => {
     const request = async () => {
@@ -54,23 +48,7 @@ const useGroup = ({
     }
   }, [hasExpenses, group, idGroup, expenses, router])
 
-  useEffect(() => {
-    const request = async () => {
-      try {
-        const result = await getPaymentsService(idGroup)
-        setPayments(result)
-      } catch (e) {
-        router.push('/')
-      }
-    }
-
-    if (hasPayments && group && idGroup && !requestedPayments.current) {
-      requestedPayments.current = true
-      request()
-    }
-  }, [hasPayments, group, idGroup, expenses, router])
-
-  return { group, expenses, payments }
+  return { group, expenses }
 }
 
 export default useGroup

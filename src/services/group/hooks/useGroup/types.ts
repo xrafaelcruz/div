@@ -4,7 +4,6 @@ import { Expense, Payment } from 'services/expense/types'
 export type UseGroupProps = {
   idGroup?: string
   hasExpenses?: boolean
-  hasPayments?: boolean
 }
 
 export type UseGroupReturn = {

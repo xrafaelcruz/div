@@ -36,6 +36,9 @@ export default async function Payments(
               }
             },
             user: true
+          },
+          orderBy: {
+            createdAt: 'desc'
           }
         })
 

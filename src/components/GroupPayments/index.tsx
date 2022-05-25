@@ -1,96 +1,90 @@
-import { PaymentStatus } from 'lib/prisma/constants'
-import { convertToMoney } from 'utils/normalize'
-import { getUserName } from 'utils/user'
+import { useState, useRef, useEffect } from 'react'
+import { useRouter } from 'next/router'
 
-import { User } from 'services/user/types'
+import { Payment, PaymentByUser } from 'services/expense/types'
+import { getPaymentsService, getPaymentsByUsersService } from 'services/expense'
+
+import PaymentsByExpenses from './PaymentsByExpenses'
+import PaymentsByUsers from './PaymentsByUsers'
 
 import * as t from './types'
 import * as s from './styles'
 
-const GroupPayments = ({ payments, user }: t.GroupPaymentsProps) => {
-  const getName = (currentUser: User) => {
-    if (currentUser.id === user.id) {
-      return 'Você'
+const GroupPayments = ({ user }: t.GroupPaymentsProps) => {
+  const [selectedFilter, setSelectedFilter] = useState('users')
+
+  const router = useRouter()
+  const { idGroup } = router.query
+
+  const requestedPaymentsByExpenses = useRef(false)
+  const requestedPaymentsByUsers = useRef(false)
+  const [paymentsByExpenses, setPaymentsByExpenses] = useState<Payment[]>()
+  const [paymentsByUsers, setPaymentsByUsers] = useState<PaymentByUser[]>()
+
+  useEffect(() => {
+    const request = async () => {
+      try {
+        const result = await getPaymentsService(idGroup as string)
+        setPaymentsByExpenses(result)
+      } catch (e) {
+        router.push('/')
+      }
     }
 
-    return getUserName(currentUser)
-  }
+    if (idGroup && !requestedPaymentsByExpenses.current) {
+      requestedPaymentsByExpenses.current = true
+      request()
+    }
+  }, [idGroup, router])
 
-  const getPaymentStatus = (paymentStatus: string) => {
-    if (paymentStatus === PaymentStatus.pending) {
-      return 'deve'
+  useEffect(() => {
+    const request = async () => {
+      try {
+        const result = await getPaymentsByUsersService(idGroup as string)
+        setPaymentsByUsers(result)
+      } catch (e) {
+        router.push('/')
+      }
     }
 
-    return paymentStatus
-  }
-
-  const highlightPaymentValue = (
-    emailPaymentOwner: string,
-    paymentStatus: string,
-    emailExpensePayer: string
-  ) => {
-    if (paymentStatus === PaymentStatus.paid) {
-      return 'style1'
+    if (idGroup && !requestedPaymentsByUsers.current) {
+      requestedPaymentsByUsers.current = true
+      request()
     }
+  }, [idGroup, router])
 
-    if (
-      emailPaymentOwner === user.email &&
-      paymentStatus === PaymentStatus.pending
-    ) {
-      return 'style2'
-    }
+  const hasResults =
+    requestedPaymentsByExpenses.current &&
+    paymentsByExpenses?.length &&
+    requestedPaymentsByUsers.current &&
+    paymentsByUsers?.length
 
-    if (
-      emailPaymentOwner !== user.email &&
-      paymentStatus === PaymentStatus.pending &&
-      emailExpensePayer === user.email
-    ) {
-      return 'style3'
-    }
-
-    if (
-      emailPaymentOwner !== user.email &&
-      paymentStatus === PaymentStatus.pending
-    ) {
-      return 'style4'
-    }
-  }
-
-  return (
+  return hasResults ? (
     <s.Section>
-      <h2>{payments?.length ? 'Resultados' : ''}</h2>
+      <h2>Resultados</h2>
 
-      {payments?.length ? (
-        <s.List>
-          {payments.map((payment) => (
-            <s.Item key={payment.id}>
-              <s.Text>
-                <s.Highlight>{getName(payment.user)}</s.Highlight>
-              </s.Text>
+      <s.Filters>
+        <s.Filter onClick={() => setSelectedFilter('users')}>
+          <s.Radio checked={selectedFilter === 'users'} />
+          <s.Label>por usuários</s.Label>
+        </s.Filter>
 
-              <s.Text
-                status={highlightPaymentValue(
-                  payment.userEmail,
-                  payment.paymentStatus,
-                  payment.expense.userEmail
-                )}
-              >
-                {getPaymentStatus(payment.paymentStatus)}{' '}
-                <s.PaymentValue>
-                  {convertToMoney(payment.paymentValue)}
-                </s.PaymentValue>
-              </s.Text>
+        <s.Filter onClick={() => setSelectedFilter('expenses')}>
+          <s.Radio checked={selectedFilter === 'expenses'} />
+          <s.Label>por despesas</s.Label>
+        </s.Filter>
+      </s.Filters>
 
-              <s.Text>
-                para <s.Highlight>{getName(payment.expense.user)}</s.Highlight>
-              </s.Text>
-            </s.Item>
-          ))}
-        </s.List>
-      ) : (
-        <s.NotFound>Nenhuma despesa registrada ainda</s.NotFound>
+      {selectedFilter === 'users' && (
+        <PaymentsByUsers user={user} payments={paymentsByUsers} />
+      )}
+
+      {selectedFilter === 'expenses' && (
+        <PaymentsByExpenses user={user} payments={paymentsByExpenses} />
       )}
     </s.Section>
+  ) : (
+    <s.NotFound>Nenhuma despesa registrada ainda</s.NotFound>
   )
 }
 

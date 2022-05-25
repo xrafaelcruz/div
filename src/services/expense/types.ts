@@ -18,6 +18,12 @@ export type Payment = Omit<
   user: User
 }
 
+export type PaymentByUser = {
+  from: string
+  to: string
+  total: number
+}
+
 export type Expense = Omit<
   PrismaExpense,
   'createdAt' | 'updatedAt' | 'value'

@@ -48,21 +48,21 @@ export const Text = styled.p<{ status?: string }>`
 
     ${status === 'style2' &&
     css`
-      > span {
+      > span:first-of-type {
         color: ${theme.colors.orange};
       }
     `}
 
     ${status === 'style3' &&
     css`
-      > span {
+      > span:first-of-type {
         color: ${theme.colors.primary};
       }
     `}
 
     ${status === 'style4' &&
     css`
-      > span {
+      > span:first-of-type {
         color: ${theme.colors.white};
       }
     `}
@@ -85,5 +85,47 @@ export const NotFound = styled.span`
     justify-content: center;
     height: 100%;
     text-align: center;
+  `}
+`
+
+export const Filters = styled.div`
+  display: flex;
+  gap: 18px;
+  margin: 8px 0 32px;
+`
+
+export const Filter = styled.div`
+  align-items: center;
+  cursor: pointer;
+  display: flex;
+  gap: 8px;
+`
+
+export const Radio = styled.div<{ checked: boolean }>`
+  ${({ theme, checked }) => css`
+    align-items: center;
+    border: 2px solid ${theme.colors.white};
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    height: 24px;
+    width: 24px;
+
+    &::after {
+      background: ${checked ? theme.colors.primary : 'transparent'};
+      border-radius: 50%;
+      content: '';
+      display: block;
+      height: 70%;
+      width: 70%;
+    }
+  `}
+`
+
+export const Label = styled.label`
+  ${({ theme }) => css`
+    color: ${theme.colors.gray1};
+    cursor: pointer;
+    font-size: 18px;
   `}
 `

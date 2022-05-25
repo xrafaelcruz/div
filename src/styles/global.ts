@@ -39,12 +39,12 @@ const GlobalStyles = createGlobalStyle`
   }
 
   h1 {
-    font-size: 22px;
+    font-size: 24px;
     font-weight: bold;
   }
 
   h2 {
-    font-size: 18px;
+    font-size: 22px;
     font-weight: bold;
   }
 

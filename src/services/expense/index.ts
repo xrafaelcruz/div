@@ -7,6 +7,7 @@ import {
   UpdateExpenseParams,
   Expense,
   Payment,
+  PaymentByUser,
   ExpenseWithUsers
 } from './types'
 
@@ -105,6 +106,27 @@ export async function getPaymentsService(idGroup?: string) {
     result = await response.json()
   } catch (e) {
     throw new Error(`Erro ao buscar os pagamentos do grupo ${idGroup}`)
+  }
+
+  return result
+}
+
+export async function getPaymentsByUsersService(idGroup?: string) {
+  let result: PaymentByUser[]
+
+  if (!idGroup) {
+    throw new Error(`idGroup vazio`)
+  }
+
+  try {
+    const url = `${process.env.NEXT_PUBLIC_API_URL}/expense/payments-by-users?idGroup=${idGroup}`
+    const response = await GET(url)
+
+    result = await response.json()
+  } catch (e) {
+    throw new Error(
+      `Erro ao buscar os pagamentos por usuários do grupo ${idGroup}`
+    )
   }
 
   return result

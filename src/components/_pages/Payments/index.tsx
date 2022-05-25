@@ -15,14 +15,13 @@ export default function Payments({ user }: t.PaymentsProps) {
   const { idGroup } = router.query
 
   const { group, payments } = useGroup({
-    idGroup: idGroup as string,
-    hasPayments: true
+    idGroup: idGroup as string
   })
 
   return (
     <Layout user={user}>
       <s.Main>
-        <GroupHeader group={group} />
+        <GroupHeader user={user} group={group} />
 
         <s.Buttons>
           <Button
@@ -33,8 +32,6 @@ export default function Payments({ user }: t.PaymentsProps) {
             Editar grupo
           </Button>
         </s.Buttons>
-
-        <h2>Resultados</h2>
 
         <GroupPayments user={user} payments={payments} />
       </s.Main>
