@@ -11,8 +11,7 @@ export default function EditGroup({ user }: t.EditGroupProps) {
   const { idGroup } = router.query
 
   const { group } = useGroup({
-    idGroup: idGroup as string,
-    hasExpenses: true
+    idGroup: idGroup as string
   })
 
   return <>{group && <GroupForm user={user} group={group} />}</>

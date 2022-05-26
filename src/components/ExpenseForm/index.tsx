@@ -98,7 +98,7 @@ const ExpenseForm = ({ user, expense }: t.ExpenseFormProps) => {
 
   return (
     <s.Layout user={user}>
-      <h1>Nova despesa</h1>
+      <h1>{isEdit ? 'Editar despesa' : 'Nova despesa'}</h1>
 
       <s.Form onSubmit={handleSubmit(onSubmit)}>
         <s.Fields>
@@ -210,6 +210,8 @@ const ExpenseForm = ({ user, expense }: t.ExpenseFormProps) => {
         </s.Fields>
 
         <FooterButtons>
+          <RemoveExpense idExpense={expense?.id} />
+
           <Button
             onClick={() => router.back()}
             type="button"
@@ -221,8 +223,6 @@ const ExpenseForm = ({ user, expense }: t.ExpenseFormProps) => {
           <Button type="submit" variant="primary">
             {isEdit ? 'SALVAR' : 'CRIAR'}
           </Button>
-
-          <RemoveExpense idExpense={expense?.id} />
         </FooterButtons>
       </s.Form>
 

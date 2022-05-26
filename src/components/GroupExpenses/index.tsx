@@ -7,9 +7,17 @@ import { User } from 'services/user/types'
 
 import * as t from './types'
 import * as s from './styles'
+import { useEffect, useRef, useState } from 'react'
+import { Expense } from 'services/expense/types'
+import { getExpenseListService } from 'services/expense'
 
-const GroupExpenses = ({ user, expenses }: t.GroupExpensesProps) => {
+const GroupExpenses = ({ user }: t.GroupExpensesProps) => {
   const router = useRouter()
+  const { idGroup } = router.query
+
+  const requestedExpenses = useRef(false)
+
+  const [expenses, setExpenses] = useState<Expense[]>()
 
   const getName = (currentUser: User) => {
     if (currentUser.id === user.id) {
@@ -19,11 +27,27 @@ const GroupExpenses = ({ user, expenses }: t.GroupExpensesProps) => {
     return getUserName(currentUser)
   }
 
+  useEffect(() => {
+    const request = async () => {
+      try {
+        const result = await getExpenseListService(idGroup as string)
+        setExpenses(result)
+      } catch (e) {
+        router.push('/')
+      }
+    }
+
+    if (idGroup && !requestedExpenses.current) {
+      requestedExpenses.current = true
+      request()
+    }
+  }, [idGroup, expenses, router])
+
   return (
     <s.Section>
       <h2>{expenses?.length ? 'Despesas' : ''}</h2>
 
-      {expenses?.length ? (
+      {!!expenses?.length && (
         <s.ExpenseList>
           {expenses.map((expense) => (
             <s.ExpenseItem
@@ -42,7 +66,9 @@ const GroupExpenses = ({ user, expenses }: t.GroupExpensesProps) => {
             </s.ExpenseItem>
           ))}
         </s.ExpenseList>
-      ) : (
+      )}
+
+      {requestedExpenses.current && !expenses?.length && (
         <s.NotFound>Nenhuma despesa registrada ainda</s.NotFound>
       )}
     </s.Section>

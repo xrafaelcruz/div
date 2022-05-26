@@ -14,9 +14,8 @@ export default function Group({ user }: t.GroupProps) {
   const router = useRouter()
   const { idGroup } = router.query
 
-  const { group, expenses } = useGroup({
-    idGroup: idGroup as string,
-    hasExpenses: true
+  const { group } = useGroup({
+    idGroup: idGroup as string
   })
 
   return (
@@ -25,7 +24,11 @@ export default function Group({ user }: t.GroupProps) {
         <GroupHeader group={group} user={user} />
 
         <s.Buttons>
-          <Button type="button" variant="outlined">
+          <Button
+            type="button"
+            variant="outlined"
+            onClick={() => router.push(`/usuarios?idGroup=${idGroup}`)}
+          >
             Usuários
           </Button>
 
@@ -57,7 +60,7 @@ export default function Group({ user }: t.GroupProps) {
           NOVA DESPESA
         </s.Button>
 
-        <GroupExpenses user={user} expenses={expenses} />
+        <GroupExpenses user={user} />
       </s.Main>
     </Layout>
   )

@@ -6,7 +6,7 @@ export const variants = {
     ${({ theme }) => css`
       background: ${theme.colors.primary};
       color: ${theme.colors.white};
-      height: 50px;
+      min-height: 38px;
       text-transform: uppercase;
     `}
   `,
@@ -15,7 +15,7 @@ export const variants = {
     ${({ theme }) => css`
       background: ${theme.colors.gray2};
       color: ${theme.colors.white};
-      height: 50px;
+      min-height: 38px;
       text-transform: uppercase;
     `}
   `,
@@ -24,7 +24,7 @@ export const variants = {
     ${({ theme }) => css`
       background: ${theme.colors.error};
       color: ${theme.colors.white};
-      height: 50px;
+      min-height: 38px;
       text-transform: uppercase;
     `}
   `,
@@ -34,7 +34,7 @@ export const variants = {
       background: transparent;
       color: ${theme.colors.white};
       border: 1px solid ${theme.colors.gray2};
-      height: 32px;
+      min-height: 32px;
       font-size: 14px;
     `}
   `
@@ -71,7 +71,6 @@ export const buttonStyle = css`
   border-radius: 5px;
   cursor: pointer;
   font-size: 16px;
-  font-weight: bold;
   padding: 8px;
   transition: filter 250ms;
 

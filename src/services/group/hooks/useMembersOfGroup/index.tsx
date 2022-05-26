@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 
-import { listUsersGroup } from 'services/group'
+import { getUsersGroupService } from 'services/group'
 
 import { UseUsersGroupReturn } from './types'
 import { UserGroup } from 'services/group/types'
@@ -15,7 +15,7 @@ const useUsersGroup = (initialIdGroup?: string): UseUsersGroupReturn => {
     }
 
     try {
-      const userGroupArray = await listUsersGroup(idGroup)
+      const userGroupArray = await getUsersGroupService(idGroup)
 
       if (userGroupArray) {
         let firstUser: UserGroup | undefined = undefined

@@ -70,8 +70,8 @@ export async function getGroupListService(userEmail: string) {
   return groups
 }
 
-export async function listUsersGroup(idGroup: string) {
-  let usersGroup: t.UserGroup[] | null = null
+export async function getUsersGroupService(idGroup: string) {
+  let usersGroup: t.UserGroup[]
 
   try {
     const url = `${process.env.NEXT_PUBLIC_API_URL}/group/users?idGroup=${idGroup}`
@@ -79,7 +79,7 @@ export async function listUsersGroup(idGroup: string) {
 
     usersGroup = await response.json()
   } catch (e) {
-    throw new Error('Erro ao buscar os membros do grupo')
+    throw new Error('Erro ao buscar os usuários do grupo')
   }
 
   return usersGroup

@@ -9,6 +9,7 @@ export const Main = styled.main`
 
 export const Wrapper = styled.div`
   display: flex;
+  flex: 1;
   flex-direction: column;
   gap: 8px;
 `
@@ -50,4 +51,18 @@ export const Buttons = styled.div`
   gap: 8px;
   justify-content: center;
   margin-top: 16px;
+`
+
+export const NotFound = styled.span`
+  ${({ theme }) => css`
+    align-items: center;
+    font-size: 20px;
+    font-weight: bold;
+    color: ${theme.colors.gray1};
+    display: flex;
+    flex: 1;
+    justify-content: center;
+    height: 100%;
+    text-align: center;
+  `}
 `

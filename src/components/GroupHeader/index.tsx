@@ -54,9 +54,11 @@ const GroupHeader = ({ user, group }: t.GroupHeaderProps) => {
           <s.Description>{group?.description}</s.Description>
         </s.Wrapper>
 
-        <Button type="button" variant="outlined" onClick={handleExitGroup}>
-          Sair do grupo
-        </Button>
+        {user.email !== group.ownerUserEmail && (
+          <Button type="button" variant="outlined" onClick={handleExitGroup}>
+            Sair do grupo
+          </Button>
+        )}
       </s.Header>
 
       {group.id && modalOpen && (

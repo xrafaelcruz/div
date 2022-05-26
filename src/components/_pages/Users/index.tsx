@@ -5,12 +5,12 @@ import useGroup from 'services/group/hooks/useGroup'
 import Layout from 'components/Layout'
 import Button from 'components/Button'
 import GroupHeader from 'components/GroupHeader'
-import GroupPayments from 'components/GroupPayments'
+import GroupUsers from 'components/GroupUsers'
 
 import * as s from './styles'
 import * as t from './types'
 
-export default function Payments({ user }: t.PaymentsProps) {
+export default function Users({ user }: t.UsersProps) {
   const router = useRouter()
   const { idGroup } = router.query
 
@@ -21,21 +21,21 @@ export default function Payments({ user }: t.PaymentsProps) {
   return (
     <Layout user={user}>
       <s.Main>
-        <GroupHeader user={user} group={group} />
+        <GroupHeader group={group} user={user} />
 
-        {user.email === group?.ownerUserEmail && (
-          <s.Buttons>
+        <s.Buttons>
+          {user.email === group?.ownerUserEmail && (
             <Button
               type="button"
               variant="outlined"
               onClick={() => router.push(`/editar-grupo?idGroup=${idGroup}`)}
             >
-              Editar grupo
+              Editar
             </Button>
-          </s.Buttons>
-        )}
+          )}
+        </s.Buttons>
 
-        <GroupPayments user={user} />
+        <GroupUsers user={user} ownerUserEmail={group?.ownerUserEmail} />
       </s.Main>
     </Layout>
   )

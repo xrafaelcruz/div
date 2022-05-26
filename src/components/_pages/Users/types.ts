@@ -1,5 +1,5 @@
 import { User } from 'services/user/types'
 
-export type GroupExpensesProps = {
+export type UsersProps = {
   user: User
 }

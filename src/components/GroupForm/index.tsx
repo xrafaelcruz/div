@@ -87,7 +87,7 @@ const GroupForm = ({ user, group }: GroupFormProps) => {
 
   return (
     <s.Layout user={user}>
-      <h1>{isEdit ? 'Edição do grupo' : 'Novo grupo'}</h1>
+      <h1>{isEdit ? 'Editar grupo' : 'Criar grupo'}</h1>
 
       <s.Form onSubmit={handleSubmit(onSubmit)}>
         <s.Fields>
@@ -116,6 +116,8 @@ const GroupForm = ({ user, group }: GroupFormProps) => {
         </s.Fields>
 
         <FooterButtons>
+          <RemoveGroup idGroup={group?.id} />
+
           <Button
             onClick={() => router.back()}
             type="button"
@@ -127,8 +129,6 @@ const GroupForm = ({ user, group }: GroupFormProps) => {
           <Button type="submit" variant="primary">
             {isEdit ? 'SALVAR' : 'CRIAR'}
           </Button>
-
-          <RemoveGroup idGroup={group?.id} />
         </FooterButtons>
       </s.Form>
     </s.Layout>

@@ -5,12 +5,6 @@ export const getDefaultValues = ({
   user,
   group
 }: GroupFormProps): t.GetDefaultValuesReturn => {
-  console.log('getDefaultValues', group)
-  // name: string
-  // description?: string
-  // emailLoggedUser: string
-  // email: Record<string, string>
-
   let defaultUsers: UserField[] = []
 
   if (group) {

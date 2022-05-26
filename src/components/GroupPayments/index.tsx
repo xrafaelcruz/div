@@ -53,13 +53,15 @@ const GroupPayments = ({ user }: t.GroupPaymentsProps) => {
     }
   }, [idGroup, router])
 
-  const hasResults =
-    requestedPaymentsByExpenses.current &&
-    paymentsByExpenses?.length &&
-    requestedPaymentsByUsers.current &&
-    paymentsByUsers?.length
+  const showNotFound =
+    (selectedFilter === 'users' &&
+      requestedPaymentsByUsers.current &&
+      !paymentsByUsers?.length) ||
+    (selectedFilter === 'expenses' &&
+      requestedPaymentsByExpenses.current &&
+      !paymentsByExpenses?.length)
 
-  return hasResults ? (
+  return (
     <s.Section>
       <h2>Resultados</h2>
 
@@ -82,10 +84,14 @@ const GroupPayments = ({ user }: t.GroupPaymentsProps) => {
       {selectedFilter === 'expenses' && (
         <PaymentsByExpenses user={user} payments={paymentsByExpenses} />
       )}
+
+      {showNotFound && (
+        <s.NotFound>Nenhum resultado a ser exibido ainda.</s.NotFound>
+      )}
     </s.Section>
-  ) : (
-    <s.NotFound>Nenhuma despesa registrada ainda</s.NotFound>
   )
 }
-
+{
+  /*  */
+}
 export default GroupPayments
