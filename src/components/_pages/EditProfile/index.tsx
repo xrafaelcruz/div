@@ -1,26 +1,35 @@
 import { useRouter } from 'next/router'
 import { useForm } from 'react-hook-form'
 
-import Layout from 'components/Layout'
 import Button from 'components/Button'
 import Input from 'components/Input'
 import Textarea from 'components/Textarea'
 
+import { required } from 'utils/validations'
+import { updateUserService } from 'services/user'
+
 import * as s from './styles'
 import * as t from './types'
-import { updateUserService } from 'services/user'
 
 export default function Profile({ user }: t.ProfileProps) {
   const router = useRouter()
 
-  const { register, handleSubmit } = useForm<t.FormData>({
-    mode: 'onBlur'
+  const {
+    register,
+    handleSubmit,
+    formState: { errors }
+  } = useForm<t.FormData>({
+    mode: 'onBlur',
+    defaultValues: {
+      name: user.name
+    }
   })
 
   const onSubmit = async (data: t.FormData) => {
     try {
       await updateUserService({
         idUser: user.id,
+        name: data.name,
         pix: data.pix,
         description: data.description
       })
@@ -38,32 +47,19 @@ export default function Profile({ user }: t.ProfileProps) {
 
       <s.Infos>
         <s.Info>
-          <s.InfoLabel>NOME</s.InfoLabel>
-          <s.InfoValue>{user.name}</s.InfoValue>
-        </s.Info>
-
-        <s.Info>
           <s.InfoLabel>EMAIL</s.InfoLabel>
           <s.InfoValue>{user.email}</s.InfoValue>
         </s.Info>
-
-        {user.pix && (
-          <s.Info>
-            <s.InfoLabel>PIX</s.InfoLabel>
-            <s.InfoValue>{user.pix}</s.InfoValue>
-          </s.Info>
-        )}
-
-        {user.description && (
-          <s.Info>
-            <s.InfoLabel>DESCRIÇÃO</s.InfoLabel>
-            <s.InfoValue>{user.description}</s.InfoValue>
-          </s.Info>
-        )}
       </s.Infos>
 
       <s.Form onSubmit={handleSubmit(onSubmit)}>
         <s.Fields>
+          <Input
+            label="Nome"
+            error={errors.name?.message}
+            {...register('name', { required })}
+          />
+
           <Input label="PIX" optional {...register('pix')} />
 
           <Textarea

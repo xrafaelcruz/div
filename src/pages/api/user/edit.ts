@@ -9,9 +9,9 @@ export default async function Update(
   if (req.method === 'PUT') {
     checkToken(req, res)
 
-    const { idUser, pix, description } = req.body
+    const { idUser, name, pix, description } = req.body
 
-    if (!idUser) {
+    if (!idUser || !name) {
       const message = 'Erro ao atualizar o usuário'
       console.log(message)
       return res.status(500).json({ error: 'Parâmetros inválidos', message })
@@ -23,6 +23,7 @@ export default async function Update(
           id: idUser as string
         },
         data: {
+          name: name as string,
           pix: pix as string,
           description: description as string
         }

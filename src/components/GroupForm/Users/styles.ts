@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 
 export const NewUser = styled.div`
   display: flex;
@@ -17,4 +17,11 @@ export const Users = styled.fieldset`
   > button {
     align-self: center;
   }
+`
+
+export const Max = styled.label`
+  ${({ theme }) => css`
+    color: ${theme.colors.gray1};
+    font-size: 14px;
+  `}
 `

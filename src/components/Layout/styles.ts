@@ -1,4 +1,13 @@
-import styled from 'styled-components'
+import styled, { keyframes } from 'styled-components'
+
+const opacityAnimation = keyframes`
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+`
 
 export const Wrapper = styled.div`
   align-items: center;
@@ -20,6 +29,7 @@ export const Container = styled.div`
 `
 
 export const Main = styled.main`
+  animation: ${opacityAnimation} 500ms;
   flex: 1;
   max-height: calc(100vh - 100px);
   overflow-y: auto;

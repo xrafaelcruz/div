@@ -22,6 +22,7 @@ export type PaymentByUser = {
   from: string
   to: string
   total: number
+  finalPayment: number
 }
 
 export type Expense = Omit<

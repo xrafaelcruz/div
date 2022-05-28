@@ -9,23 +9,36 @@ import { HomeProps } from './types'
 
 import * as s from './styles'
 
+const groupsLimit = 5
+
 export default function Home({ user }: HomeProps) {
   const router = useRouter()
   const { groups } = useGroupList({ user })
 
+  const totalMyGroups =
+    groups?.reduce(
+      (total, group) =>
+        group.ownerUserEmail == user.email ? total + 1 : total,
+      0
+    ) || 0
+
   return (
     <Layout user={user} hideBack={true}>
-      <s.Button
-        onClick={() => router.push('/novo-grupo')}
-        type="button"
-        variant="primary"
-        size="big"
-      >
-        NOVO GRUPO
-      </s.Button>
+      {totalMyGroups < groupsLimit && (
+        <s.Button
+          onClick={() => router.push('/novo-grupo')}
+          type="button"
+          variant="primary"
+          size="big"
+        >
+          NOVO GRUPO
+        </s.Button>
+      )}
 
       <s.Groups>
-        <h1>Grupos</h1>
+        <h1>
+          Grupos <s.Max>(Você pode criar no máximo {groupsLimit})</s.Max>
+        </h1>
 
         <s.List>
           {groups?.map((group) => (

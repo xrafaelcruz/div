@@ -12,6 +12,8 @@ import { required } from 'utils/validations'
 import * as s from './styles'
 import * as t from './types'
 
+const usersLimit = 12
+
 const Users = ({
   idGroup,
   isEdit,
@@ -78,10 +80,15 @@ const Users = ({
     setModalOpen(false)
   }
 
+  const totalUsers = defaultUsers.length + users.length + 1
+  const canShowButtonAdd = totalUsers < usersLimit
+
   return (
     <>
       <s.Users>
-        <h2>Usuários</h2>
+        <h2>
+          Usuários <s.Max>({usersLimit} no máximo)</s.Max>
+        </h2>
 
         <Input
           disabled
@@ -90,6 +97,12 @@ const Users = ({
           error={errors.emailLoggedUser?.message}
           {...register('emailLoggedUser', { required })}
         />
+
+        {defaultUsers?.map((user) => (
+          <s.NewUser key={user.id}>
+            <Input type="email" defaultValue={user.value} disabled />
+          </s.NewUser>
+        ))}
 
         {users?.map((user) => (
           <s.NewUser key={user.id}>
@@ -112,14 +125,16 @@ const Users = ({
           </s.NewUser>
         ))}
 
-        <Button
-          onClick={() => appendUser()}
-          type="button"
-          variant="primary"
-          size="icon"
-        >
-          <FaPlus />
-        </Button>
+        {canShowButtonAdd && (
+          <Button
+            onClick={() => appendUser()}
+            type="button"
+            variant="primary"
+            size="icon"
+          >
+            <FaPlus />
+          </Button>
+        )}
       </s.Users>
 
       {modalOpen && (

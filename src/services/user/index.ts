@@ -7,12 +7,13 @@ import * as t from './types'
 
 export async function updateUserService({
   idUser,
+  name,
   pix,
   description
 }: t.UpdateUserProps) {
   try {
     const url = `${process.env.NEXT_PUBLIC_API_URL}/user/edit`
-    await PUT(url, { idUser, pix, description })
+    await PUT(url, { idUser, name, pix, description })
   } catch (e) {
     throw new Error('Erro ao atualizar o usuário')
   }

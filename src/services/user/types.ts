@@ -7,6 +7,7 @@ export type User = Omit<PrismaUser, 'createdAt' | 'updatedAt'> & {
 
 export type UpdateUserProps = {
   idUser: string
+  name: string
   description?: string
   pix?: string
 }

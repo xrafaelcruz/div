@@ -37,7 +37,7 @@ const GroupForm = ({ user, group }: GroupFormProps) => {
     defaultValues
   })
 
-  const [users, setUsers] = useState<UserField[]>(defaultUsers)
+  const [users, setUsers] = useState<UserField[]>([])
 
   const create = async (data: FormData) => {
     const usersToCreation = [

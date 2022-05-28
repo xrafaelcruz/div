@@ -5,6 +5,7 @@ export type ProfileProps = {
 }
 
 export type FormData = {
-  pix: string
-  description: string
+  name: string
+  pix?: string
+  description?: string
 }

@@ -38,42 +38,33 @@ export const Highlight = styled.span`
   `}
 `
 
-export const Text = styled.p<{ status?: string }>`
-  ${({ theme, status }) => css`
+export const Text = styled.p`
+  ${({ theme }) => css`
     color: ${theme.colors.gray1};
     font-size: 16px;
+  `}
+`
 
-    ${status === 'style1' &&
-    css`
-      text-decoration: line-through;
-    `}
+export const PaymentValue = styled.span<{ status?: string }>`
+  ${({ theme, status }) => css`
+    font-size: 14px;
+    font-weight: bold;
 
     ${status === 'style2' &&
     css`
-      > span:first-of-type {
-        color: ${theme.colors.orange};
-      }
+      color: ${theme.colors.orange};
     `}
 
     ${status === 'style3' &&
     css`
-      > span:first-of-type {
-        color: ${theme.colors.primary};
-      }
+      color: ${theme.colors.primary};
     `}
 
     ${status === 'style4' &&
     css`
-      > span:first-of-type {
-        color: ${theme.colors.white};
-      }
+      color: ${theme.colors.white};
     `}
   `}
-`
-
-export const PaymentValue = styled.span`
-  font-size: 14px;
-  font-weight: bold;
 `
 
 export const NotFound = styled.span`

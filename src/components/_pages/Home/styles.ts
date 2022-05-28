@@ -43,3 +43,10 @@ export const Value = styled.span`
     margin-top: 4px;
   `}
 `
+
+export const Max = styled.label`
+  ${({ theme }) => css`
+    color: ${theme.colors.gray1};
+    font-size: 14px;
+  `}
+`

@@ -72,7 +72,9 @@ const GroupUsers = ({ user, ownerUserEmail }: t.GroupUsersProps) => {
               )}
             </s.Wrapper>
 
-            {userGroup.user?.photo && <s.Image src={userGroup.user.photo} />}
+            {userGroup.user?.photo && (
+              <s.Image src={userGroup.user.photo} alt="foto do usuário" />
+            )}
           </s.Item>
         ))}
       </s.List>

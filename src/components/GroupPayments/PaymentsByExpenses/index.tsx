@@ -8,31 +8,17 @@ import * as t from './types'
 import * as s from '../styles'
 
 const PaymentsByExpenses = ({ payments, user }: t.PaymentsByExpensesProps) => {
-  const getName = (currentUser: User) => {
-    if (currentUser.id === user.id) {
-      return 'Você'
-    }
+  const getName = (currentUser: User) =>
+    currentUser.id === user.id ? 'Você' : getUserName(currentUser)
 
-    return getUserName(currentUser)
-  }
+  const getPaymentStatus = (paymentStatus: string) =>
+    paymentStatus === PaymentStatus.pending ? 'deve' : paymentStatus
 
-  const getPaymentStatus = (paymentStatus: string) => {
-    if (paymentStatus === PaymentStatus.pending) {
-      return 'deve'
-    }
-
-    return paymentStatus
-  }
-
-  const highlightPaymentValue = (
+  const getStyle = (
     emailPaymentOwner: string,
     paymentStatus: string,
     emailExpensePayer: string
   ) => {
-    if (paymentStatus === PaymentStatus.paid) {
-      return 'style1'
-    }
-
     if (
       emailPaymentOwner === user.email &&
       paymentStatus === PaymentStatus.pending
@@ -56,9 +42,11 @@ const PaymentsByExpenses = ({ payments, user }: t.PaymentsByExpensesProps) => {
     }
   }
 
+  const hasPayments = !!payments?.length
+
   return (
     <>
-      {!!payments?.length && (
+      {hasPayments && (
         <s.List>
           {payments.map((payment) => (
             <s.Item key={payment.id}>
@@ -66,15 +54,15 @@ const PaymentsByExpenses = ({ payments, user }: t.PaymentsByExpensesProps) => {
                 <s.Highlight>{getName(payment.user)}</s.Highlight>
               </s.Text>
 
-              <s.Text
-                status={highlightPaymentValue(
-                  payment.userEmail,
-                  payment.paymentStatus,
-                  payment.expense.userEmail
-                )}
-              >
+              <s.Text>
                 {getPaymentStatus(payment.paymentStatus)}{' '}
-                <s.PaymentValue>
+                <s.PaymentValue
+                  status={getStyle(
+                    payment.userEmail,
+                    payment.paymentStatus,
+                    payment.expense.userEmail
+                  )}
+                >
                   {convertToMoney(payment.paymentValue)}
                 </s.PaymentValue>{' '}
                 pela despesa <s.Highlight>{payment.expense.name}</s.Highlight>
