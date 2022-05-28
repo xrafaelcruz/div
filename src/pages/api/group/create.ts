@@ -49,8 +49,6 @@ export default async function Create(
           })
         }
       })
-
-      console.log('usersToCreation', usersToCreation)
     } catch (e) {
       const message = 'Erro ao buscar os usuários'
 
@@ -85,8 +83,6 @@ export default async function Create(
               : InviteStatus.pending
         })
       )
-
-      console.log('ownerUserEmail', ownerUserEmail)
 
       const createdGroup = await prisma.group.create({
         data: {

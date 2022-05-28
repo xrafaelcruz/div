@@ -12,10 +12,7 @@ export async function createGroup(params: t.CreateGroupParams) {
     const url = `${process.env.NEXT_PUBLIC_API_URL}/group/create`
     const response = await POST(url, params)
 
-    console.log('response', response)
-
     createdGroup = await response.json()
-    console.log('createdGroup', createdGroup)
   } catch (e) {
     throw new Error('Erro ao criar o grupo')
   }

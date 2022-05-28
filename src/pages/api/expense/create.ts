@@ -76,8 +76,6 @@ export default async function Create(
         })
       )
 
-      console.log('expenseUsers', expenseUsers)
-
       await prisma.expenseUserGroup.createMany({
         data: expenseUsers
       })

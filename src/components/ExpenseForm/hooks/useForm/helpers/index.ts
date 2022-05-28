@@ -9,15 +9,11 @@ export const getDefaultValues = (
   idGroup?: string | string[],
   expense?: ExpenseWithUsers
 ): t.GetDefaultValuesReturn => {
-  console.log('expense', expense, idGroup)
-
   const value = expense?.value
     ? currencyMask(Number(expense?.value).toFixed(2))
     : ''
 
   const payerUserEmail = expense ? expense.userEmail : user.email
-
-  console.log('payerUserEmail', payerUserEmail)
 
   return {
     idGroup: (idGroup as string) ?? '',

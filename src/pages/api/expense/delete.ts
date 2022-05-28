@@ -15,15 +15,11 @@ export default async function Remove(
     }
 
     try {
-      console.log('expenseUserGroup', idExpense)
-
       const users = await prisma.expenseUserGroup.findMany({
         where: {
           idExpense: idExpense as string
         }
       })
-
-      console.log('users', users)
 
       const emails = users.map((user) => user.userEmail)
 

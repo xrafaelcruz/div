@@ -1,11 +1,15 @@
 import { signOut } from 'next-auth/react'
+import { useRouter } from 'next/router'
+
 import Layout from 'components/Layout'
+import Button from 'components/Button'
 
 import * as s from './styles'
 import * as t from './types'
-import Button from 'components/Button'
 
 export default function Profile({ user }: t.ProfileProps) {
+  const router = useRouter()
+
   return (
     <Layout user={user}>
       <s.Main>
@@ -17,6 +21,14 @@ export default function Profile({ user }: t.ProfileProps) {
             Sair
           </Button>
         </s.Header>
+
+        <Button
+          type="button"
+          variant="outlined"
+          onClick={() => router.push(`/editar-perfil`)}
+        >
+          Editar
+        </Button>
 
         <s.Infos>
           <s.Info>

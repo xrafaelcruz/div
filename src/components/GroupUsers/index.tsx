@@ -59,15 +59,15 @@ const GroupUsers = ({ user, ownerUserEmail }: t.GroupUsersProps) => {
                 <s.Label>Email</s.Label> {userGroup.user.email}
               </s.Info>
 
-              {userGroup.user.description && (
-                <s.Info>
-                  <s.Label>Descrição</s.Label> {userGroup.user.description}
-                </s.Info>
-              )}
-
               {userGroup.user.pix && (
                 <s.Info>
                   <s.Label>PIX</s.Label> {userGroup.user.pix}
+                </s.Info>
+              )}
+
+              {userGroup.user.description && (
+                <s.Info>
+                  <s.Label>Descrição</s.Label> {userGroup.user.description}
                 </s.Info>
               )}
             </s.Wrapper>

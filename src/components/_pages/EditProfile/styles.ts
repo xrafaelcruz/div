@@ -1,9 +1,11 @@
 import styled, { css } from 'styled-components'
+import LayoutOriginal from 'components/Layout'
 
-export const Main = styled.main`
+export const Layout = styled(LayoutOriginal)`
   display: flex;
   flex-direction: column;
   gap: 32px;
+  padding-bottom: 0;
 `
 
 export const Header = styled.div`
@@ -61,12 +63,10 @@ export const InfoValue = styled.p`
 
 export const Form = styled.form`
   display: flex;
-  flex: 1;
   flex-direction: column;
-  gap: 64px;
+  gap: 32px;
 `
 
 export const Fields = styled.fieldset`
   gap: 8px;
-  flex: 1;
 `

@@ -36,6 +36,10 @@ const useForm = ({ user, expense }: t.ExpenseFormProps) => {
 
   const { watch } = form
 
+  const resetValuePerUser = () => {
+    setValuePerUser(defaultValuePerUser)
+  }
+
   const updateValuePerUser = (checks: number, value: string) => {
     if (value) {
       const expenseValue = removeCurrencyMask(value)
@@ -152,6 +156,7 @@ const useForm = ({ user, expense }: t.ExpenseFormProps) => {
     userFields,
     checkedUsers,
     valuePerUser,
+    resetValuePerUser,
     updateValuePerUser,
     handleChangeGroup,
     handleToggleUserField,

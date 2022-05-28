@@ -92,13 +92,15 @@ const GroupForm = ({ user, group }: GroupFormProps) => {
       <s.Form onSubmit={handleSubmit(onSubmit)}>
         <s.Fields>
           <Input
-            placeholder="Nome"
+            label="Nome"
             error={errors.name?.message}
             {...register('name', { required })}
           />
 
           <Textarea
-            placeholder="Descrição (opcional)"
+            label="Descrição"
+            optional
+            maxLength={500}
             {...register('description')}
           />
 

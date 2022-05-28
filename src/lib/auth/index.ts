@@ -7,7 +7,7 @@ import {
 import { User as PrismaUser } from '@prisma/client'
 import { getToken } from 'next-auth/jwt'
 
-import { createUser, getUserByEmail } from 'services/user'
+import { createUser, getUserByEmail } from 'backend/services/user'
 import { User } from 'services/user/types'
 
 function normalizeUser(user: PrismaUser): User {
@@ -61,8 +61,6 @@ export async function isAuthenticated(context: GetServerSidePropsContext) {
       photo: session.user.image || '',
       pix: ''
     })
-
-    console.log('createdUser', createdUser)
 
     if (createdUser) {
       return normalizeUser(createdUser)

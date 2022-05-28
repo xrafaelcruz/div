@@ -18,6 +18,7 @@ import { createExpense, updateExpense } from 'services/expense'
 import * as t from './types'
 import { ExpenseTypes } from 'constants/expenseTypes'
 import { UserToCreationExpense } from 'services/expense/types'
+import { User } from 'services/group/types'
 
 import * as s from './styles'
 import { FooterButtons } from 'components/Button/styles'
@@ -36,6 +37,7 @@ const ExpenseForm = ({ user, expense }: t.ExpenseFormProps) => {
     userFields,
     checkedUsers,
     valuePerUser,
+    resetValuePerUser,
     updateValuePerUser,
     handleChangeGroup,
     handleToggleUserField,
@@ -51,8 +53,17 @@ const ExpenseForm = ({ user, expense }: t.ExpenseFormProps) => {
     formState: { errors }
   } = form
 
+  const getName = (currentUser: t.UserField | User) => {
+    if (currentUser.email === user.email) {
+      return 'Você'
+    }
+
+    return getUserName(currentUser)
+  }
+
   const modalOnClickYes = async () => {
     reset()
+    resetValuePerUser()
     setModalOpen(false)
   }
 
@@ -153,7 +164,12 @@ const ExpenseForm = ({ user, expense }: t.ExpenseFormProps) => {
             ))}
           </Select>
 
-          <Textarea label="Descrição" optional {...register('description')} />
+          <Textarea
+            label="Descrição"
+            optional
+            {...register('description')}
+            maxLength={500}
+          />
 
           {watch('idGroup') && (
             <s.PayerUser>
@@ -172,7 +188,7 @@ const ExpenseForm = ({ user, expense }: t.ExpenseFormProps) => {
                   >
                     {usersGroup?.map((userGroup) => (
                       <option value={userGroup.user.email} key={userGroup.id}>
-                        {getUserName(userGroup.user)}
+                        {getName(userGroup.user)}
                       </option>
                     ))}
                   </Select>
@@ -189,7 +205,7 @@ const ExpenseForm = ({ user, expense }: t.ExpenseFormProps) => {
                 <s.List>
                   {userFields?.map((userField) => (
                     <s.Label key={userField.id} htmlFor={userField.id}>
-                      <span>{getUserName(userField)}</span>
+                      <span>{getName(userField)}</span>
                       <Input
                         type="checkbox"
                         id={userField.id}

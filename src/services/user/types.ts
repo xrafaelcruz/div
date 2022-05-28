@@ -5,13 +5,8 @@ export type User = Omit<PrismaUser, 'createdAt' | 'updatedAt'> & {
   updatedAt: string
 }
 
-export type CreateUserParams = Omit<
-  PrismaUser,
-  'id' | 'createdAt' | 'updatedAt'
->
-
-export type SessionUser = {
-  name?: string | null | undefined
-  email?: string | null | undefined
-  image?: string | null | undefined
+export type UpdateUserProps = {
+  idUser: string
+  description?: string
+  pix?: string
 }
