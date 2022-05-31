@@ -9,10 +9,13 @@ import Login from 'components/_pages/Login'
 
 type LoginPageProps = {
   session: Session
+  envs: any
 }
 
-export default function LoginPage({ session }: LoginPageProps) {
+export default function LoginPage({ session, envs }: LoginPageProps) {
   const [renderPage, setRenderPage] = useState(false)
+
+  console.log('envs', envs)
 
   const router = useRouter()
   const { forceLogout } = router.query
@@ -52,5 +55,16 @@ export default function LoginPage({ session }: LoginPageProps) {
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   const session = await getSession(context)
 
-  return { props: { session } }
+  return {
+    props: {
+      session,
+      envs: {
+        NEXTAUTH_URL: process.env.NEXTAUTH_URL,
+        GOOGLE_SECRET: process.env.GOOGLE_SECRET,
+        GOOGLE_CLIENT_ID: process.env.GOOGLE_CLIENT_ID,
+        GOOGLE_CLIENT_SECRET: process.env.GOOGLE_CLIENT_SECRET,
+        DATABASE_URL: process.env.DATABASE_URL
+      }
+    }
+  }
 }
