@@ -4,7 +4,7 @@ import { UserGroup, User } from '@prisma/client'
 import prisma from 'lib/prisma'
 import { InviteStatus } from 'lib/prisma/constants'
 
-import { CreateUserParams } from 'services/user/types'
+import { CreateUserParams } from 'backend/services/user/types'
 
 type UserGroupToCreation = Pick<UserGroup, 'userEmail' | 'inviteStatus'>
 

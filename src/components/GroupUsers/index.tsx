@@ -8,7 +8,7 @@ import { UserGroup } from 'services/group/types'
 import * as t from './types'
 import * as s from './styles'
 
-const GroupUsers = ({ user, ownerUserEmail }: t.GroupUsersProps) => {
+const GroupUsers = ({ ownerUserEmail }: t.GroupUsersProps) => {
   const router = useRouter()
   const { idGroup } = router.query
 

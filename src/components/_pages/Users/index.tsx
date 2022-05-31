@@ -35,7 +35,7 @@ export default function Users({ user }: t.UsersProps) {
           )}
         </s.Buttons>
 
-        <GroupUsers user={user} ownerUserEmail={group?.ownerUserEmail} />
+        <GroupUsers ownerUserEmail={group?.ownerUserEmail} />
       </s.Main>
     </Layout>
   )
