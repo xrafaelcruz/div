@@ -19,7 +19,7 @@ export async function getExpenseService(idExpense?: string) {
   }
 
   try {
-    const url = `${process.env.NEXT_PUBLIC_API_URL}/expense?idExpense=${idExpense}`
+    const url = `/api/expense?idExpense=${idExpense}`
     const response = await GET(url)
 
     result = await response.json()
@@ -36,7 +36,7 @@ export async function deleteExpenseService(idExpense?: string) {
   }
 
   try {
-    const url = `${process.env.NEXT_PUBLIC_API_URL}/expense/delete?idExpense=${idExpense}`
+    const url = `/api/expense/delete?idExpense=${idExpense}`
     await REMOVE(url)
   } catch (e) {
     throw new Error(`Erro ao deletar a despesa ${idExpense}`)
@@ -47,7 +47,7 @@ export async function createExpense(params: CreateExpenseParams) {
   let createdExpense: PrismaExpense | null = null
 
   try {
-    const url = `${process.env.NEXT_PUBLIC_API_URL}/expense/create`
+    const url = `/api/expense/create`
     const response = await POST(url, params)
 
     createdExpense = await response.json()
@@ -62,7 +62,7 @@ export async function updateExpense(params: UpdateExpenseParams) {
   let createdExpense: PrismaExpense | null = null
 
   try {
-    const url = `${process.env.NEXT_PUBLIC_API_URL}/expense/update`
+    const url = `/api/expense/update`
     const response = await PUT(url, params)
 
     createdExpense = await response.json()
@@ -81,7 +81,7 @@ export async function getExpenseListService(idGroup?: string) {
   }
 
   try {
-    const url = `${process.env.NEXT_PUBLIC_API_URL}/expense/list?idGroup=${idGroup}`
+    const url = `/api/expense/list?idGroup=${idGroup}`
     const response = await GET(url)
 
     result = await response.json()
@@ -100,7 +100,7 @@ export async function getPaymentsService(idGroup?: string) {
   }
 
   try {
-    const url = `${process.env.NEXT_PUBLIC_API_URL}/expense/payments?idGroup=${idGroup}`
+    const url = `/api/expense/payments?idGroup=${idGroup}`
     const response = await GET(url)
 
     result = await response.json()
@@ -119,7 +119,7 @@ export async function getPaymentsByUsersService(idGroup?: string) {
   }
 
   try {
-    const url = `${process.env.NEXT_PUBLIC_API_URL}/expense/payments-by-users?idGroup=${idGroup}`
+    const url = `/api/expense/payments-by-users?idGroup=${idGroup}`
     const response = await GET(url)
 
     result = await response.json()

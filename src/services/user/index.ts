@@ -12,7 +12,7 @@ export async function updateUserService({
   description
 }: t.UpdateUserProps) {
   try {
-    const url = `${process.env.NEXT_PUBLIC_API_URL}/user/edit`
+    const url = `/api/user/edit`
     await PUT(url, { idUser, name, pix, description })
   } catch (e) {
     throw new Error('Erro ao atualizar o usuário')
