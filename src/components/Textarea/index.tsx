@@ -11,7 +11,7 @@ const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
         {label} {optional && <s.Optional>(Opcional)</s.Optional>}
       </s.Label>
 
-      <textarea {...props} ref={ref} rows={rows} />
+      <textarea {...props} ref={ref} rows={rows} autoComplete="off" />
 
       {error && <s.Error>{error}</s.Error>}
     </s.Wrapper>

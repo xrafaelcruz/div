@@ -33,7 +33,7 @@ const useGroupInvites = ({
     }
   }, [getInvites, invites])
 
-  return { invites, getInvites }
+  return { invites, getInvites, requested: requestedList.current }
 }
 
 export default useGroupInvites

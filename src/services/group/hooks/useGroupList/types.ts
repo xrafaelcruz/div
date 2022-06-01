@@ -7,4 +7,5 @@ export type UseGroupProps = {
 
 export type UseGroupReturn = {
   groups?: Group[]
+  requested: boolean
 }

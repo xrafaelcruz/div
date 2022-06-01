@@ -7,6 +7,7 @@ export const Button = styled(ButtonOriginal)`
 
 export const Groups = styled.div`
   display: flex;
+  flex: 1;
   flex-direction: column;
   gap: 8px;
 `
@@ -48,5 +49,19 @@ export const Max = styled.label`
   ${({ theme }) => css`
     color: ${theme.colors.gray1};
     font-size: 14px;
+  `}
+`
+
+export const NotFound = styled.span`
+  ${({ theme }) => css`
+    align-items: center;
+    font-size: 20px;
+    font-weight: bold;
+    color: ${theme.colors.gray1};
+    display: flex;
+    flex: 1;
+    justify-content: center;
+    height: 100%;
+    text-align: center;
   `}
 `

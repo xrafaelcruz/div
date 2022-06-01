@@ -13,7 +13,7 @@ const groupsLimit = 5
 
 export default function Home({ user }: HomeProps) {
   const router = useRouter()
-  const { groups } = useGroupList({ user })
+  const { groups, requested } = useGroupList({ user })
 
   const totalMyGroups =
     groups?.reduce(
@@ -21,6 +21,8 @@ export default function Home({ user }: HomeProps) {
         group.ownerUserEmail == user.email ? total + 1 : total,
       0
     ) || 0
+
+  const hasGroups = requested && !!groups?.length
 
   return (
     <Layout user={user} hideBack={true}>
@@ -36,21 +38,29 @@ export default function Home({ user }: HomeProps) {
       )}
 
       <s.Groups>
-        <h1>
-          Grupos <s.Max>(Você pode criar no máximo {groupsLimit})</s.Max>
-        </h1>
+        {hasGroups && (
+          <h1>
+            Grupos <s.Max>(Você pode criar no máximo {groupsLimit})</s.Max>
+          </h1>
+        )}
 
-        <s.List>
-          {groups?.map((group) => (
-            <s.Item
-              key={group.id}
-              onClick={() => router.push(`/grupo?idGroup=${group.id}`)}
-            >
-              {group.name}
-              <s.Value>{convertToMoney(group.total)}</s.Value>
-            </s.Item>
-          ))}
-        </s.List>
+        {hasGroups && (
+          <s.List>
+            {groups?.map((group) => (
+              <s.Item
+                key={group.id}
+                onClick={() => router.push(`/grupo?idGroup=${group.id}`)}
+              >
+                {group.name}
+                <s.Value>{convertToMoney(group.total)}</s.Value>
+              </s.Item>
+            ))}
+          </s.List>
+        )}
+
+        {requested && !groups?.length && (
+          <s.NotFound>Você não faz parte de nenhum</s.NotFound>
+        )}
       </s.Groups>
     </Layout>
   )

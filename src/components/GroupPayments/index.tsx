@@ -86,7 +86,7 @@ const GroupPayments = ({ user }: t.GroupPaymentsProps) => {
       )}
 
       {showNotFound && (
-        <s.NotFound>Nenhum resultado a ser exibido ainda.</s.NotFound>
+        <s.NotFound>Nenhum resultado a ser exibido ainda</s.NotFound>
       )}
     </s.Section>
   )

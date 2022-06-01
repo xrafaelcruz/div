@@ -31,7 +31,7 @@ const useGroupList = ({ user }: UseGroupProps): UseGroupReturn => {
     }
   }, [groups, user])
 
-  return { groups }
+  return { groups, requested: requestedList.current }
 }
 
 export default useGroupList

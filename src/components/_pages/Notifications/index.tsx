@@ -9,7 +9,7 @@ import * as s from './styles'
 import * as t from './types'
 
 const Notifications = ({ user }: t.NotificationsProps) => {
-  const { invites, getInvites } = useGroupInvites({ user })
+  const { invites, getInvites, requested } = useGroupInvites({ user })
 
   const handleUpdateInvite = async (
     idUserGroup: string,
@@ -29,7 +29,7 @@ const Notifications = ({ user }: t.NotificationsProps) => {
       <s.Wrapper>
         <h1>Convites</h1>
 
-        {invites?.length ? (
+        {requested && !!invites?.length && (
           <s.List>
             {invites.map((userGroup) => (
               <s.Item key={userGroup.id}>
@@ -59,8 +59,10 @@ const Notifications = ({ user }: t.NotificationsProps) => {
               </s.Item>
             ))}
           </s.List>
-        ) : (
-          <s.NotFound>Você não possui convites.</s.NotFound>
+        )}
+
+        {requested && !invites?.length && (
+          <s.NotFound>Você não possui convites</s.NotFound>
         )}
       </s.Wrapper>
     </Layout>

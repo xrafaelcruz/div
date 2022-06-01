@@ -7,5 +7,6 @@ export type UseGroupInvites = {
 
 export type UseGroupInvitesReturn = {
   invites?: GroupInvite[]
+  requested: boolean
   getInvites: () => Promise<void>
 }
