@@ -2,9 +2,11 @@ import styled, { keyframes } from 'styled-components'
 
 const opacityAnimation = keyframes`
   from {
+    transform: translateY(-60px);
     opacity: 0;
   }
   to {
+    transform: translateY(0);
     opacity: 1;
   }
 `
@@ -29,7 +31,7 @@ export const Container = styled.div`
 `
 
 export const Main = styled.main`
-  animation: ${opacityAnimation} 500ms;
+  animation: ${opacityAnimation} 700ms;
   flex: 1;
   max-height: calc(100vh - 100px);
   overflow-y: auto;
