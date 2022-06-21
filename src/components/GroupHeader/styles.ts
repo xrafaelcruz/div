@@ -9,12 +9,17 @@ export const Header = styled.section`
   > button {
     min-width: 150px;
   }
+
+  h1 {
+    min-height: 35px;
+  }
 `
 
 export const UsersCount = styled.p`
   ${({ theme }) => css`
     color: ${theme.colors.gray1};
     font-size: 14px;
+    min-height: 21px;
   `}
 `
 
@@ -22,6 +27,7 @@ export const Total = styled.p`
   ${({ theme }) => css`
     color: ${theme.colors.primary};
     font-size: 14px;
+    min-height: 21px;
   `}
 `
 
