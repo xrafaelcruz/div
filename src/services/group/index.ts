@@ -48,7 +48,10 @@ export async function getGroupService(idGroup?: string) {
   return group
 }
 
-export async function getGroupListService(userEmail: string, options: any) {
+export async function getGroupListService(
+  userEmail: string,
+  options?: RequestInit
+) {
   let groups: t.Group[]
 
   if (!userEmail) {
@@ -56,7 +59,7 @@ export async function getGroupListService(userEmail: string, options: any) {
   }
 
   try {
-    const url = `${process.env.NEXTAUTH_URL}/api/group/slist?userEmail=${userEmail}`
+    const url = `${process.env.NEXTAUTH_URL}/api/group/list?userEmail=${userEmail}`
     const response = await GET(url, options)
 
     groups = await response.json()
