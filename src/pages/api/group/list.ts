@@ -1,11 +1,15 @@
 import { NextApiRequest, NextApiResponse } from 'next'
 import prisma from 'lib/prisma'
-import { checkToken } from 'lib/auth'
 import { InviteStatus } from 'lib/prisma/constants'
+import { getToken } from 'next-auth/jwt'
 
 export default async function List(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === 'GET') {
-    checkToken(req, res)
+    const token = await getToken({ req, secret: process.env.GOOGLE_SECRET })
+
+    if (!token) {
+      return res.status(401).json({})
+    }
 
     const { userEmail } = req.query
 

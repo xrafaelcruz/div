@@ -29,10 +29,10 @@ export function PUT(url: string, body: any) {
   })
 }
 
-export function GET(url: string) {
+export function GET(url: string, options?: any) {
   return fetch(url, {
     method: 'GET',
-    headers: { 'Content-Type': 'application/json' }
+    headers: { ...options.headers, 'Content-Type': 'application/json' }
   })
 }
 

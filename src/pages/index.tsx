@@ -2,10 +2,12 @@ import { GetServerSidePropsContext } from 'next'
 import Head from 'next/head'
 
 import { isAuthenticated } from 'lib/auth'
+import { getGroupListService } from 'services/group'
 
 import Home from 'components/_pages/Home'
 
 import { HomeProps } from 'components/_pages/Home/types'
+import { Group } from 'services/group/types'
 
 export default function HomePage(props: HomeProps) {
   return (
@@ -24,9 +26,19 @@ export default function HomePage(props: HomeProps) {
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   const user = await isAuthenticated(context)
 
-  // @TODO buscar os grupos aqui
+  let groups: Group[] = []
+
+  try {
+    if (user) {
+      groups = await getGroupListService(user.email, {
+        headers: { Cookie: context.req.headers.cookie } as HeadersInit
+      })
+    }
+  } catch (e) {
+    context.res.writeHead(302, { Location: '/500' }).end()
+  }
 
   return {
-    props: { user }
+    props: { user, groups }
   }
 }

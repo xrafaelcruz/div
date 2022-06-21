@@ -1,6 +1,5 @@
 import { useRouter } from 'next/router'
 
-import useGroupList from 'services/group/hooks/useGroupList'
 import { convertToMoney } from 'utils/normalize'
 
 import Layout from 'components/Layout'
@@ -11,9 +10,8 @@ import * as s from './styles'
 
 const groupsLimit = 5
 
-export default function Home({ user }: HomeProps) {
+export default function Home({ user, groups }: HomeProps) {
   const router = useRouter()
-  const { groups, requested } = useGroupList({ user })
 
   const totalMyGroups =
     groups?.reduce(
@@ -22,7 +20,7 @@ export default function Home({ user }: HomeProps) {
       0
     ) || 0
 
-  const hasGroups = requested && !!groups?.length
+  const hasGroups = !!groups?.length
 
   return (
     <Layout user={user} hideBack={true}>
@@ -58,7 +56,7 @@ export default function Home({ user }: HomeProps) {
           </s.List>
         )}
 
-        {requested && !groups?.length && (
+        {!groups?.length && (
           <s.NotFound>Você não faz parte de nenhum</s.NotFound>
         )}
       </s.Groups>

@@ -48,16 +48,16 @@ export async function getGroupService(idGroup?: string) {
   return group
 }
 
-export async function getGroupListService(userEmail: string) {
-  let groups: t.Group[] | null = null
+export async function getGroupListService(userEmail: string, options: any) {
+  let groups: t.Group[]
 
   if (!userEmail) {
     throw new Error(`userEmail vazio`)
   }
 
   try {
-    const url = `/api/group/list?userEmail=${userEmail}`
-    const response = await GET(url)
+    const url = `${process.env.NEXTAUTH_URL}/api/group/slist?userEmail=${userEmail}`
+    const response = await GET(url, options)
 
     groups = await response.json()
   } catch (e) {
