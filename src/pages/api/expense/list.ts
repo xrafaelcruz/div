@@ -1,37 +1,37 @@
-import { NextApiRequest, NextApiResponse } from 'next'
-import prisma from 'lib/prisma'
+// import { NextApiRequest, NextApiResponse } from 'next'
+// import prisma from 'lib/prisma'
 
-export default async function List(req: NextApiRequest, res: NextApiResponse) {
-  if (req.method === 'GET') {
-    const { idGroup } = req.query
+// export default async function List(req: NextApiRequest, res: NextApiResponse) {
+//   if (req.method === 'GET') {
+//     const { idGroup } = req.query
 
-    if (!idGroup) {
-      const message = 'Erro ao buscar as despesas do grupo'
-      console.log(message)
-      return res.status(500).json({ error: 'Parâmetros inválidos', message })
-    }
+//     if (!idGroup) {
+//       const message = 'Erro ao buscar as despesas do grupo'
+//       console.log(message)
+//       return res.status(500).json({ error: 'Parâmetros inválidos', message })
+//     }
 
-    try {
-      const expenses = await prisma.expense.findMany({
-        where: {
-          idGroup: idGroup as string
-        },
-        orderBy: {
-          createdAt: 'desc'
-        },
-        include: {
-          user: true
-        }
-      })
+//     try {
+//       const expenses = await prisma.expense.findMany({
+//         where: {
+//           idGroup: idGroup as string
+//         },
+//         orderBy: {
+//           createdAt: 'desc'
+//         },
+//         include: {
+//           user: true
+//         }
+//       })
 
-      return res.status(200).json(expenses)
-    } catch (e) {
-      const message = `Erro ao buscar as despesas do grupo ${idGroup}`
+//       return res.status(200).json(expenses)
+//     } catch (e) {
+//       const message = `Erro ao buscar as despesas do grupo ${idGroup}`
 
-      console.log(e)
-      console.log(message)
+//       console.log(e)
+//       console.log(message)
 
-      return res.status(500).json({ error: e, message })
-    }
-  }
-}
+//       return res.status(500).json({ error: e, message })
+//     }
+//   }
+// }
