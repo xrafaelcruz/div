@@ -3,20 +3,20 @@ import Head from 'next/head'
 
 import { isAuthenticated } from 'lib/auth'
 
-import Profile from 'components/_pages/Profile'
+import EditProfile from 'components/_pages/EditProfile'
 
-import { ProfileProps } from 'components/_pages/Profile/types'
+import { ProfileProps } from 'components/_pages/EditProfile/types'
 
-export default function ProfilePage(props: ProfileProps) {
+export default function EditProfilePage(props: ProfileProps) {
   return (
     <>
       <Head>
-        <title>Perfil</title>
-        <meta name="description" content="Perfil" />
+        <title>Editar Perfil</title>
+        <meta name="description" content="Editar Perfil" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <Profile {...props} />
+      <EditProfile {...props} />
     </>
   )
 }

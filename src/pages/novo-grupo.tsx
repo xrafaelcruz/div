@@ -3,20 +3,20 @@ import Head from 'next/head'
 
 import { isAuthenticated } from 'lib/auth'
 
-import Profile from 'components/_pages/Profile'
+import NewGroup from 'components/_pages/NewGroup'
 
-import { ProfileProps } from 'components/_pages/Profile/types'
+import { NewGroupProps } from 'components/_pages/NewGroup/types'
 
-export default function ProfilePage(props: ProfileProps) {
+export default function NewGroupPage(props: NewGroupProps) {
   return (
     <>
       <Head>
-        <title>Perfil</title>
-        <meta name="description" content="Perfil" />
+        <title>Novo grupo</title>
+        <meta name="description" content="Novo grupo" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <Profile {...props} />
+      <NewGroup {...props} />
     </>
   )
 }

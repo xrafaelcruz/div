@@ -2,31 +2,33 @@ import { GetServerSidePropsContext } from 'next'
 import Head from 'next/head'
 
 import { isAuthenticated } from 'lib/auth'
+import { getExpenseService } from 'services/expense'
 import { getGroupListService } from 'services/group'
 
-import Home from 'components/_pages/Home'
+import Expense from 'components/_pages/EditExpense'
 
-import { HomeProps } from 'components/_pages/Home/types'
+import { EditExpenseProps } from 'components/_pages/EditExpense/types'
 
-export default function HomePage(props: HomeProps) {
+export default function EditExpensePage(props: EditExpenseProps) {
   return (
     <>
       <Head>
-        <title>Div - Divisão fácil</title>
-        <meta name="description" content="Home" />
+        <title>Despesa</title>
+        <meta name="description" content="Detalhes da despesa" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <Home {...props} />
+      <Expense {...props} />
     </>
   )
 }
 
 // export async function getServerSideProps(context: GetServerSidePropsContext) {
 //   const user = await isAuthenticated(context)
+//   // const expense = await getExpenseService(context)
 //   // const groups = await getGroupListService(context, user?.email)
 
 //   return {
-//     props: { user, groups: [] }
+//     props: { user, expense: null, groups: null }
 //   }
 // }

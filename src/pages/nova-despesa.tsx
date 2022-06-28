@@ -4,20 +4,20 @@ import Head from 'next/head'
 import { isAuthenticated } from 'lib/auth'
 import { getGroupListService } from 'services/group'
 
-import Home from 'components/_pages/Home'
+import NewExpense from 'components/_pages/NewExpense'
 
-import { HomeProps } from 'components/_pages/Home/types'
+import { NewExpenseProps } from 'components/_pages/NewExpense/types'
 
-export default function HomePage(props: HomeProps) {
+export default function NewExpensePage(props: NewExpenseProps) {
   return (
     <>
       <Head>
-        <title>Div - Divisão fácil</title>
-        <meta name="description" content="Home" />
+        <title>Nova despesa</title>
+        <meta name="description" content="Nova despesa" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <Home {...props} />
+      <NewExpense {...props} />
     </>
   )
 }
@@ -27,6 +27,6 @@ export default function HomePage(props: HomeProps) {
 //   // const groups = await getGroupListService(context, user?.email)
 
 //   return {
-//     props: { user, groups: [] }
+//     props: { user, groups: null }
 //   }
 // }
