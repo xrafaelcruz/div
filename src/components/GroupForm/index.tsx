@@ -1,6 +1,7 @@
 import { useState, useMemo } from 'react'
 import { useRouter } from 'next/router'
 import { useForm } from 'react-hook-form'
+import { toast } from 'react-toastify';
 
 import Users from './Users'
 import Input from 'components/Input'
@@ -80,8 +81,7 @@ const GroupForm = ({ user, group }: GroupFormProps) => {
         create(data)
       }
     } catch (e) {
-      console.log(e)
-      alert(e)
+      toast.error('Não foi possível excluir')
     }
   }
 

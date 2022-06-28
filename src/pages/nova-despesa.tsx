@@ -2,6 +2,7 @@ import { GetServerSidePropsContext } from 'next'
 import Head from 'next/head'
 
 import { isAuthenticated } from 'lib/auth'
+import { getGroupListService } from 'services/group'
 
 import NewExpense from 'components/_pages/NewExpense'
 
@@ -23,8 +24,9 @@ export default function NewExpensePage(props: NewExpenseProps) {
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   const user = await isAuthenticated(context)
+  const groups = await getGroupListService(context, user?.email)
 
   return {
-    props: { user }
+    props: { user, groups }
   }
 }

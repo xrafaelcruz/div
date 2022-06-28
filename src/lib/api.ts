@@ -1,3 +1,7 @@
+import * as t from './types'
+
+export const API_URL = process.env.NEXT_PUBLIC_API_URL
+
 if (typeof window !== 'undefined') {
   const { fetch: originalFetch } = window
 
@@ -41,4 +45,31 @@ export function REMOVE(url: string) {
     method: 'delete',
     headers: { 'Content-Type': 'application/json' }
   })
+}
+
+export async function GETSSR<T>({ context, url, requiredParams }: t.TGetSSR) {
+  if (!requiredParams) {
+    context.res.writeHead(302, { Location: '/500' }).end()
+    return
+  }
+
+  let finalResult: T | undefined
+
+  try {
+    const options = {
+      headers: { Cookie: context.req.headers.cookie } as HeadersInit
+    }
+
+    const response = await GET(url, options)
+
+    if (!response.ok) {
+      throw new Error()
+    }
+
+    finalResult = await response.json()
+  } catch (e) {
+    context.res.writeHead(302, { Location: '/500' }).end()
+  }
+
+  return finalResult || null
 }

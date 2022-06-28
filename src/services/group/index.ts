@@ -1,6 +1,7 @@
+import { GetServerSidePropsContext } from 'next'
 import { Group as PrismaGroup } from '@prisma/client'
 
-import { POST, GET, PUT, REMOVE } from 'lib/api'
+import { API_URL, POST, GET, PUT, REMOVE, GETSSR } from 'lib/api'
 import { InviteStatus } from 'lib/prisma/constants'
 
 import * as t from './types'
@@ -9,7 +10,7 @@ export async function createGroup(params: t.CreateGroupParams) {
   let createdGroup: PrismaGroup | null = null
 
   try {
-    const url = `/api/group/create`
+    const url = `${API_URL}/group/create`
     const response = await POST(url, params)
 
     createdGroup = await response.json()
@@ -22,82 +23,78 @@ export async function createGroup(params: t.CreateGroupParams) {
 
 export async function editGroupService(params: t.EditGroupParams) {
   try {
-    const url = `/api/group/edit`
+    const url = `${API_URL}/group/edit`
     await PUT(url, params)
   } catch (e) {
     throw new Error('Erro ao editar o grupo')
   }
 }
 
-export async function getGroupService(idGroup?: string) {
-  let group: t.GroupDetails
+export async function getGroupService(context: GetServerSidePropsContext) {
+  const { idGroup } = context.query
 
-  if (!idGroup) {
-    throw new Error(`idGroup vazio`)
-  }
-
-  try {
-    const url = `/api/group?idGroup=${idGroup}`
-    const response = await GET(url)
-
-    group = await response.json()
-  } catch (e) {
-    throw new Error(`Erro ao buscar o grupo ${idGroup}`)
-  }
-
-  return group
+  return GETSSR<t.GroupDetails>({
+    context,
+    url: `${API_URL}/group?idGroup=${idGroup}`,
+    requiredParams: !!idGroup
+  })
 }
 
 export async function getGroupListService(
-  userEmail: string,
-  options?: RequestInit
+  context: GetServerSidePropsContext,
+  userEmail?: string
 ) {
-  let groups: t.Group[]
-
-  if (!userEmail) {
-    throw new Error(`userEmail vazio`)
-  }
-
-  try {
-    const url = `${process.env.NEXTAUTH_URL}/api/group/list?userEmail=${userEmail}`
-    const response = await GET(url, options)
-
-    groups = await response.json()
-  } catch (e) {
-    throw new Error('Erro ao buscar os grupos')
-  }
-
-  return groups
+  return GETSSR<t.Group[]>({
+    context,
+    url: `${API_URL}/group/list?userEmail=${userEmail}`,
+    requiredParams: !!userEmail
+  })
 }
 
-export async function getUsersGroupService(idGroup: string) {
-  let usersGroup: t.UserGroup[]
+export async function getUsersGroupService(
+  idGroup: string,
+  options?: RequestInit
+) {
+  let usersGroup: t.UserGroup[] | undefined
 
   try {
-    const url = `/api/group/users?idGroup=${idGroup}`
-    const response = await GET(url)
+    const url = `${API_URL}/group/users?idGroup=${idGroup}`
+
+    const response = await GET(url, options)
+
+    if (!response.ok) {
+      throw new Error()
+    }
 
     usersGroup = await response.json()
   } catch (e) {
-    throw new Error('Erro ao buscar os usuários do grupo')
+    throw new Error('Não foi possível buscar os usuários do grupo')
   }
 
-  return usersGroup
+  return usersGroup || null
 }
 
-export async function getGroupInvitesService(userEmail: string) {
-  let groupInvites: t.GroupInvite[] | null = null
+export async function getUsersGroupServiceSSR(
+  context: GetServerSidePropsContext
+) {
+  const { idGroup } = context.query
 
-  try {
-    const url = `/api/group/invites?userEmail=${userEmail}`
-    const response = await GET(url)
+  return GETSSR<t.UserGroup[]>({
+    context,
+    url: `${API_URL}/group/users?idGroup=${idGroup}`,
+    requiredParams: !!idGroup
+  })
+}
 
-    groupInvites = await response.json()
-  } catch (e) {
-    throw new Error('Erro ao buscar os convites de grupos do usuário')
-  }
-
-  return groupInvites
+export async function getGroupInvitesService(
+  context: GetServerSidePropsContext,
+  userEmail?: string
+) {
+  return GETSSR<t.GroupInvite[]>({
+    context,
+    url: `${API_URL}/group/invites?userEmail=${userEmail}`,
+    requiredParams: !!userEmail
+  })
 }
 
 export async function updateUserGroupInvitesService(
@@ -105,7 +102,7 @@ export async function updateUserGroupInvitesService(
   status: keyof typeof InviteStatus
 ) {
   try {
-    const url = `/api/group/edit-invite`
+    const url = `${API_URL}/group/edit-invite`
     await PUT(url, { idUserGroup, inviteStatus: status })
   } catch (e) {
     throw new Error('Erro ao atualizar o convite')
@@ -117,7 +114,7 @@ export async function removeUserGroupService(
   userEmail: string
 ) {
   try {
-    const url = `/api/group/remove-user?idGroup=${idGroup}&userEmail=${userEmail}`
+    const url = `${API_URL}/group/remove-user?idGroup=${idGroup}&userEmail=${userEmail}`
     await REMOVE(url)
   } catch (e) {
     throw new Error('Erro ao excluir o usuário do grupo')
@@ -126,7 +123,7 @@ export async function removeUserGroupService(
 
 export async function removeGroupService(idGroup: string) {
   try {
-    const url = `/api/group/remove-group?idGroup=${idGroup}`
+    const url = `${API_URL}/group/remove-group?idGroup=${idGroup}`
     await REMOVE(url)
   } catch (e) {
     throw new Error('Erro ao excluir o grupo')
@@ -135,7 +132,7 @@ export async function removeGroupService(idGroup: string) {
 
 export async function exitGroupService(idGroup: string, userEmail: string) {
   try {
-    const url = `/api/group/exit?idGroup=${idGroup}&userEmail=${userEmail}`
+    const url = `${API_URL}/group/exit?idGroup=${idGroup}&userEmail=${userEmail}`
     await REMOVE(url)
   } catch (e) {
     throw new Error('Erro ao sair do grupo')

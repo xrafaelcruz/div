@@ -1,6 +1,7 @@
+import { GetServerSidePropsContext } from 'next'
 import { Expense as PrismaExpense } from '@prisma/client'
 
-import { POST, PUT, GET, REMOVE } from 'lib/api'
+import { API_URL, POST, PUT, REMOVE, GETSSR } from 'lib/api'
 
 import {
   CreateExpenseParams,
@@ -11,23 +12,14 @@ import {
   ExpenseWithUsers
 } from './types'
 
-export async function getExpenseService(idExpense?: string) {
-  let result: ExpenseWithUsers
+export async function getExpenseService(context: GetServerSidePropsContext) {
+  const { idExpense } = context.query
 
-  if (!idExpense) {
-    throw new Error(`idExpense vazio`)
-  }
-
-  try {
-    const url = `/api/expense?idExpense=${idExpense}`
-    const response = await GET(url)
-
-    result = await response.json()
-  } catch (e) {
-    throw new Error(`Erro ao buscar a despesa ${idExpense}`)
-  }
-
-  return result
+  return GETSSR<ExpenseWithUsers>({
+    context,
+    url: `${API_URL}/expense?idExpense=${idExpense}`,
+    requiredParams: !!idExpense
+  })
 }
 
 export async function deleteExpenseService(idExpense?: string) {
@@ -36,7 +28,7 @@ export async function deleteExpenseService(idExpense?: string) {
   }
 
   try {
-    const url = `/api/expense/delete?idExpense=${idExpense}`
+    const url = `${API_URL}/expense/delete?idExpense=${idExpense}`
     await REMOVE(url)
   } catch (e) {
     throw new Error(`Erro ao deletar a despesa ${idExpense}`)
@@ -47,7 +39,7 @@ export async function createExpense(params: CreateExpenseParams) {
   let createdExpense: PrismaExpense | null = null
 
   try {
-    const url = `/api/expense/create`
+    const url = `${API_URL}/expense/create`
     const response = await POST(url, params)
 
     createdExpense = await response.json()
@@ -62,7 +54,7 @@ export async function updateExpense(params: UpdateExpenseParams) {
   let createdExpense: PrismaExpense | null = null
 
   try {
-    const url = `/api/expense/update`
+    const url = `${API_URL}/expense/update`
     const response = await PUT(url, params)
 
     createdExpense = await response.json()
@@ -73,61 +65,36 @@ export async function updateExpense(params: UpdateExpenseParams) {
   return createdExpense
 }
 
-export async function getExpenseListService(idGroup?: string) {
-  let result: Expense[]
+export async function getExpenseListService(
+  context: GetServerSidePropsContext
+) {
+  const { idGroup } = context.query
 
-  if (!idGroup) {
-    throw new Error(`idGroup vazio`)
-  }
-
-  try {
-    const url = `/api/expense/list?idGroup=${idGroup}`
-    const response = await GET(url)
-
-    result = await response.json()
-  } catch (e) {
-    throw new Error(`Erro ao buscar as despesas do grupo ${idGroup}`)
-  }
-
-  return result
+  return GETSSR<Expense[]>({
+    context,
+    url: `${API_URL}/expense/list?idGroup=${idGroup}`,
+    requiredParams: !!idGroup
+  })
 }
 
-export async function getPaymentsService(idGroup?: string) {
-  let result: Payment[]
+export async function getPaymentsService(context: GetServerSidePropsContext) {
+  const { idGroup } = context.query
 
-  if (!idGroup) {
-    throw new Error(`idGroup vazio`)
-  }
-
-  try {
-    const url = `/api/expense/payments?idGroup=${idGroup}`
-    const response = await GET(url)
-
-    result = await response.json()
-  } catch (e) {
-    throw new Error(`Erro ao buscar os pagamentos do grupo ${idGroup}`)
-  }
-
-  return result
+  return GETSSR<Payment[]>({
+    context,
+    url: `${API_URL}/expense/payments?idGroup=${idGroup}`,
+    requiredParams: !!idGroup
+  })
 }
 
-export async function getPaymentsByUsersService(idGroup?: string) {
-  let result: PaymentByUser[]
+export async function getPaymentsByUsersService(
+  context: GetServerSidePropsContext
+) {
+  const { idGroup } = context.query
 
-  if (!idGroup) {
-    throw new Error(`idGroup vazio`)
-  }
-
-  try {
-    const url = `/api/expense/payments-by-users?idGroup=${idGroup}`
-    const response = await GET(url)
-
-    result = await response.json()
-  } catch (e) {
-    throw new Error(
-      `Erro ao buscar os pagamentos por usuários do grupo ${idGroup}`
-    )
-  }
-
-  return result
+  return GETSSR<PaymentByUser[]>({
+    context,
+    url: `${API_URL}/expense/payments-by-users?idGroup=${idGroup}`,
+    requiredParams: !!idGroup
+  })
 }

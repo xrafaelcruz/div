@@ -1,4 +1,5 @@
-import useGroupInvites from 'services/group/hooks/useGroupInvites'
+import { toast } from 'react-toastify';
+
 import { updateUserGroupInvitesService } from 'services/group'
 import { InviteStatus } from 'lib/prisma/constants'
 
@@ -7,9 +8,16 @@ import Layout from 'components/Layout'
 
 import * as s from './styles'
 import * as t from './types'
+import { useState } from 'react'
 
-const Notifications = ({ user }: t.NotificationsProps) => {
-  const { invites, getInvites, requested } = useGroupInvites({ user })
+const Notifications = ({ user, invites }: t.NotificationsProps) => {
+  const [groupInvites, setGroupInvites] = useState(invites)
+
+  const removeGroupFromList = (idUserGroup: string) => {
+    setGroupInvites((old) =>
+      old.filter((userGroup) => userGroup.id !== idUserGroup)
+    )
+  }
 
   const handleUpdateInvite = async (
     idUserGroup: string,
@@ -17,10 +25,9 @@ const Notifications = ({ user }: t.NotificationsProps) => {
   ) => {
     try {
       await updateUserGroupInvitesService(idUserGroup, status)
-      await getInvites()
+      removeGroupFromList(idUserGroup)
     } catch (e) {
-      console.log(e)
-      alert(e)
+      toast.error('Não foi possível executar essa operação')
     }
   }
 
@@ -29,9 +36,9 @@ const Notifications = ({ user }: t.NotificationsProps) => {
       <s.Wrapper>
         <h1>Convites</h1>
 
-        {requested && !!invites?.length && (
+        {!!groupInvites?.length && (
           <s.List>
-            {invites.map((userGroup) => (
+            {groupInvites.map((userGroup) => (
               <s.Item key={userGroup.id}>
                 <strong>{userGroup.group.name}</strong>
 
@@ -61,7 +68,7 @@ const Notifications = ({ user }: t.NotificationsProps) => {
           </s.List>
         )}
 
-        {requested && !invites?.length && (
+        {!groupInvites?.length && (
           <s.NotFound>Você não possui convites</s.NotFound>
         )}
       </s.Wrapper>

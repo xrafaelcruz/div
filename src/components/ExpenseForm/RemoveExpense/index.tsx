@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { useRouter } from 'next/router'
+import { toast } from 'react-toastify';
 
 import Modal from 'components/Modal'
 import { deleteExpenseService } from 'services/expense'
@@ -17,14 +18,13 @@ const RemoveExpense = ({ idExpense }: t.RemoveExpenseProps) => {
   }
 
   const modalOnClickYes = async () => {
+    if (!idExpense) return
+
     try {
-      if (idExpense) {
-        await deleteExpenseService(idExpense)
-        router.push('/')
-      }
+      await deleteExpenseService(idExpense)
+      router.push('/')
     } catch (e) {
-      console.log(e)
-      alert(e)
+      toast.error('Não foi possível excluir')
     }
   }
 

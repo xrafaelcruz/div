@@ -2,6 +2,7 @@ import { GetServerSidePropsContext } from 'next'
 import Head from 'next/head'
 
 import { isAuthenticated } from 'lib/auth'
+import { getGroupService } from 'services/group'
 
 import EditGroup from 'components/_pages/EditGroup'
 
@@ -23,8 +24,9 @@ export default function EditGroupPage(props: t.EditGroupProps) {
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   const user = await isAuthenticated(context)
+  const group = await getGroupService(context)
 
   return {
-    props: { user }
+    props: { user, group }
   }
 }

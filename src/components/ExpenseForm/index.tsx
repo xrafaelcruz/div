@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useRouter } from 'next/router'
 import { Controller } from 'react-hook-form'
+import { toast } from 'react-toastify';
 
 import Input from 'components/Input'
 import Select from 'components/Select'
@@ -23,7 +24,7 @@ import { User } from 'services/group/types'
 import * as s from './styles'
 import { FooterButtons } from 'components/Button/styles'
 
-const ExpenseForm = ({ user, expense }: t.ExpenseFormProps) => {
+const ExpenseForm = ({ user, expense, groups }: t.ExpenseFormProps) => {
   const isEdit = !!expense
 
   const [modalOpen, setModalOpen] = useState(false)
@@ -32,7 +33,6 @@ const ExpenseForm = ({ user, expense }: t.ExpenseFormProps) => {
 
   const {
     form,
-    groups,
     usersGroup,
     userFields,
     checkedUsers,
@@ -102,8 +102,7 @@ const ExpenseForm = ({ user, expense }: t.ExpenseFormProps) => {
         setModalOpen(true)
       }
     } catch (e) {
-      console.log(e)
-      alert(e)
+      toast.error(`Não foi possível ${isEdit ? 'editar' : 'criar'}`)
     }
   }
 

@@ -1,7 +1,9 @@
 import { User } from 'services/user/types'
+import { Group } from 'services/group/types'
 
 export type NewExpenseProps = {
   user: User
+  groups: Group[]
 }
 
 export type FormData = {

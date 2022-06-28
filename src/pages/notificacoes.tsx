@@ -2,6 +2,7 @@ import { GetServerSidePropsContext } from 'next'
 import Head from 'next/head'
 
 import { isAuthenticated } from 'lib/auth'
+import { getGroupInvitesService } from 'services/group'
 
 import Notifications from 'components/_pages/Notifications'
 
@@ -23,8 +24,9 @@ export default function NotificationsPage(props: NotificationsProps) {
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   const user = await isAuthenticated(context)
+  const invites = await getGroupInvitesService(context, user?.email)
 
   return {
-    props: { user }
+    props: { user, invites }
   }
 }

@@ -48,8 +48,12 @@ export const sizes = {
     width: auto;
   `,
 
-  big: css`
+  medium: css`
     width: 170px;
+  `,
+
+  big: css`
+    width: 290px;
   `,
 
   full: css`

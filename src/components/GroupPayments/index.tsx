@@ -1,8 +1,4 @@
-import { useState, useRef, useEffect } from 'react'
-import { useRouter } from 'next/router'
-
-import { Payment, PaymentByUser } from 'services/expense/types'
-import { getPaymentsService, getPaymentsByUsersService } from 'services/expense'
+import { useState } from 'react'
 
 import PaymentsByExpenses from './PaymentsByExpenses'
 import PaymentsByUsers from './PaymentsByUsers'
@@ -10,56 +6,16 @@ import PaymentsByUsers from './PaymentsByUsers'
 import * as t from './types'
 import * as s from './styles'
 
-const GroupPayments = ({ user }: t.GroupPaymentsProps) => {
+const GroupPayments = ({
+  user,
+  paymentsByExpenses,
+  paymentsByUsers
+}: t.GroupPaymentsProps) => {
   const [selectedFilter, setSelectedFilter] = useState('users')
 
-  const router = useRouter()
-  const { idGroup } = router.query
-
-  const requestedPaymentsByExpenses = useRef(false)
-  const requestedPaymentsByUsers = useRef(false)
-  const [paymentsByExpenses, setPaymentsByExpenses] = useState<Payment[]>()
-  const [paymentsByUsers, setPaymentsByUsers] = useState<PaymentByUser[]>()
-
-  useEffect(() => {
-    const request = async () => {
-      try {
-        const result = await getPaymentsService(idGroup as string)
-        setPaymentsByExpenses(result)
-      } catch (e) {
-        router.push('/')
-      }
-    }
-
-    if (idGroup && !requestedPaymentsByExpenses.current) {
-      requestedPaymentsByExpenses.current = true
-      request()
-    }
-  }, [idGroup, router])
-
-  useEffect(() => {
-    const request = async () => {
-      try {
-        const result = await getPaymentsByUsersService(idGroup as string)
-        setPaymentsByUsers(result)
-      } catch (e) {
-        router.push('/')
-      }
-    }
-
-    if (idGroup && !requestedPaymentsByUsers.current) {
-      requestedPaymentsByUsers.current = true
-      request()
-    }
-  }, [idGroup, router])
-
   const showNotFound =
-    (selectedFilter === 'users' &&
-      requestedPaymentsByUsers.current &&
-      !paymentsByUsers?.length) ||
-    (selectedFilter === 'expenses' &&
-      requestedPaymentsByExpenses.current &&
-      !paymentsByExpenses?.length)
+    (selectedFilter === 'users' && !paymentsByUsers?.length) ||
+    (selectedFilter === 'expenses' && !paymentsByExpenses?.length)
 
   return (
     <s.Section>

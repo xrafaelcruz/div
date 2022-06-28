@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { useRouter } from 'next/router'
+import { toast } from 'react-toastify';
 
 import Modal from 'components/Modal'
 
@@ -27,8 +28,7 @@ const GroupHeader = ({ user, group }: t.GroupHeaderProps) => {
       await exitGroupService(group.id, user.email)
       router.push('/')
     } catch (e) {
-      console.log(e)
-      alert(e)
+      toast.error('Não foi possível sair do grupo')
     }
   }
 

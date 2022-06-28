@@ -1,5 +1,6 @@
 import styled, { css } from 'styled-components'
 import LayoutOriginal from 'components/Layout'
+import { opacityAnimation } from 'styles/global'
 
 export const Layout = styled(LayoutOriginal)`
   display: flex;
@@ -31,10 +32,12 @@ export const NewUser = styled.div`
 `
 
 export const PayerUser = styled.fieldset`
+  animation: ${opacityAnimation} 700ms;
   margin: 24px 0 0;
 `
 
 export const Users = styled.fieldset`
+  animation: ${opacityAnimation} 700ms;
   margin: 24px 0 0;
 
   > button {
@@ -79,6 +82,7 @@ export const Label = styled.label`
 
 export const ValuePerUser = styled.p`
   ${({ theme }) => css`
+    animation: ${opacityAnimation} 700ms;
     color: ${theme.colors.gray1};
     font-size: 16px;
     font-weight: bold;

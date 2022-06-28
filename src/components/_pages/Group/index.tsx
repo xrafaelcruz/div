@@ -1,7 +1,5 @@
 import { useRouter } from 'next/router'
 
-import useGroup from 'services/group/hooks/useGroup'
-
 import Layout from 'components/Layout'
 import Button from 'components/Button'
 import GroupHeader from 'components/GroupHeader'
@@ -10,13 +8,8 @@ import GroupExpenses from 'components/GroupExpenses'
 import * as s from './styles'
 import * as t from './types'
 
-export default function Group({ user }: t.GroupProps) {
+export default function Group({ user, group, expenses }: t.GroupProps) {
   const router = useRouter()
-  const { idGroup } = router.query
-
-  const { group } = useGroup({
-    idGroup: idGroup as string
-  })
 
   return (
     <Layout user={user}>
@@ -27,7 +20,7 @@ export default function Group({ user }: t.GroupProps) {
           <Button
             type="button"
             variant="outlined"
-            onClick={() => router.push(`/usuarios?idGroup=${idGroup}`)}
+            onClick={() => router.push(`/usuarios?idGroup=${group.id}`)}
           >
             Usuários
           </Button>
@@ -35,7 +28,7 @@ export default function Group({ user }: t.GroupProps) {
           <Button
             type="button"
             variant="outlined"
-            onClick={() => router.push(`/pagamentos?idGroup=${idGroup}`)}
+            onClick={() => router.push(`/pagamentos?idGroup=${group.id}`)}
           >
             Resultados
           </Button>
@@ -44,7 +37,7 @@ export default function Group({ user }: t.GroupProps) {
             <Button
               type="button"
               variant="outlined"
-              onClick={() => router.push(`/editar-grupo?idGroup=${idGroup}`)}
+              onClick={() => router.push(`/editar-grupo?idGroup=${group.id}`)}
             >
               Editar
             </Button>
@@ -54,13 +47,13 @@ export default function Group({ user }: t.GroupProps) {
         <s.Button
           type="button"
           variant="primary"
-          size="big"
-          onClick={() => router.push(`/nova-despesa?idGroup=${idGroup}`)}
+          size="medium"
+          onClick={() => router.push(`/nova-despesa?idGroup=${group.id}`)}
         >
           NOVA DESPESA
         </s.Button>
 
-        <GroupExpenses user={user} />
+        <GroupExpenses user={user} expenses={expenses} />
       </s.Main>
     </Layout>
   )

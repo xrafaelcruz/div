@@ -21,6 +21,12 @@ export default async function Users(req: NextApiRequest, res: NextApiResponse) {
         }
       })
 
+      if (!users || !users.length) {
+        return res
+          .status(404)
+          .json({ error: 404, message: 'Usuários não encontrados!', ok: false })
+      }
+
       return res.status(200).json(users)
     } catch (e) {
       const message = `Erro ao buscar os usuários do grupo ${idGroup}`

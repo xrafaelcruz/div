@@ -1,6 +1,7 @@
-import { createGlobalStyle, css } from 'styled-components'
+import { createGlobalStyle, css, keyframes } from 'styled-components'
 import theme from './theme'
 import scroll from './scroll'
+import toast from './toast'
 
 const fontFamily = css`
   font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
@@ -71,7 +72,19 @@ const GlobalStyles = createGlobalStyle`
     width: 100%;
   }
 
+  ${toast};
   ${scroll};
+`
+
+export const opacityAnimation = keyframes`
+  from {
+    transform: translateY(-60px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
 `
 
 export default GlobalStyles

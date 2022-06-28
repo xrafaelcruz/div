@@ -2,6 +2,7 @@ import { GetServerSidePropsContext } from 'next'
 import Head from 'next/head'
 
 import { isAuthenticated } from 'lib/auth'
+import { getGroupService, getUsersGroupServiceSSR } from 'services/group'
 
 import GroupUsers from 'components/_pages/Users'
 
@@ -23,8 +24,10 @@ export default function UsersPage(props: UsersProps) {
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   const user = await isAuthenticated(context)
+  const group = await getGroupService(context)
+  const usersGroup = await getUsersGroupServiceSSR(context)
 
   return {
-    props: { user }
+    props: { user, group, usersGroup }
   }
 }

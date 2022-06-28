@@ -29,7 +29,7 @@ export default function Home({ user, groups }: HomeProps) {
           onClick={() => router.push('/novo-grupo')}
           type="button"
           variant="primary"
-          size="big"
+          size="medium"
         >
           NOVO GRUPO
         </s.Button>

@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { useRouter } from 'next/router'
+import { toast } from 'react-toastify';
 
 import Modal from 'components/Modal'
 import { removeGroupService } from 'services/group'
@@ -24,8 +25,7 @@ const RemoveGroup = ({ idGroup }: t.RemoveGroupProps) => {
         router.push('/')
       }
     } catch (e) {
-      console.log(e)
-      alert(e)
+      toast.error('Não foi possível excluir')
     }
   }
 

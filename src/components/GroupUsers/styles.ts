@@ -16,7 +16,6 @@ export const List = styled.ul`
 
 export const Item = styled.li`
   ${({ theme }) => css`
-    align-items: center;
     background: ${theme.colors.darkGray1};
     border: 0;
     border-radius: 5px;

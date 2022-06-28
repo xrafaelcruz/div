@@ -1,36 +1,7 @@
-import { useState, useRef, useEffect } from 'react'
-import { useRouter } from 'next/router'
-
-import { getUsersGroupService } from 'services/group'
-
-import { UserGroup } from 'services/group/types'
-
 import * as t from './types'
 import * as s from './styles'
 
-const GroupUsers = ({ ownerUserEmail }: t.GroupUsersProps) => {
-  const router = useRouter()
-  const { idGroup } = router.query
-
-  const requestedUsers = useRef(false)
-  const [usersGroup, setUsersGroup] = useState<UserGroup[]>()
-
-  useEffect(() => {
-    const request = async () => {
-      try {
-        const result = await getUsersGroupService(idGroup as string)
-        setUsersGroup(result)
-      } catch (e) {
-        router.push('/')
-      }
-    }
-
-    if (idGroup && !requestedUsers.current) {
-      requestedUsers.current = true
-      request()
-    }
-  }, [idGroup, router])
-
+const GroupUsers = ({ ownerUserEmail, usersGroup }: t.GroupUsersProps) => {
   return (
     <s.Section>
       <h2>Usuários do grupo</h2>

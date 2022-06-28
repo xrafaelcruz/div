@@ -1,15 +1,5 @@
-import styled, { keyframes } from 'styled-components'
-
-const opacityAnimation = keyframes`
-  from {
-    transform: translateY(-60px);
-    opacity: 0;
-  }
-  to {
-    transform: translateY(0);
-    opacity: 1;
-  }
-`
+import styled from 'styled-components'
+import { opacityAnimation } from 'styles/global'
 
 export const Wrapper = styled.div`
   align-items: center;

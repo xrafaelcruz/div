@@ -21,6 +21,12 @@ export default async function Get(req: NextApiRequest, res: NextApiResponse) {
         }
       })
 
+      if (!expense) {
+        return res
+          .status(500)
+          .json({ error: 404, message: 'Despesa não encontrada!' })
+      }
+
       return res.status(200).json(expense)
     } catch (e) {
       const message = `Erro ao buscar a despesa ${idExpense}`

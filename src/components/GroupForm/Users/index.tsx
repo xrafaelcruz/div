@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { v4 as uuid } from 'uuid'
 import { FaPlus, FaTimes } from 'react-icons/fa'
+import { toast } from 'react-toastify';
 
 import Input from 'components/Input'
 import Button from 'components/Button'
@@ -69,8 +70,7 @@ const Users = ({
         removeUserFromList(id)
       }
     } catch (e) {
-      console.log(e)
-      alert(e)
+      toast.error('Não foi possível excluir')
     }
 
     setModalOpen(false)

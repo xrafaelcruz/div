@@ -2,6 +2,8 @@ import { GetServerSidePropsContext } from 'next'
 import Head from 'next/head'
 
 import { isAuthenticated } from 'lib/auth'
+import { getGroupService } from 'services/group'
+import { getExpenseListService } from 'services/expense'
 
 import Group from 'components/_pages/Group'
 
@@ -16,15 +18,17 @@ export default function GroupPage(props: GroupProps) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <Group {...props} />
+      {props.group && props.expenses && <Group {...props} />}
     </>
   )
 }
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   const user = await isAuthenticated(context)
+  const group = await getGroupService(context)
+  const expenses = await getExpenseListService(context)
 
   return {
-    props: { user }
+    props: { user, group: group, expenses: expenses }
   }
 }

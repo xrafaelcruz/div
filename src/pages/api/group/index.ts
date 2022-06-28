@@ -1,8 +1,15 @@
 import { NextApiRequest, NextApiResponse } from 'next'
 import prisma from 'lib/prisma'
+import { getToken } from 'next-auth/jwt'
 
 export default async function Get(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === 'GET') {
+    const token = await getToken({ req, secret: process.env.GOOGLE_SECRET })
+
+    if (!token) {
+      return res.status(401).json({})
+    }
+
     const { idGroup } = req.query
 
     if (!idGroup) {
@@ -48,12 +55,14 @@ export default async function Get(req: NextApiRequest, res: NextApiResponse) {
         }
       })
 
-      if (group) {
-        const { UserGroup, ...rest } = group
-        return res.status(200).json({ ...rest, users: UserGroup, total })
+      if (!group) {
+        return res
+          .status(404)
+          .json({ error: 404, message: 'Grupo não encontrado!' })
       }
 
-      throw new Error('Grupo não encontrado')
+      const { UserGroup, ...rest } = group
+      return res.status(200).json({ ...rest, users: UserGroup, total })
     } catch (e) {
       const message = `Erro ao buscar os detalhes do grupo ${idGroup}`
 
