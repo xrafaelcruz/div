@@ -25,10 +25,10 @@ export default function EditExpensePage(props: EditExpenseProps) {
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   const user = await isAuthenticated(context)
-  const expense = await getExpenseService(context)
-  const groups = await getGroupListService(context, user?.email)
+  // const expense = await getExpenseService(context)
+  // const groups = await getGroupListService(context, user?.email)
 
   return {
-    props: { user, expense, groups }
+    props: { user, expense: null, groups: null }
   }
 }

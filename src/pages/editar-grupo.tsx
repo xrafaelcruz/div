@@ -24,9 +24,9 @@ export default function EditGroupPage(props: t.EditGroupProps) {
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   const user = await isAuthenticated(context)
-  const group = await getGroupService(context)
+  // const group = await getGroupService(context)
 
   return {
-    props: { user, group }
+    props: { user, group: null }
   }
 }

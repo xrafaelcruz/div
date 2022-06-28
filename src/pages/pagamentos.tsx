@@ -25,11 +25,16 @@ export default function PaymentsPage(props: PaymentsProps) {
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   const user = await isAuthenticated(context)
-  const group = await getGroupService(context)
-  const paymentsByExpenses = await getPaymentsService(context)
-  const paymentsByUsers = await getPaymentsByUsersService(context)
+  // const group = await getGroupService(context)
+  // const paymentsByExpenses = await getPaymentsService(context)
+  // const paymentsByUsers = await getPaymentsByUsersService(context)
 
   return {
-    props: { user, group, paymentsByExpenses, paymentsByUsers }
+    props: {
+      user,
+      group: null,
+      paymentsByExpenses: null,
+      paymentsByUsers: null
+    }
   }
 }

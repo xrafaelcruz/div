@@ -24,10 +24,10 @@ export default function UsersPage(props: UsersProps) {
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   const user = await isAuthenticated(context)
-  const group = await getGroupService(context)
-  const usersGroup = await getUsersGroupServiceSSR(context)
+  // const group = await getGroupService(context)
+  // const usersGroup = await getUsersGroupServiceSSR(context)
 
   return {
-    props: { user, group, usersGroup }
+    props: { user, group: null, usersGroup: [] }
   }
 }

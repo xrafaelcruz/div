@@ -24,9 +24,9 @@ export default function NewExpensePage(props: NewExpenseProps) {
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   const user = await isAuthenticated(context)
-  const groups = await getGroupListService(context, user?.email)
+  // const groups = await getGroupListService(context, user?.email)
 
   return {
-    props: { user, groups }
+    props: { user, groups: null }
   }
 }

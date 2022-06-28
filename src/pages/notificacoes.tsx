@@ -24,9 +24,9 @@ export default function NotificationsPage(props: NotificationsProps) {
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   const user = await isAuthenticated(context)
-  const invites = await getGroupInvitesService(context, user?.email)
+  // const invites = await getGroupInvitesService(context, user?.email)
 
   return {
-    props: { user, invites }
+    props: { user, invites: null }
   }
 }
