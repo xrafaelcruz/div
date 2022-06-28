@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router'
 import { useForm } from 'react-hook-form'
-import { toast } from 'react-toastify';
+import { toast } from 'react-toastify'
 
 import Button from 'components/Button'
 import Input from 'components/Input'

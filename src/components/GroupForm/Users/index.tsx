@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { v4 as uuid } from 'uuid'
 import { FaPlus, FaTimes } from 'react-icons/fa'
-import { toast } from 'react-toastify';
+import { toast } from 'react-toastify'
 
 import Input from 'components/Input'
 import Button from 'components/Button'

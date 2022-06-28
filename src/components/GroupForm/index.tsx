@@ -1,7 +1,7 @@
 import { useState, useMemo } from 'react'
 import { useRouter } from 'next/router'
 import { useForm } from 'react-hook-form'
-import { toast } from 'react-toastify';
+import { toast } from 'react-toastify'
 
 import Users from './Users'
 import Input from 'components/Input'

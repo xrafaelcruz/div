@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useRouter } from 'next/router'
-import { toast } from 'react-toastify';
+import { toast } from 'react-toastify'
 
 import Modal from 'components/Modal'
 import { removeGroupService } from 'services/group'

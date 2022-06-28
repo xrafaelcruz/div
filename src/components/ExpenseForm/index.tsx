@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { useRouter } from 'next/router'
 import { Controller } from 'react-hook-form'
-import { toast } from 'react-toastify';
+import { toast } from 'react-toastify'
 
 import Input from 'components/Input'
 import Select from 'components/Select'

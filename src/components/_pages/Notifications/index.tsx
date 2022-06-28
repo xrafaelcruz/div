@@ -1,4 +1,4 @@
-import { toast } from 'react-toastify';
+import { toast } from 'react-toastify'
 
 import { updateUserGroupInvitesService } from 'services/group'
 import { InviteStatus } from 'lib/prisma/constants'
