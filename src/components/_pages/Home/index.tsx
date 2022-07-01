@@ -16,6 +16,8 @@ export default function Home({ user }: HomeProps) {
 
   const { groups } = useGetGroups(user)
 
+  if (!groups) return <></>
+
   const totalMyGroups =
     groups?.reduce(
       (total, group) =>

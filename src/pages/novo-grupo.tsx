@@ -5,8 +5,6 @@ import NewGroup from 'components/_pages/NewGroup'
 export default function NewGroupPage() {
   const { user } = useIsAuthenticated()
 
-  if (!user) return
-
   return (
     <>
       <Head>
@@ -15,7 +13,7 @@ export default function NewGroupPage() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <NewGroup user={user} />
+      {user && <NewGroup user={user} />}
     </>
   )
 }

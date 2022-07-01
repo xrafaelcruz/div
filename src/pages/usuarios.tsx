@@ -15,8 +15,6 @@ export default function UsersPage() {
   const { group } = useGetGroup()
   const { usersGroup } = useGetUsersGroup(idGroup as string)
 
-  if (!user || !group || !usersGroup) return
-
   return (
     <>
       <Head>
@@ -25,7 +23,9 @@ export default function UsersPage() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <GroupUsers user={user} group={group} usersGroup={usersGroup} />
+      {user && group && usersGroup && (
+        <GroupUsers user={user} group={group} usersGroup={usersGroup} />
+      )}
     </>
   )
 }

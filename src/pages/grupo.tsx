@@ -11,8 +11,6 @@ export default function GroupPage() {
   const { group } = useGetGroup()
   const { expenses } = useGetExpenseList()
 
-  if (!user || !group || !expenses) return
-
   return (
     <>
       <Head>
@@ -21,7 +19,9 @@ export default function GroupPage() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <Group user={user} group={group} expenses={expenses} />
+      {user && group && expenses && (
+        <Group user={user} group={group} expenses={expenses} />
+      )}
     </>
   )
 }

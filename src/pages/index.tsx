@@ -5,8 +5,6 @@ import Home from 'components/_pages/Home'
 export default function HomePage() {
   const { user } = useIsAuthenticated()
 
-  if (!user) return
-
   return (
     <>
       <Head>
@@ -15,7 +13,7 @@ export default function HomePage() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <Home user={user} />
+      {user && <Home user={user} />}
     </>
   )
 }
