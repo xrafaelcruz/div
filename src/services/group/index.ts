@@ -1,7 +1,7 @@
 import { GetServerSidePropsContext } from 'next'
 import { Group as PrismaGroup } from '@prisma/client'
 
-import { API_URL, POST, GET, PUT, REMOVE, GETSSR } from 'lib/api'
+import { API_URL, POST, GET, PUT, REMOVE, GETSSR, GETClient } from 'lib/api'
 import { InviteStatus } from 'lib/prisma/constants'
 
 import * as t from './types'
@@ -30,22 +30,15 @@ export async function editGroupService(params: t.EditGroupParams) {
   }
 }
 
-export async function getGroupService(context: GetServerSidePropsContext) {
-  const { idGroup } = context.query
-
-  return GETSSR<t.GroupDetails>({
-    context,
+export async function getGroupService(idGroup: string | string[] | undefined) {
+  return GETClient<t.GroupDetails>({
     url: `${API_URL}/group?idGroup=${idGroup}`,
     requiredParams: !!idGroup
   })
 }
 
-export async function getGroupListService(
-  context: GetServerSidePropsContext,
-  userEmail?: string
-) {
-  return GETSSR<t.Group[]>({
-    context,
+export async function getGroupListService(userEmail?: string) {
+  return GETClient<t.Group[]>({
     url: `${API_URL}/group/list?userEmail=${userEmail}`,
     requiredParams: !!userEmail
   })

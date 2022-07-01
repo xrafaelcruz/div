@@ -1,13 +1,12 @@
-import { GetServerSidePropsContext } from 'next'
 import Head from 'next/head'
-
-import { isAuthenticated } from 'lib/auth'
-
+import useIsAuthenticated from 'lib/auth/hooks/useIsAuthenticated'
 import NewGroup from 'components/_pages/NewGroup'
 
-import { NewGroupProps } from 'components/_pages/NewGroup/types'
+export default function NewGroupPage() {
+  const { user } = useIsAuthenticated()
 
-export default function NewGroupPage(props: NewGroupProps) {
+  if (!user) return
+
   return (
     <>
       <Head>
@@ -16,15 +15,7 @@ export default function NewGroupPage(props: NewGroupProps) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <NewGroup {...props} />
+      <NewGroup user={user} />
     </>
   )
 }
-
-// export async function getServerSideProps(context: GetServerSidePropsContext) {
-//   const user = await isAuthenticated(context)
-
-//   return {
-//     props: { user }
-//   }
-// }

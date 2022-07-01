@@ -1,4 +1,4 @@
-import { getSession } from 'next-auth/react'
+import { getSession, useSession } from 'next-auth/react'
 import {
   GetServerSidePropsContext,
   NextApiRequest,
@@ -80,5 +80,19 @@ export async function checkToken(req: NextApiRequest, res: NextApiResponse) {
 
   if (!token) {
     return res.status(401).json({})
+  }
+}
+
+export const useIsAuthenticated = () => {
+  const { data: session, status } = useSession()
+  const isAuthenticated = status === 'authenticated'
+
+  if (!isAuthenticated && typeof window !== 'undefined') {
+    window.location.href = '/'
+  }
+
+  return {
+    isAuthenticated,
+    session
   }
 }

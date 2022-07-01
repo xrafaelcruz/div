@@ -6,7 +6,7 @@ import { getUsersGroupService } from 'services/group'
 import { UseUsersGroupReturn } from './types'
 import { UserGroup } from 'services/group/types'
 
-const useUsersGroup = (initialIdGroup?: string): UseUsersGroupReturn => {
+const useGetUsersGroup = (initialIdGroup?: string): UseUsersGroupReturn => {
   const router = useRouter()
 
   const firstRequest = useRef(false)
@@ -60,4 +60,4 @@ const useUsersGroup = (initialIdGroup?: string): UseUsersGroupReturn => {
   return { usersGroup, getUsersGroup }
 }
 
-export default useUsersGroup
+export default useGetUsersGroup

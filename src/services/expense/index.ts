@@ -1,7 +1,7 @@
 import { GetServerSidePropsContext } from 'next'
 import { Expense as PrismaExpense } from '@prisma/client'
 
-import { API_URL, POST, PUT, REMOVE, GETSSR } from 'lib/api'
+import { API_URL, POST, PUT, REMOVE, GETSSR, GETClient } from 'lib/api'
 
 import {
   CreateExpenseParams,
@@ -11,16 +11,6 @@ import {
   PaymentByUser,
   ExpenseWithUsers
 } from './types'
-
-export async function getExpenseService(context: GetServerSidePropsContext) {
-  const { idExpense } = context.query
-
-  return GETSSR<ExpenseWithUsers>({
-    context,
-    url: `${API_URL}/expense?idExpense=${idExpense}`,
-    requiredParams: !!idExpense
-  })
-}
 
 export async function deleteExpenseService(idExpense?: string) {
   if (!idExpense) {
@@ -65,13 +55,20 @@ export async function updateExpense(params: UpdateExpenseParams) {
   return createdExpense
 }
 
-export async function getExpenseListService(
-  context: GetServerSidePropsContext
-) {
-  const { idGroup } = context.query
+export async function getExpenseService(context: GetServerSidePropsContext) {
+  const { idExpense } = context.query
 
-  return GETSSR<Expense[]>({
+  return GETSSR<ExpenseWithUsers>({
     context,
+    url: `${API_URL}/expense?idExpense=${idExpense}`,
+    requiredParams: !!idExpense
+  })
+}
+
+export async function getExpenseListService(
+  idGroup: string | string[] | undefined
+) {
+  return GETClient<Expense[]>({
     url: `${API_URL}/expense/list?idGroup=${idGroup}`,
     requiredParams: !!idGroup
   })

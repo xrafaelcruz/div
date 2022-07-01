@@ -1,14 +1,22 @@
-import { GetServerSidePropsContext } from 'next'
 import Head from 'next/head'
+import { useRouter } from 'next/router'
 
-import { isAuthenticated } from 'lib/auth'
-import { getGroupService, getUsersGroupServiceSSR } from 'services/group'
+import useIsAuthenticated from 'lib/auth/hooks/useIsAuthenticated'
+import useGetGroup from 'services/group/hooks/useGetGroup'
+import useGetUsersGroup from 'services/group/hooks/useGetUsersGroup'
 
 import GroupUsers from 'components/_pages/Users'
 
-import { UsersProps } from 'components/_pages/Users/types'
+export default function UsersPage() {
+  const router = useRouter()
+  const { idGroup } = router.query
 
-export default function UsersPage(props: UsersProps) {
+  const { user } = useIsAuthenticated()
+  const { group } = useGetGroup()
+  const { usersGroup } = useGetUsersGroup(idGroup as string)
+
+  if (!user || !group || !usersGroup) return
+
   return (
     <>
       <Head>
@@ -17,17 +25,7 @@ export default function UsersPage(props: UsersProps) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <GroupUsers {...props} />
+      <GroupUsers user={user} group={group} usersGroup={usersGroup} />
     </>
   )
 }
-
-// export async function getServerSideProps(context: GetServerSidePropsContext) {
-//   const user = await isAuthenticated(context)
-//   // const group = await getGroupService(context)
-//   // const usersGroup = await getUsersGroupServiceSSR(context)
-
-//   return {
-//     props: { user, group: null, usersGroup: [] }
-//   }
-// }

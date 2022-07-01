@@ -5,7 +5,7 @@ import { useForm as useFormRHF } from 'react-hook-form'
 import { currencyMask, removeCurrencyMask } from 'utils/masks/currency'
 import { getDefaultValues } from './helpers'
 
-import useUsersGroup from 'services/group/hooks/useMembersOfGroup'
+import useGetUsersGroup from 'services/group/hooks/useGetUsersGroup'
 
 import { getUserName } from 'utils/user'
 
@@ -17,7 +17,7 @@ const useForm = ({ user, expense }: t.ExpenseFormProps) => {
   const router = useRouter()
   const { idGroup } = router.query
 
-  const { usersGroup, getUsersGroup } = useUsersGroup(idGroup as string)
+  const { usersGroup, getUsersGroup } = useGetUsersGroup(idGroup as string)
   const [userFields, setUserFields] = useState<t.UserField[]>([])
   const [valuePerUser, setValuePerUser] = useState(defaultValuePerUser)
   const [checkedUsers, setCheckedUsers] = useState(0)

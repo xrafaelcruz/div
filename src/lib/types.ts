@@ -5,3 +5,8 @@ export type TGetSSR = {
   url: string
   requiredParams?: boolean
 }
+
+export type TGetClient = {
+  url: string
+  requiredParams?: boolean
+}

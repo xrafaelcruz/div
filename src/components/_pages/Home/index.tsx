@@ -1,6 +1,7 @@
 import { useRouter } from 'next/router'
 
 import { convertToMoney } from 'utils/normalize'
+import useGetGroups from 'services/group/hooks/useGetGroups'
 
 import Layout from 'components/Layout'
 
@@ -10,8 +11,10 @@ import * as s from './styles'
 
 const groupsLimit = 5
 
-export default function Home({ user, groups }: HomeProps) {
+export default function Home({ user }: HomeProps) {
   const router = useRouter()
+
+  const { groups } = useGetGroups(user)
 
   const totalMyGroups =
     groups?.reduce(

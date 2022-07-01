@@ -73,3 +73,26 @@ export async function GETSSR<T>({ context, url, requiredParams }: t.TGetSSR) {
 
   return finalResult || null
 }
+
+export async function GETClient<T>({ url, requiredParams }: t.TGetClient) {
+  if (!requiredParams) {
+    window.location.href = '/500'
+    return null
+  }
+
+  let finalResult: T | undefined
+
+  try {
+    const response = await GET(url)
+
+    if (!response.ok) {
+      throw new Error()
+    }
+
+    finalResult = await response.json()
+  } catch (e) {
+    window.location.href = '/500'
+  }
+
+  return finalResult || null
+}

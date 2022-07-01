@@ -11,3 +11,8 @@ export type UpdateUserProps = {
   description?: string
   pix?: string
 }
+
+export type CreateUserParams = Omit<
+  PrismaUser,
+  'id' | 'createdAt' | 'updatedAt'
+>

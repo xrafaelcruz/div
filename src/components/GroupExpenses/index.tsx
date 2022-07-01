@@ -19,7 +19,7 @@ const GroupExpenses = ({ user, expenses }: t.GroupExpensesProps) => {
     return getUserName(currentUser)
   }
 
-  const hasExpenses = !!expenses.length
+  const hasExpenses = !!expenses?.length
 
   return (
     <s.Section>

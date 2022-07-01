@@ -1,14 +1,12 @@
-import { GetServerSidePropsContext } from 'next'
 import Head from 'next/head'
-
-import { isAuthenticated } from 'lib/auth'
-import { getGroupListService } from 'services/group'
-
+import useIsAuthenticated from 'lib/auth/hooks/useIsAuthenticated'
 import Home from 'components/_pages/Home'
 
-import { HomeProps } from 'components/_pages/Home/types'
+export default function HomePage() {
+  const { user } = useIsAuthenticated()
 
-export default function HomePage(props: HomeProps) {
+  if (!user) return
+
   return (
     <>
       <Head>
@@ -17,16 +15,7 @@ export default function HomePage(props: HomeProps) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <Home {...props} />
+      <Home user={user} />
     </>
   )
 }
-
-// export async function getServerSideProps(context: GetServerSidePropsContext) {
-//   const user = await isAuthenticated(context)
-//   // const groups = await getGroupListService(context, user?.email)
-
-//   return {
-//     props: { user, groups: [] }
-//   }
-// }

@@ -1,13 +1,14 @@
-import { GetServerSidePropsContext } from 'next'
 import Head from 'next/head'
 
-import { isAuthenticated } from 'lib/auth'
+import useIsAuthenticated from 'lib/auth/hooks/useIsAuthenticated'
 
 import Profile from 'components/_pages/Profile'
 
-import { ProfileProps } from 'components/_pages/Profile/types'
+export default function ProfilePage() {
+  const { user } = useIsAuthenticated()
 
-export default function ProfilePage(props: ProfileProps) {
+  if (!user) return
+
   return (
     <>
       <Head>
@@ -16,15 +17,7 @@ export default function ProfilePage(props: ProfileProps) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <Profile {...props} />
+      <Profile user={user} />
     </>
   )
 }
-
-// export async function getServerSideProps(context: GetServerSidePropsContext) {
-//   const user = await isAuthenticated(context)
-
-//   return {
-//     props: { user }
-//   }
-// }
