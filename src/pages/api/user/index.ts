@@ -33,8 +33,6 @@ export default async function Get(req: NextApiRequest, res: NextApiResponse) {
       })
 
       if (user) {
-        console.log('normalizeUser(user)', normalizeUser(user), user)
-
         return res.status(200).json(normalizeUser(user))
       }
 

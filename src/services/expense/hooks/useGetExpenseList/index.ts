@@ -5,7 +5,7 @@ import { getExpenseListService } from 'services/expense'
 import { Expense } from 'services/expense/types'
 
 export default function useGetExpenseList() {
-  const requestedGetExpenses = useRef(false)
+  const requested = useRef(false)
 
   const router = useRouter()
   const { idGroup } = router.query
@@ -14,12 +14,12 @@ export default function useGetExpenseList() {
 
   useEffect(() => {
     const getExpenses = async () => {
-      const foundedExpenses = await getExpenseListService(idGroup)
+      const foundedExpenses = await getExpenseListService(idGroup as string)
       setExpenses(foundedExpenses || [])
     }
 
-    if (idGroup && !requestedGetExpenses.current) {
-      requestedGetExpenses.current = true
+    if (idGroup && !requested.current) {
+      requested.current = true
       getExpenses()
     }
   }, [idGroup])

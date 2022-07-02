@@ -2,9 +2,9 @@ import Head from 'next/head'
 
 import useIsAuthenticated from 'lib/auth/hooks/useIsAuthenticated'
 import useGetGroup from 'services/group/hooks/useGetGroup'
+import useGetExpenseList from 'services/expense/hooks/useGetExpenseList'
 
 import Group from 'components/_pages/Group'
-import useGetExpenseList from 'services/expense/hooks/useGetExpenseList'
 
 export default function GroupPage() {
   const { user } = useIsAuthenticated()

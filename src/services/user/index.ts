@@ -33,7 +33,7 @@ export async function createUserService(params: t.CreateUserParams) {
 
     createdUser = await response.json()
   } catch (e) {
-    // window.location.href = '/login'
+    window.location.href = '/login'
   }
 
   return createdUser

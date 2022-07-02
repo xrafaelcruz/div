@@ -55,42 +55,29 @@ export async function updateExpense(params: UpdateExpenseParams) {
   return createdExpense
 }
 
-export async function getExpenseService(context: GetServerSidePropsContext) {
-  const { idExpense } = context.query
-
-  return GETSSR<ExpenseWithUsers>({
-    context,
+export async function getExpenseService(idExpense: string) {
+  return GETClient<ExpenseWithUsers>({
     url: `${API_URL}/expense?idExpense=${idExpense}`,
     requiredParams: !!idExpense
   })
 }
 
-export async function getExpenseListService(
-  idGroup: string | string[] | undefined
-) {
+export async function getExpenseListService(idGroup: string) {
   return GETClient<Expense[]>({
     url: `${API_URL}/expense/list?idGroup=${idGroup}`,
     requiredParams: !!idGroup
   })
 }
 
-export async function getPaymentsService(context: GetServerSidePropsContext) {
-  const { idGroup } = context.query
-
-  return GETSSR<Payment[]>({
-    context,
+export async function getPaymentsByExpensesService(idGroup: string) {
+  return GETClient<Payment[]>({
     url: `${API_URL}/expense/payments?idGroup=${idGroup}`,
     requiredParams: !!idGroup
   })
 }
 
-export async function getPaymentsByUsersService(
-  context: GetServerSidePropsContext
-) {
-  const { idGroup } = context.query
-
-  return GETSSR<PaymentByUser[]>({
-    context,
+export async function getPaymentsByUsersService(idGroup: string) {
+  return GETClient<PaymentByUser[]>({
     url: `${API_URL}/expense/payments-by-users?idGroup=${idGroup}`,
     requiredParams: !!idGroup
   })

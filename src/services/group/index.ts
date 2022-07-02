@@ -79,12 +79,8 @@ export async function getUsersGroupServiceSSR(
   })
 }
 
-export async function getGroupInvitesService(
-  context: GetServerSidePropsContext,
-  userEmail?: string
-) {
-  return GETSSR<t.GroupInvite[]>({
-    context,
+export async function getGroupInvitesService(userEmail: string) {
+  return GETClient<t.GroupInvite[]>({
     url: `${API_URL}/group/invites?userEmail=${userEmail}`,
     requiredParams: !!userEmail
   })

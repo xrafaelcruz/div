@@ -32,7 +32,7 @@ const GroupExpenses = ({ user, expenses }: t.GroupExpensesProps) => {
               key={expense.id}
               onClick={() =>
                 router.push(
-                  `/despesa?idExpense=${expense.id}&idGroup=${expense.idGroup}`
+                  `/editar-despesa?idExpense=${expense.id}&idGroup=${expense.idGroup}`
                 )
               }
             >

@@ -1,5 +1,6 @@
 import { toast } from 'react-toastify'
 
+import useGetGroupInvites from 'services/group/hooks/useGetGroupInvites'
 import { updateUserGroupInvitesService } from 'services/group'
 import { InviteStatus } from 'lib/prisma/constants'
 
@@ -8,14 +9,13 @@ import Layout from 'components/Layout'
 
 import * as s from './styles'
 import * as t from './types'
-import { useState } from 'react'
 
-const Notifications = ({ user, invites }: t.NotificationsProps) => {
-  const [groupInvites, setGroupInvites] = useState(invites)
+const Notifications = ({ user }: t.NotificationsProps) => {
+  const { invites, setInvites } = useGetGroupInvites(user)
 
   const removeGroupFromList = (idUserGroup: string) => {
-    setGroupInvites((old) =>
-      old.filter((userGroup) => userGroup.id !== idUserGroup)
+    setInvites((old) =>
+      old?.filter((userGroup) => userGroup.id !== idUserGroup)
     )
   }
 
@@ -31,48 +31,58 @@ const Notifications = ({ user, invites }: t.NotificationsProps) => {
     }
   }
 
+  const hasInvites = !!invites?.length
+
   return (
-    <Layout user={user}>
-      <s.Wrapper>
-        <h1>Convites</h1>
+    <>
+      {invites && (
+        <Layout user={user}>
+          <s.Wrapper>
+            <h1>Convites</h1>
 
-        {!!groupInvites?.length && (
-          <s.List>
-            {groupInvites.map((userGroup) => (
-              <s.Item key={userGroup.id}>
-                <strong>{userGroup.group.name}</strong>
+            {hasInvites && (
+              <s.List>
+                {invites.map((userGroup) => (
+                  <s.Item key={userGroup.id}>
+                    <strong>{userGroup.group.name}</strong>
 
-                <s.Owner>Enviado por {userGroup.group.ownerUserEmail}</s.Owner>
+                    <s.Owner>
+                      Enviado por {userGroup.group.ownerUserEmail}
+                    </s.Owner>
 
-                <s.Buttons>
-                  <Button
-                    type="button"
-                    size="small"
-                    variant="danger"
-                    onClick={() => handleUpdateInvite(userGroup.id, 'canceled')}
-                  >
-                    Recusar
-                  </Button>
+                    <s.Buttons>
+                      <Button
+                        type="button"
+                        size="small"
+                        variant="danger"
+                        onClick={() =>
+                          handleUpdateInvite(userGroup.id, 'canceled')
+                        }
+                      >
+                        Recusar
+                      </Button>
 
-                  <Button
-                    type="button"
-                    size="small"
-                    variant="primary"
-                    onClick={() => handleUpdateInvite(userGroup.id, 'accept')}
-                  >
-                    Aceitar
-                  </Button>
-                </s.Buttons>
-              </s.Item>
-            ))}
-          </s.List>
-        )}
+                      <Button
+                        type="button"
+                        size="small"
+                        variant="primary"
+                        onClick={() =>
+                          handleUpdateInvite(userGroup.id, 'accept')
+                        }
+                      >
+                        Aceitar
+                      </Button>
+                    </s.Buttons>
+                  </s.Item>
+                ))}
+              </s.List>
+            )}
 
-        {!groupInvites?.length && (
-          <s.NotFound>Você não possui convites</s.NotFound>
-        )}
-      </s.Wrapper>
-    </Layout>
+            {!hasInvites && <s.NotFound>Você não possui convites</s.NotFound>}
+          </s.Wrapper>
+        </Layout>
+      )}
+    </>
   )
 }
 

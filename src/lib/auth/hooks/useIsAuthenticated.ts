@@ -2,10 +2,8 @@ import { useEffect, useState, useRef } from 'react'
 import { useSession } from 'next-auth/react'
 import { Session } from 'next-auth'
 
-import { User as PrismaUser } from '@prisma/client'
 import { User } from 'services/user/types'
 import { createUserService, getUserByEmailService } from 'services/user'
-import { createUser } from 'backend/services/user'
 
 const useIsAuthenticated = () => {
   const requested = useRef(false)
@@ -50,28 +48,23 @@ const useIsAuthenticated = () => {
     }
 
     const getUser = async (currentSession: Session) => {
-      let foundedUser: User | null = null
+      if (currentSession && currentSession.user) {
+        let foundedUser: User | null = null
 
-      try {
-        if (
-          currentSession &&
-          currentSession.user &&
-          currentSession.user.email
-        ) {
-          foundedUser = await getUserByEmailService(currentSession.user.email)
-
-          if (foundedUser) {
-            foundedUser.photo = currentSession.user.image || foundedUser.photo
-
-            seUser(foundedUser)
+        try {
+          if (currentSession.user.email) {
+            foundedUser = await getUserByEmailService(currentSession.user.email)
           }
+        } catch (e) {
+          window.location.href = '/login'
         }
-      } catch (e) {
-        window.location.href = '/login'
-      }
 
-      if (!foundedUser?.email) {
-        await createUser(currentSession)
+        if (!foundedUser?.email) {
+          createUser(currentSession)
+        } else {
+          foundedUser.photo = currentSession.user.image || foundedUser.photo
+          seUser(foundedUser)
+        }
       }
     }
 
