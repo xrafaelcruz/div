@@ -51,6 +51,7 @@ const PaymentsByUsers = ({ payments, user }: t.PaymentsByUsersProps) => {
                 <s.PaymentValue status={getStyle(payment.from, payment.to)}>
                   {convertToMoney(payment.total)}
                 </s.PaymentValue>{' '}
+                <br />
                 {payment.total !== payment.finalPayment && (
                   <>
                     mas deve pagar{' '}

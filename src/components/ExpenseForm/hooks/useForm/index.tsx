@@ -2,7 +2,7 @@ import { useState, ChangeEvent, useEffect, useCallback, useMemo } from 'react'
 import { useRouter } from 'next/router'
 import { useForm as useFormRHF } from 'react-hook-form'
 
-import { currencyMask, removeCurrencyMask } from 'utils/masks/currency'
+import { applyCurrencyMask, removeCurrencyMask } from 'utils/masks/currency'
 import { getDefaultValues } from './helpers'
 
 import useGetUsersGroup from 'services/group/hooks/useGetUsersGroup'
@@ -42,7 +42,7 @@ const useForm = ({ user, expense }: t.ExpenseFormProps) => {
     if (value) {
       const expenseValue = removeCurrencyMask(value)
       const divisionValue = checks ? expenseValue / checks : expenseValue
-      const maskedValue = currencyMask(divisionValue.toFixed(2))
+      const maskedValue = applyCurrencyMask(divisionValue)
 
       setValuePerUser(maskedValue ? maskedValue : defaultValuePerUser)
     } else {

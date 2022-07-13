@@ -1,4 +1,4 @@
-import { currencyMask } from 'utils/masks/currency'
+import { applyCurrencyMask } from 'utils/masks/currency'
 
 import { ExpenseWithUsers } from 'services/expense/types'
 import { User } from 'services/user/types'
@@ -9,9 +9,7 @@ export const getDefaultValues = (
   idGroup?: string | string[],
   expense?: ExpenseWithUsers
 ): t.GetDefaultValuesReturn => {
-  const value = expense?.value
-    ? currencyMask(Number(expense?.value).toFixed(2))
-    : ''
+  const value = expense?.value ? applyCurrencyMask(Number(expense?.value)) : ''
 
   const payerUserEmail = expense ? expense.userEmail : user.email
 

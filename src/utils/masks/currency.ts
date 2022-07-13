@@ -1,3 +1,10 @@
+export const applyCurrencyMask = (value: number) => {
+  const options = { minimumFractionDigits: 2 }
+  const result = new Intl.NumberFormat('pt-BR', options).format(value)
+
+  return 'R$ ' + result
+}
+
 export const currencyMask = (value: string | number) => {
   value = value.toString().replace('.', '').replace(',', '').replace(/\D/g, '')
 

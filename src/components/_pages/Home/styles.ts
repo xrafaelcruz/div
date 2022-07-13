@@ -28,7 +28,7 @@ export const Item = styled.li`
     border-radius: 5px;
     cursor: pointer;
     font-size: 16px;
-    padding: 16px;
+    padding: 8px 16px;
 
     &:hover {
       filter: brightness(95%);
@@ -45,10 +45,17 @@ export const Value = styled.span`
   `}
 `
 
-export const Max = styled.label`
+export const NewGroupWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+`
+
+export const Max = styled.p`
   ${({ theme }) => css`
     color: ${theme.colors.gray1};
     font-size: 14px;
+    text-align: center;
   `}
 `
 

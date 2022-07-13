@@ -22,7 +22,7 @@ const RemoveExpense = ({ idExpense }: t.RemoveExpenseProps) => {
 
     try {
       await deleteExpenseService(idExpense)
-      router.push('/')
+      router.back()
     } catch (e) {
       toast.error('Não foi possível excluir')
     }

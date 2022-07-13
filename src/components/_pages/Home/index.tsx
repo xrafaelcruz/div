@@ -29,23 +29,23 @@ export default function Home({ user }: HomeProps) {
 
   return (
     <Layout user={user} hideBack={true}>
-      {totalMyGroups < groupsLimit && (
-        <s.Button
-          onClick={() => router.push('/novo-grupo')}
-          type="button"
-          variant="primary"
-          size="medium"
-        >
-          NOVO GRUPO
-        </s.Button>
-      )}
+      <s.NewGroupWrapper>
+        {totalMyGroups < groupsLimit && (
+          <s.Button
+            onClick={() => router.push('/novo-grupo')}
+            type="button"
+            variant="primary"
+            size="medium"
+          >
+            NOVO GRUPO
+          </s.Button>
+        )}
+
+        <s.Max>(Você pode criar no máximo {groupsLimit})</s.Max>
+      </s.NewGroupWrapper>
 
       <s.Groups>
-        {hasGroups && (
-          <h1>
-            Grupos <s.Max>(Você pode criar no máximo {groupsLimit})</s.Max>
-          </h1>
-        )}
+        {hasGroups && <h1>Grupos</h1>}
 
         {hasGroups && (
           <s.List>
