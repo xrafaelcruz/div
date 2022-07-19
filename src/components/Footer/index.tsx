@@ -23,12 +23,13 @@ const Footer = ({ user }: t.FooterProps) => {
         </s.ButtonGroups>
 
         <s.ButtonExpense type="button" onClick={handleNewExpense}>
-          <FaPlus />
+          <FaPlus aria-label="Nova despesa" />
         </s.ButtonExpense>
 
         <s.ButtonProfile
           type="button"
           photo={user?.photo || ''}
+          aria-label="Perfil"
           onClick={() => router.push('/perfil')}
         />
       </s.Wrapper>

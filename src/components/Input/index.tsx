@@ -18,7 +18,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
 
       {props.type === 'checkbox' && (
         <s.Check>
-          <FaCheck />
+          <FaCheck aria-label="Checkbox" />
         </s.Check>
       )}
     </s.Wrapper>

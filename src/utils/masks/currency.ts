@@ -1,6 +1,10 @@
 export const applyCurrencyMask = (value: number) => {
   const options = { minimumFractionDigits: 2 }
-  const result = new Intl.NumberFormat('pt-BR', options).format(value)
+  const roundedNumber = (Math.round(value * 100) / 100).toFixed(2)
+
+  const result = new Intl.NumberFormat('pt-BR', options).format(
+    Number(roundedNumber)
+  )
 
   return 'R$ ' + result
 }

@@ -32,7 +32,6 @@ function goToLogin(context: GetServerSidePropsContext) {
  */
 export async function isAuthenticated(context: GetServerSidePropsContext) {
   const session = await getSession(context)
-  console.log('session.user?.email', session?.user?.email)
 
   if (!session || !session.user?.email) {
     return goToLogin(context)
@@ -40,8 +39,6 @@ export async function isAuthenticated(context: GetServerSidePropsContext) {
 
   try {
     const foundedUser = await getUserByEmail(session.user)
-
-    console.log('foundedUser', foundedUser)
 
     if (foundedUser) {
       foundedUser.photo = session.user.image || foundedUser.photo

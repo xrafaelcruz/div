@@ -137,8 +137,6 @@ const useForm = ({ user, expense }: t.ExpenseFormProps) => {
       })
     }
 
-    console.log('users', users)
-
     setCheckedUsers(checkeds)
     setUserFields(users)
 

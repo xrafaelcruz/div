@@ -12,7 +12,11 @@ const Header = ({ hideBack }: HeaderProps) => {
     <s.Header>
       <s.Wrapper>
         {!hideBack && (
-          <s.ButtonBack type="button" onClick={() => router.back()}>
+          <s.ButtonBack
+            type="button"
+            aria-label="Voltar"
+            onClick={() => router.back()}
+          >
             <FaLongArrowAltLeft />
           </s.ButtonBack>
         )}
@@ -21,6 +25,7 @@ const Header = ({ hideBack }: HeaderProps) => {
 
         <s.ButtonNotification
           type="button"
+          aria-label="Notificações"
           onClick={() => router.push('/notificacoes')}
         >
           <FaBell />

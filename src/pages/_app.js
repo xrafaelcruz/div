@@ -1,23 +1,14 @@
 import { SessionProvider } from 'next-auth/react'
-import { ThemeProvider } from 'styled-components'
-import { ToastContainer } from 'react-toastify'
-
-import GlobalStyles from 'styles/global'
-import theme from 'styles/theme'
-
+import App from '../components/App'
 import 'react-toastify/dist/ReactToastify.css'
 
 function MyApp({ Component, pageProps }) {
   return (
-    <ThemeProvider theme={theme}>
-      <GlobalStyles />
-
+    <App>
       <SessionProvider session={pageProps.session}>
         <Component {...pageProps} />
       </SessionProvider>
-
-      <ToastContainer />
-    </ThemeProvider>
+    </App>
   )
 }
 

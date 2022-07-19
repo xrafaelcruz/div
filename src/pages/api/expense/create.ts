@@ -61,8 +61,6 @@ export default async function Create(
     try {
       const users: UserToCreation[] = req.body.users
 
-      console.log('users', users)
-
       const expenseUsers: ExpenseUserGroupToCreation[] = users.map(
         (user): ExpenseUserGroupToCreation => ({
           idExpense: createdExpense.id,
