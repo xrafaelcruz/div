@@ -4,7 +4,7 @@ export const Section = styled.section`
   flex: 1;
 `
 
-export const ExpenseList = styled.ul`
+export const ExpenseList = styled.div`
   display: flex;
   flex-direction: column;
   list-style: none;
@@ -12,9 +12,13 @@ export const ExpenseList = styled.ul`
   margin-top: 8px;
   padding: 0;
   width: 100%;
+
+  a:last-of-type {
+    margin-bottom: 32px;
+  }
 `
 
-export const ExpenseItem = styled.button`
+export const ExpenseItem = styled.div`
   ${({ theme }) => css`
     background: ${theme.colors.darkGray1};
     border: 0;
@@ -25,10 +29,6 @@ export const ExpenseItem = styled.button`
     font-size: 16px;
     gap: 4px;
     padding: 8px 16px;
-
-    &:last-of-type {
-      margin-bottom: 32px;
-    }
 
     &:hover {
       filter: brightness(95%);

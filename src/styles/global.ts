@@ -52,6 +52,10 @@ const GlobalStyles = createGlobalStyle`
   a {
     cursor: pointer;
     text-decoration: none;
+
+    button {
+      width: 100%;
+    }
   }
 
   h1 {

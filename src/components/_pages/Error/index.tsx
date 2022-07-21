@@ -1,13 +1,9 @@
-import { useRouter } from 'next/router'
-
-import Button from 'components/Button'
+import { ButtonLink } from 'components/Button'
 import { FaExclamation } from 'react-icons/fa'
 
 import * as s from './styles'
 
 export default function ErrorPage() {
-  const router = useRouter()
-
   return (
     <s.Wrapper>
       <s.Icon>
@@ -21,14 +17,9 @@ export default function ErrorPage() {
         </s.Contact>
       </h1>
 
-      <Button
-        variant="primary"
-        size="big"
-        type="button"
-        onClick={() => router.push('/')}
-      >
+      <ButtonLink variant="primary" size="big" href="/">
         Ir para a tela inicial
-      </Button>
+      </ButtonLink>
     </s.Wrapper>
   )
 }

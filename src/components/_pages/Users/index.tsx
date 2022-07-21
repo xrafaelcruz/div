@@ -1,6 +1,5 @@
 import { useRouter } from 'next/router'
 
-import Layout from 'components/Layout'
 import Button from 'components/Button'
 import GroupHeader from 'components/GroupHeader'
 import GroupUsers from 'components/GroupUsers'
@@ -12,27 +11,25 @@ export default function Users({ user, group, usersGroup }: t.UsersProps) {
   const router = useRouter()
 
   return (
-    <Layout user={user}>
-      <s.Main>
-        <GroupHeader group={group} user={user} />
+    <s.Main>
+      <GroupHeader group={group} user={user} />
 
-        <s.Buttons>
-          {user.email === group?.ownerUserEmail && (
-            <Button
-              type="button"
-              variant="outlined"
-              onClick={() => router.push(`/editar-grupo?idGroup=${group.id}`)}
-            >
-              Editar
-            </Button>
-          )}
-        </s.Buttons>
+      <s.Buttons>
+        {user.email === group?.ownerUserEmail && (
+          <Button
+            type="button"
+            variant="outlined"
+            onClick={() => router.push(`/editar-grupo?idGroup=${group.id}`)}
+          >
+            Editar
+          </Button>
+        )}
+      </s.Buttons>
 
-        <GroupUsers
-          ownerUserEmail={group?.ownerUserEmail}
-          usersGroup={usersGroup}
-        />
-      </s.Main>
-    </Layout>
+      <GroupUsers
+        ownerUserEmail={group?.ownerUserEmail}
+        usersGroup={usersGroup}
+      />
+    </s.Main>
   )
 }

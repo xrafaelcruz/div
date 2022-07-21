@@ -8,6 +8,7 @@ const App = ({ children }: any) => (
   <ThemeProvider theme={theme}>
     <GlobalStyles />
     {children}
+
     <ToastContainer />
   </ThemeProvider>
 )

@@ -8,7 +8,7 @@ export const Wrapper = styled.section`
   gap: 32px;
   justify-content: center;
   text-align: center;
-  width: 100vw;
+  width: 100%;
 
   h1 {
     font-size: 20px;

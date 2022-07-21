@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import ButtonOriginal from 'components/Button'
+import { ButtonLink } from 'components/Button'
 
 export const Main = styled.main`
   display: flex;
@@ -7,7 +7,7 @@ export const Main = styled.main`
   gap: 32px;
 `
 
-export const Button = styled(ButtonOriginal)`
+export const Button = styled(ButtonLink)`
   align-self: center;
 `
 

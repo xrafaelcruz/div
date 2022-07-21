@@ -1,8 +1,7 @@
 import styled, { css } from 'styled-components'
-import LayoutOriginal from 'components/Layout'
 import { opacityAnimation } from 'styles/global'
 
-export const Layout = styled(LayoutOriginal)`
+export const Layout = styled.div`
   display: flex;
   flex-direction: column;
   gap: 32px;

@@ -1,5 +1,6 @@
 import { useRouter } from 'next/router'
 import { FaUserFriends, FaPlus } from 'react-icons/fa'
+import Link from 'next/link'
 
 import * as s from './styles'
 import * as t from './types'
@@ -8,7 +9,9 @@ const Footer = ({ user }: t.FooterProps) => {
   const router = useRouter()
   const { idGroup } = router.query
 
-  const handleNewExpense = () => {
+  const handleNewExpense = (e: any) => {
+    e.preventDefault()
+
     if (router.pathname !== '/nova-despesa') {
       router.push(`/nova-despesa${idGroup ? `?idGroup=${idGroup}` : ''}`)
     }
@@ -17,21 +20,28 @@ const Footer = ({ user }: t.FooterProps) => {
   return (
     <s.Footer>
       <s.Wrapper>
-        <s.ButtonGroups type="button" onClick={() => router.push('/')}>
-          <FaUserFriends />
-          <s.GroupTitle>Grupos</s.GroupTitle>
-        </s.ButtonGroups>
+        <Link href="/" passHref>
+          <s.ButtonGroups>
+            <FaUserFriends />
+            <s.GroupTitle>Grupos</s.GroupTitle>
+          </s.ButtonGroups>
+        </Link>
 
-        <s.ButtonExpense type="button" onClick={handleNewExpense}>
+        <s.ButtonExpense
+          href={`/nova-despesa${idGroup ? `?idGroup=${idGroup}` : ''}`}
+          onClick={handleNewExpense}
+        >
           <FaPlus aria-label="Nova despesa" />
         </s.ButtonExpense>
 
-        <s.ButtonProfile
-          type="button"
-          photo={user?.photo || ''}
-          aria-label="Perfil"
-          onClick={() => router.push('/perfil')}
-        />
+        <Link href="/perfil" passHref>
+          <s.ButtonProfile
+            type="button"
+            photo={user?.photo || ''}
+            aria-label="Perfil"
+            onClick={() => router.push('/perfil')}
+          />
+        </Link>
       </s.Wrapper>
     </s.Footer>
   )

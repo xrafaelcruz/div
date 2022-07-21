@@ -26,6 +26,7 @@ export const Item = styled.li`
   ${({ theme }) => css`
     background: ${theme.colors.darkGray1};
     border-radius: 5px;
+    color: ${theme.colors.white};
     cursor: pointer;
     font-size: 16px;
     padding: 8px 16px;

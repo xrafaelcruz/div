@@ -5,6 +5,6 @@ export type NewExpenseProps = {
 }
 
 export type LayoutProps = {
-  user: User
+  user?: User
   hideBack?: boolean
 }

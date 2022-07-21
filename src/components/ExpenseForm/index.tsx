@@ -107,7 +107,7 @@ const ExpenseForm = ({ user, expense, groups }: t.ExpenseFormProps) => {
   }
 
   return (
-    <s.Layout user={user}>
+    <s.Layout>
       <h1>{isEdit ? 'Editar despesa' : 'Nova despesa'}</h1>
 
       <s.Form onSubmit={handleSubmit(onSubmit)}>

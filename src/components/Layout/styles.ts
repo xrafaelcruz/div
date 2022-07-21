@@ -18,10 +18,13 @@ export const Container = styled.div`
   margin: auto;
   max-width: 480px;
   width: 100%;
+
+  > * {
+    animation: ${opacityAnimation} 500ms;
+  }
 `
 
-export const Main = styled.main`
-  animation: ${opacityAnimation} 700ms;
+export const Main = styled.div`
   flex: 1;
   max-height: calc(100vh - 100px);
   overflow-y: auto;

@@ -86,7 +86,7 @@ const GroupForm = ({ user, group }: GroupFormProps) => {
   }
 
   return (
-    <s.Layout user={user}>
+    <s.Layout>
       <h1>{isEdit ? 'Editar grupo' : 'Criar grupo'}</h1>
 
       <s.Form onSubmit={handleSubmit(onSubmit)}>

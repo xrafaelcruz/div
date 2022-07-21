@@ -21,7 +21,7 @@ export const Wrapper = styled.div`
   width: 100%;
 `
 
-export const ButtonGroups = styled.button`
+export const ButtonGroups = styled.a`
   ${({ theme }) => css`
     align-items: center;
     background: transparent;
@@ -46,7 +46,7 @@ export const GroupTitle = styled.span`
   font-size: 14px;
 `
 
-export const ButtonExpense = styled.button`
+export const ButtonExpense = styled.a`
   ${({ theme }) => css`
     align-items: center;
     background: transparent;
@@ -68,7 +68,7 @@ export const ButtonExpense = styled.button`
   `}
 `
 
-export const ButtonProfile = styled.button<{ photo: string }>`
+export const ButtonProfile = styled.a<{ photo: string }>`
   ${({ theme, photo }) => css`
     background: url(${photo}) no-repeat;
     background-color: ${theme.colors.white};

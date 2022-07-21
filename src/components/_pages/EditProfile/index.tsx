@@ -44,7 +44,7 @@ export default function Profile({ user }: t.ProfileProps) {
   }
 
   return (
-    <s.Layout user={user}>
+    <s.Layout>
       <h1>Editar Perfil</h1>
 
       <s.Infos>
