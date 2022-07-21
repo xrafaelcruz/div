@@ -18,6 +18,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
         id={id}
         ref={ref}
         autoComplete="off"
+        maxLength={50}
       />
 
       {error && <s.Error>{error}</s.Error>}

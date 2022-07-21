@@ -17,6 +17,7 @@ const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
         ref={ref}
         rows={rows}
         autoComplete="off"
+        maxLength={140}
       />
 
       {error && <s.Error>{error}</s.Error>}
