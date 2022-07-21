@@ -47,7 +47,5 @@ const GroupPayments = ({
     </s.Section>
   )
 }
-{
-  /*  */
-}
+
 export default GroupPayments

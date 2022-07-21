@@ -22,7 +22,9 @@ export default function Profile({ user }: t.ProfileProps) {
   } = useForm<t.FormData>({
     mode: 'onBlur',
     defaultValues: {
-      name: user.name
+      name: user.name,
+      pix: user.pix,
+      description: user.description
     }
   })
 

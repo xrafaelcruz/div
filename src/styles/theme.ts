@@ -11,7 +11,7 @@ const theme = {
     black: '#000000',
     orange: '#fd951f',
     error: '#ec5990'
-    // red: '#DA0707'
+    // red: '#ff6b81'
   },
   fonts: {
     primary: 'inherit',

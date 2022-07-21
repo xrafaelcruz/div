@@ -18,13 +18,13 @@ const RemoveExpense = ({ idExpense }: t.RemoveExpenseProps) => {
   }
 
   const modalOnClickYes = async () => {
-    if (!idExpense) return
-
-    try {
-      await deleteExpenseService(idExpense)
-      router.back()
-    } catch (e) {
-      toast.error('Não foi possível excluir')
+    if (idExpense) {
+      try {
+        await deleteExpenseService(idExpense)
+        router.back()
+      } catch (e) {
+        toast.error('Não foi possível excluir')
+      }
     }
   }
 

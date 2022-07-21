@@ -12,7 +12,7 @@ const Select = forwardRef<HTMLSelectElement, SelectProps>(
       </s.Label>
 
       <s.SelectWrapper error={!!error}>
-        <select {...props} ref={ref}>
+        <select aria-label={label} {...props} ref={ref}>
           {children}
         </select>
       </s.SelectWrapper>

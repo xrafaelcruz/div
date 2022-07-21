@@ -181,6 +181,7 @@ const ExpenseForm = ({ user, expense, groups }: t.ExpenseFormProps) => {
                 render={({ field: { onChange, ...fieldProps } }) => (
                   <Select
                     {...fieldProps}
+                    aria-label="Quem pagou"
                     error={errors.payerUserEmail?.message}
                     onChange={handleChangePayerUserName(onChange)}
                     disabled={!watch('idGroup')}
@@ -206,6 +207,7 @@ const ExpenseForm = ({ user, expense, groups }: t.ExpenseFormProps) => {
                     <s.Label key={userField.id} htmlFor={userField.id}>
                       <span>{getName(userField)}</span>
                       <Input
+                        aria-label="Marcar usuario que vai dividir"
                         type="checkbox"
                         id={userField.id}
                         checked={userField.checked}

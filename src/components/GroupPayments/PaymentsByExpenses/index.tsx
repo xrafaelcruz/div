@@ -1,63 +1,27 @@
-import { PaymentStatus } from 'lib/prisma/constants'
 import { convertToMoney } from 'utils/normalize'
-import { getUserName } from 'utils/user'
-
-import { User } from 'services/user/types'
 
 import * as t from './types'
+import * as h from './helpers'
 import * as s from '../styles'
 
 const PaymentsByExpenses = ({ payments, user }: t.PaymentsByExpensesProps) => {
-  const getName = (currentUser: User) =>
-    currentUser.id === user.id ? 'Você' : getUserName(currentUser)
-
-  const getPaymentStatus = (paymentStatus: string) =>
-    paymentStatus === PaymentStatus.pending ? 'deve' : paymentStatus
-
-  const getStyle = (
-    emailPaymentOwner: string,
-    paymentStatus: string,
-    emailExpensePayer: string
-  ) => {
-    if (
-      emailPaymentOwner === user.email &&
-      paymentStatus === PaymentStatus.pending
-    ) {
-      return 'style2'
-    }
-
-    if (
-      emailPaymentOwner !== user.email &&
-      paymentStatus === PaymentStatus.pending &&
-      emailExpensePayer === user.email
-    ) {
-      return 'style3'
-    }
-
-    if (
-      emailPaymentOwner !== user.email &&
-      paymentStatus === PaymentStatus.pending
-    ) {
-      return 'style4'
-    }
-  }
-
   const hasPayments = !!payments?.length
 
   return (
     <>
       {hasPayments && (
-        <s.List>
+        <s.List data-testid="payments-by-expenses">
           {payments.map((payment) => (
             <s.Item key={payment.id}>
               <s.Text>
-                <s.Highlight>{getName(payment.user)}</s.Highlight>
+                <s.Highlight>{h.getName(payment.user, user)}</s.Highlight>
               </s.Text>
 
               <s.Text>
-                {getPaymentStatus(payment.paymentStatus)}{' '}
+                {h.getPaymentStatus(payment.paymentStatus)}{' '}
                 <s.PaymentValue
-                  status={getStyle(
+                  status={h.getStyle(
+                    user.email,
                     payment.userEmail,
                     payment.paymentStatus,
                     payment.expense.userEmail
@@ -69,7 +33,10 @@ const PaymentsByExpenses = ({ payments, user }: t.PaymentsByExpensesProps) => {
               </s.Text>
 
               <s.Text>
-                para <s.Highlight>{getName(payment.expense.user)}</s.Highlight>
+                para{' '}
+                <s.Highlight>
+                  {h.getName(payment.expense.user, user)}
+                </s.Highlight>
               </s.Text>
             </s.Item>
           ))}

@@ -29,6 +29,7 @@ const GroupExpenses = ({ user, expenses }: t.GroupExpensesProps) => {
         <s.ExpenseList>
           {expenses.map((expense) => (
             <s.ExpenseItem
+              data-testid="expense"
               key={expense.id}
               onClick={() =>
                 router.push(

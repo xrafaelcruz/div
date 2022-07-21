@@ -12,7 +12,13 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
         {label} {optional && <s.Optional>(Opcional)</s.Optional>}
       </s.Label>
 
-      <input {...props} id={id} ref={ref} autoComplete="off" />
+      <input
+        aria-label={label}
+        {...props}
+        id={id}
+        ref={ref}
+        autoComplete="off"
+      />
 
       {error && <s.Error>{error}</s.Error>}
 

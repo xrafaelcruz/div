@@ -124,4 +124,18 @@ describe('Component Home', () => {
 
     expect(warning).toBeInTheDocument()
   })
+
+  it('Should not render when groups is null', async () => {
+    mockUseRouter()
+
+    jest
+      .spyOn(require('services/group/hooks/useGetGroups'), 'default')
+      .mockReturnValue({ groups: null })
+
+    renderComponent(<Home user={mockUser} />)
+
+    const warning = screen.queryByText('Você não faz parte de nenhum')
+
+    expect(warning).not.toBeInTheDocument()
+  })
 })

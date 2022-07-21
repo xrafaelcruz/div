@@ -60,7 +60,7 @@ export const Label = styled.label`
     color: ${theme.colors.white};
   `}
 `
-export const Optional = styled.label`
+export const Optional = styled.span`
   ${({ theme }) => css`
     color: ${theme.colors.gray1};
   `}
