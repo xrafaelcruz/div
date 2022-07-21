@@ -1,5 +1,4 @@
 import { screen, waitFor } from '@testing-library/react'
-import userEvent from '@testing-library/user-event'
 
 import { mockUseRouter, renderComponent } from 'utils/tests'
 import { mockUser, mockPaymentsByExpense } from 'utils/tests/mocks'

@@ -1,9 +1,8 @@
-import { getByTestId, screen, waitFor } from '@testing-library/react'
+import { screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { toast } from 'react-toastify'
 
 import { mockUseRouter, renderComponent } from 'utils/tests'
-import { mockUser, mockGroup, mockExpenseList } from 'utils/tests/mocks'
+import { mockUser, mockExpenseList } from 'utils/tests/mocks'
 
 import GroupExpenses from '.'
 
