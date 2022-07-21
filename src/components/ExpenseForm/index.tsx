@@ -15,6 +15,7 @@ import { getUserName } from 'utils/user'
 import { required } from 'utils/validations'
 import { currencyMask, removeCurrencyMask } from 'utils/masks/currency'
 import { createExpense, updateExpense } from 'services/expense'
+import { getLoader } from 'lib/loader'
 
 import * as t from './types'
 import { ExpenseTypes } from 'constants/expenseTypes'
@@ -84,6 +85,8 @@ const ExpenseForm = ({ user, expense, groups }: t.ExpenseFormProps) => {
 
   const onSubmit = async (data: t.FormData) => {
     try {
+      getLoader()?.continuousStart()
+
       const payload = {
         payerUserEmail: data.payerUserEmail,
         idGroup: data.idGroup,
@@ -103,6 +106,8 @@ const ExpenseForm = ({ user, expense, groups }: t.ExpenseFormProps) => {
       }
     } catch (e) {
       toast.error(`Não foi possível ${isEdit ? 'editar' : 'criar'}`)
+    } finally {
+      getLoader()?.complete()
     }
   }
 

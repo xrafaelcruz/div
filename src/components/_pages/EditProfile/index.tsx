@@ -8,6 +8,7 @@ import Textarea from 'components/Textarea'
 
 import { required } from 'utils/validations'
 import { updateUserService } from 'services/user'
+import { getLoader } from 'lib/loader'
 
 import * as s from './styles'
 import * as t from './types'
@@ -30,6 +31,8 @@ export default function Profile({ user }: t.ProfileProps) {
 
   const onSubmit = async (data: t.FormData) => {
     try {
+      getLoader()?.continuousStart()
+
       await updateUserService({
         idUser: user.id,
         name: data.name,
@@ -40,6 +43,8 @@ export default function Profile({ user }: t.ProfileProps) {
       router.back()
     } catch (e) {
       toast.error('Não foi possível atualizar o perfil')
+    } finally {
+      getLoader()?.complete()
     }
   }
 

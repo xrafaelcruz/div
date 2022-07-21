@@ -2,6 +2,8 @@ import { useEffect, useRef, useState } from 'react'
 import { useRouter } from 'next/router'
 
 import { getPaymentsByUsersService } from 'services/expense'
+import { getLoader } from 'lib/loader'
+
 import { PaymentByUser } from 'services/expense/types'
 
 export default function useGetPaymentsByUsers() {
@@ -14,8 +16,12 @@ export default function useGetPaymentsByUsers() {
 
   useEffect(() => {
     const getPaymentsByExpenses = async () => {
+      getLoader()?.continuousStart()
+
       const foundedPayments = await getPaymentsByUsersService(idGroup as string)
       setPaymentsByUsers(foundedPayments || [])
+
+      getLoader()?.complete()
     }
 
     if (idGroup && !requested.current) {

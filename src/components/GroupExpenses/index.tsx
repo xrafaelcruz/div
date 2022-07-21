@@ -1,4 +1,3 @@
-import { useRouter } from 'next/router'
 import Link from 'next/link'
 
 import { convertToMoney } from 'utils/normalize'
@@ -10,8 +9,6 @@ import * as t from './types'
 import * as s from './styles'
 
 const GroupExpenses = ({ user, expenses }: t.GroupExpensesProps) => {
-  const router = useRouter()
-
   const getName = (currentUser: User) => {
     if (currentUser.id === user.id) {
       return 'Você'

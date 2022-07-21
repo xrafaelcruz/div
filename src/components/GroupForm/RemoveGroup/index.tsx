@@ -4,6 +4,7 @@ import { toast } from 'react-toastify'
 
 import Modal from 'components/Modal'
 import { removeGroupService } from 'services/group'
+import { getLoader } from 'lib/loader'
 
 import * as s from './styles'
 import * as t from './types'
@@ -20,12 +21,16 @@ const RemoveGroup = ({ idGroup }: t.RemoveGroupProps) => {
 
   const modalOnClickYes = async () => {
     try {
+      getLoader()?.continuousStart()
+
       if (idGroup) {
         await removeGroupService(idGroup)
         router.push('/')
       }
     } catch (e) {
       toast.error('Não foi possível excluir')
+    } finally {
+      getLoader()?.complete()
     }
   }
 

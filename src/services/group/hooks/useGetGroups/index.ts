@@ -1,5 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 
+import { getLoader } from 'lib/loader'
+
 import { getGroupListService } from 'services/group'
 
 import { Group } from 'services/group/types'
@@ -11,8 +13,13 @@ export default function useGetGroups(user: User) {
 
   useEffect(() => {
     const getGroups = async () => {
+      getLoader()?.continuousStart()
+
       const foundedGroups = await getGroupListService(user?.email)
+
       setGroups(foundedGroups || [])
+
+      getLoader()?.complete()
     }
 
     if (user && !requested.current) {

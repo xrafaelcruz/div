@@ -2,6 +2,7 @@ import { useEffect, useState, useRef, useCallback } from 'react'
 import { useRouter } from 'next/router'
 
 import { getUsersGroupService } from 'services/group'
+import { getLoader } from 'lib/loader'
 
 import { UseUsersGroupReturn } from './types'
 import { UserGroup } from 'services/group/types'
@@ -20,6 +21,8 @@ const useGetUsersGroup = (initialIdGroup?: string): UseUsersGroupReturn => {
       }
 
       try {
+        getLoader()?.continuousStart()
+
         const userGroupArray = await getUsersGroupService(idGroup)
 
         if (userGroupArray) {
@@ -45,6 +48,8 @@ const useGetUsersGroup = (initialIdGroup?: string): UseUsersGroupReturn => {
         }
       } catch (e) {
         router.push('/500')
+      } finally {
+        getLoader()?.complete()
       }
     },
     [router]

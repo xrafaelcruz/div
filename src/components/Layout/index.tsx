@@ -1,6 +1,8 @@
-import { PropsWithChildren } from 'react'
+import { PropsWithChildren, useEffect, useRef } from 'react'
+import LoadingBar from 'react-top-loading-bar'
 
 import useIsAuthenticated from 'lib/auth/hooks/useIsAuthenticated'
+import { getLoader, setLoader } from 'lib/loader'
 
 import Header from 'components/Header'
 import Footer from 'components/Footer'
@@ -16,14 +18,25 @@ const Layout = ({
 }: PropsWithChildren<LayoutProps>) => {
   const { user } = useIsAuthenticated()
 
+  const ref = useRef<any>(null)
+  useEffect(() => {
+    if (!getLoader()) {
+      setLoader(ref)
+    }
+  })
+
   return (
-    <s.Wrapper>
-      <Header hideBack={hideBack} />
-      <s.Main>
-        <s.Container {...props}>{children}</s.Container>
-      </s.Main>
-      <Footer user={user} />
-    </s.Wrapper>
+    <>
+      <s.Wrapper>
+        <Header hideBack={hideBack} />
+        <s.Main>
+          <s.Container {...props}>{children}</s.Container>
+        </s.Main>
+        <Footer user={user} />
+      </s.Wrapper>
+
+      <LoadingBar color="#07d962" height={4} ref={ref} />
+    </>
   )
 }
 

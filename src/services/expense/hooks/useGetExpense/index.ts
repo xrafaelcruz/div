@@ -2,6 +2,8 @@ import { useEffect, useRef, useState } from 'react'
 import { useRouter } from 'next/router'
 
 import { getExpenseService } from 'services/expense'
+import { getLoader } from 'lib/loader'
+
 import { ExpenseWithUsers } from 'services/expense/types'
 
 export default function useGetExpense() {
@@ -14,8 +16,12 @@ export default function useGetExpense() {
 
   useEffect(() => {
     const getExpenses = async () => {
+      getLoader()?.continuousStart()
+
       const foundedExpense = await getExpenseService(idExpense as string)
       setExpense(foundedExpense)
+
+      getLoader()?.complete()
     }
 
     if (idExpense && !requested.current) {

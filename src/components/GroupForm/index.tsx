@@ -11,6 +11,7 @@ import Textarea from 'components/Textarea'
 import { createGroup, editGroupService } from 'services/group'
 import { required } from 'utils/validations'
 import { getDefaultValues } from './helpers'
+import { getLoader } from 'lib/loader'
 
 import { GroupFormProps, UserField, FormData } from './types'
 
@@ -73,15 +74,19 @@ const GroupForm = ({ user, group }: GroupFormProps) => {
 
   const onSubmit = async (data: FormData) => {
     try {
+      getLoader()?.continuousStart()
+
       if (isEdit) {
         if (user.email === group?.ownerUserEmail) {
-          edit(data)
+          await edit(data)
         }
       } else {
-        create(data)
+        await create(data)
       }
     } catch (e) {
       toast.error('Não foi possível excluir')
+    } finally {
+      getLoader()?.complete()
     }
   }
 

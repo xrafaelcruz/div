@@ -3,6 +3,7 @@ import { toast } from 'react-toastify'
 import useGetGroupInvites from 'services/group/hooks/useGetGroupInvites'
 import { updateUserGroupInvitesService } from 'services/group'
 import { InviteStatus } from 'lib/prisma/constants'
+import { getLoader } from 'lib/loader'
 
 import Button from 'components/Button'
 
@@ -23,10 +24,15 @@ const Notifications = ({ user }: t.NotificationsProps) => {
     status: keyof typeof InviteStatus
   ) => {
     try {
+      getLoader()?.continuousStart()
+
       await updateUserGroupInvitesService(idUserGroup, status)
+
       removeGroupFromList(idUserGroup)
     } catch (e) {
       toast.error('Não foi possível executar essa operação')
+    } finally {
+      getLoader()?.complete()
     }
   }
 

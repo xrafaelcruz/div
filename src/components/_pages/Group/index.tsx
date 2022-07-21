@@ -1,5 +1,3 @@
-import { useRouter } from 'next/router'
-
 import { ButtonLink } from 'components/Button'
 import GroupHeader from 'components/GroupHeader'
 import GroupExpenses from 'components/GroupExpenses'
@@ -8,8 +6,6 @@ import * as s from './styles'
 import * as t from './types'
 
 export default function Group({ user, group, expenses }: t.GroupProps) {
-  const router = useRouter()
-
   return (
     <s.Main>
       <GroupHeader group={group} user={user} />

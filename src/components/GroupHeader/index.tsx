@@ -3,11 +3,11 @@ import { useRouter } from 'next/router'
 import { toast } from 'react-toastify'
 
 import Modal from 'components/Modal'
+import Button from 'components/Button'
 
 import { exitGroupService } from 'services/group'
 import { convertToMoney } from 'utils/normalize'
-
-import Button from 'components/Button'
+import { getLoader } from 'lib/loader'
 
 import * as t from './types'
 import * as s from './styles'
@@ -25,10 +25,15 @@ const GroupHeader = ({ user, group }: t.GroupHeaderProps) => {
 
   const modalOnClickYes = async () => {
     try {
+      getLoader()?.continuousStart()
+
       await exitGroupService(group.id, user.email)
+
       router.push('/')
     } catch (e) {
       toast.error('Não foi possível sair do grupo')
+    } finally {
+      getLoader()?.complete()
     }
   }
 

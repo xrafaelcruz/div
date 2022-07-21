@@ -9,6 +9,7 @@ import Modal from 'components/Modal'
 
 import { removeUserGroupService } from 'services/group'
 import { required } from 'utils/validations'
+import { getLoader } from 'lib/loader'
 
 import * as s from './styles'
 import * as t from './types'
@@ -64,6 +65,8 @@ const Users = ({
 
   const modalOnClickYes = async () => {
     try {
+      getLoader()?.continuousStart()
+
       if (idGroup) {
         const id = selectedUserToRemove
         await removeUserGroupService(idGroup, watch(`email.${id}`))
@@ -71,6 +74,8 @@ const Users = ({
       }
     } catch (e) {
       toast.error('Não foi possível excluir')
+    } finally {
+      getLoader()?.complete()
     }
 
     setModalOpen(false)
