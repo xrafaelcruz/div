@@ -17,7 +17,7 @@ export const Wrapper = styled.div`
   height: 50px;
   justify-content: center;
   max-width: 480px;
-  padding: 0 8px;
+  padding: 0 16px;
   position: relative;
   width: 100%;
 `
@@ -31,7 +31,7 @@ export const ButtonBack = styled.button`
     color: ${theme.colors.white};
     cursor: pointer;
     display: flex;
-    left: 8px;
+    left: 16px;
     position: absolute;
     top: 0;
     transition: color 250ms;
@@ -54,7 +54,7 @@ export const ButtonNotification = styled.button`
     color: ${theme.colors.white};
     cursor: pointer;
     position: absolute;
-    right: 8px;
+    right: 16px;
     top: 0;
     transition: color 250ms;
 

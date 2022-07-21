@@ -66,6 +66,8 @@ const ExpenseForm = ({ user, expense, groups }: t.ExpenseFormProps) => {
     reset()
     resetValuePerUser()
     setModalOpen(false)
+
+    document.getElementById('main')?.scrollTo(0, 0)
   }
 
   const modalOnClickNo = () => {

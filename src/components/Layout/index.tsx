@@ -29,7 +29,7 @@ const Layout = ({
     <>
       <s.Wrapper>
         <Header hideBack={hideBack} />
-        <s.Main>
+        <s.Main id="main">
           <s.Container {...props}>{children}</s.Container>
         </s.Main>
         <Footer user={user} />
