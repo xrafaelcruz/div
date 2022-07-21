@@ -4,18 +4,20 @@ import { Session } from 'next-auth'
 
 import { User } from 'services/user/types'
 import { createUserService, getUserByEmailService } from 'services/user'
+import { useRouter } from 'next/router'
 
 const useIsAuthenticated = () => {
   const requested = useRef(false)
+  const router = useRouter()
+
+  const isLogin = router.route === '/login'
 
   const [user, seUser] = useState<User>()
 
   const { data: session, status } = useSession({
     required: true,
     onUnauthenticated() {
-      if (typeof window !== 'undefined') {
-        window.location.href = '/login'
-      }
+      router.push('/login')
     }
   })
 
@@ -68,11 +70,11 @@ const useIsAuthenticated = () => {
       }
     }
 
-    if (isAuthenticated && session && !requested.current) {
+    if (!isLogin && isAuthenticated && session && !requested.current) {
       requested.current = true
       getUser(session)
     }
-  }, [isAuthenticated, session])
+  }, [isLogin, isAuthenticated, session])
 
   return {
     user
