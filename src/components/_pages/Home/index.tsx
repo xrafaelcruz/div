@@ -1,6 +1,8 @@
 import Link from 'next/link'
 
 import { convertToMoney } from 'utils/normalize'
+import { formatDate } from 'utils/date'
+
 import useGetGroups from 'services/group/hooks/useGetGroups'
 
 import { HomeProps } from './types'
@@ -50,7 +52,11 @@ export default function Home({ user }: HomeProps) {
                 <a>
                   <s.Item>
                     {group.name}
-                    <s.Value>{convertToMoney(group.total)}</s.Value>
+
+                    <s.DateValue>
+                      <s.Value>{convertToMoney(group.total)}</s.Value>
+                      <s.Date>{formatDate(group.createdAt)}</s.Date>
+                    </s.DateValue>
                   </s.Item>
                 </a>
               </Link>

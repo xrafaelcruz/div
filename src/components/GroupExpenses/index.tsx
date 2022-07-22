@@ -2,6 +2,7 @@ import Link from 'next/link'
 
 import { convertToMoney } from 'utils/normalize'
 import { getUserName } from 'utils/user'
+import { formatDate } from 'utils/date'
 
 import { User } from 'services/user/types'
 
@@ -38,9 +39,13 @@ const GroupExpenses = ({ user, expenses }: t.GroupExpensesProps) => {
                     {getName(expense.user)} pagou
                   </s.ExpensePayerUser>
 
-                  <s.ExpenseValue>
-                    {convertToMoney(expense.value)}
-                  </s.ExpenseValue>
+                  <s.DateValue>
+                    <s.ExpenseValue>
+                      {convertToMoney(expense.value)}
+                    </s.ExpenseValue>
+
+                    <s.Date>{formatDate(expense.createdAt)}</s.Date>
+                  </s.DateValue>
                 </s.ExpenseItem>
               </a>
             </Link>

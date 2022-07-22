@@ -37,13 +37,27 @@ export const Item = styled.li`
   `}
 `
 
-export const Value = styled.span`
+export const Value = styled.p`
   ${({ theme }) => css`
     display: block;
     color: ${theme.colors.primary};
     font-size: 14px;
     margin-top: 4px;
   `}
+`
+
+export const Date = styled.p`
+  ${({ theme }) => css`
+    color: ${theme.colors.gray1};
+    font-size: 12px;
+    word-break: normal;
+  `}
+`
+export const DateValue = styled.div`
+  align-items: center;
+  display: flex;
+  gap: 16px;
+  justify-content: space-between;
 `
 
 export const NewGroupWrapper = styled.div`
