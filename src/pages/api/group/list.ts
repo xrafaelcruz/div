@@ -29,6 +29,9 @@ export default async function List(req: NextApiRequest, res: NextApiResponse) {
         },
         include: {
           group: true
+        },
+        orderBy: {
+          createdAt: 'desc'
         }
       })
 
