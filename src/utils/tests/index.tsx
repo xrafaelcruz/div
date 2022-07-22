@@ -21,14 +21,16 @@ export const renderComponent = (component: React.ReactNode) => {
 export const mockUseRouter = () => {
   const mockPush = jest.fn()
   const mockBack = jest.fn()
+  const mockPrefetch = jest.fn()
 
   jest.spyOn(require('next/router'), 'useRouter').mockReturnValue({
     query: {
       idGroup: 1
     },
     push: mockPush,
-    back: mockBack
+    back: mockBack,
+    prefetch: mockPrefetch
   })
 
-  return { mockPush, mockBack }
+  return { mockPush, mockBack, mockPrefetch }
 }

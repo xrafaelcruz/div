@@ -1,5 +1,4 @@
 import { screen } from '@testing-library/react'
-import userEvent from '@testing-library/user-event'
 
 import { mockUseRouter, renderComponent } from 'utils/tests'
 import { mockUser, mockGroup } from 'utils/tests/mocks'
@@ -14,50 +13,6 @@ jest.mock('components/GroupExpenses', () => ({
 }))
 
 describe('Component Group', () => {
-  it('Should call router.push when click users button', async () => {
-    const { mockPush } = mockUseRouter()
-
-    renderComponent(
-      <Group user={mockUser} group={mockGroup as any} expenses={{} as any} />
-    )
-
-    const button = screen.getByText('Usuários')
-
-    await userEvent.click(button)
-
-    expect(mockPush).toHaveBeenCalledWith(`/usuarios?idGroup=${mockGroup.id}`)
-  })
-
-  it('Should call router.push when click results button', async () => {
-    const { mockPush } = mockUseRouter()
-
-    renderComponent(
-      <Group user={mockUser} group={mockGroup as any} expenses={{} as any} />
-    )
-
-    const button = screen.getByText('Resultados')
-
-    await userEvent.click(button)
-
-    expect(mockPush).toHaveBeenCalledWith(`/pagamentos?idGroup=${mockGroup.id}`)
-  })
-
-  it('Should call router.push when click results button', async () => {
-    const { mockPush } = mockUseRouter()
-
-    renderComponent(
-      <Group user={mockUser} group={mockGroup as any} expenses={{} as any} />
-    )
-
-    const button = screen.getByText('Editar')
-
-    await userEvent.click(button)
-
-    expect(mockPush).toHaveBeenCalledWith(
-      `/editar-grupo?idGroup=${mockGroup.id}`
-    )
-  })
-
   it('Should not show edit button when user is not owner of group', async () => {
     mockUseRouter()
 
@@ -74,25 +29,7 @@ describe('Component Group', () => {
     expect(button).not.toBeInTheDocument()
   })
 
-  it('Should call router.push when click new expense button', async () => {
-    const { mockPush } = mockUseRouter()
-
-    renderComponent(
-      <Group user={mockUser} group={mockGroup as any} expenses={{} as any} />
-    )
-
-    const button = screen.getByText('NOVA DESPESA')
-
-    await userEvent.click(button)
-
-    expect(mockPush).toHaveBeenCalledWith(
-      `/nova-despesa?idGroup=${mockGroup.id}`
-    )
-  })
-
   it('Should render GroupExpenses', async () => {
-    mockUseRouter()
-
     renderComponent(
       <Group user={mockUser} group={mockGroup as any} expenses={{} as any} />
     )

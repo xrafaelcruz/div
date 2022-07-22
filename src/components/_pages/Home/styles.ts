@@ -1,7 +1,7 @@
 import styled, { css } from 'styled-components'
-import ButtonOriginal from 'components/Button'
+import { ButtonLink } from 'components/Button'
 
-export const Button = styled(ButtonOriginal)`
+export const Button = styled(ButtonLink)`
   align-self: center;
 `
 

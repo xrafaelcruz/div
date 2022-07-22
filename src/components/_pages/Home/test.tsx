@@ -1,31 +1,12 @@
 import { screen } from '@testing-library/react'
-import userEvent from '@testing-library/user-event'
 
-import { mockUseRouter, renderComponent } from 'utils/tests'
+import { renderComponent } from 'utils/tests'
 import { mockGroups, mockGroupsWithLimit, mockUser } from 'utils/tests/mocks'
 
 import Home from '.'
 
 describe('Component Home', () => {
-  it('Should call router.push when click in new group', async () => {
-    const { mockPush } = mockUseRouter()
-
-    jest
-      .spyOn(require('services/group/hooks/useGetGroups'), 'default')
-      .mockReturnValue({ groups: mockGroups })
-
-    renderComponent(<Home user={mockUser} />)
-
-    const button = screen.getByText('NOVO GRUPO')
-
-    await userEvent.click(button)
-
-    expect(mockPush).toHaveBeenCalledWith('/novo-grupo')
-  })
-
   it('Should show limit message', async () => {
-    mockUseRouter()
-
     jest
       .spyOn(require('services/group/hooks/useGetGroups'), 'default')
       .mockReturnValue({ groups: mockGroups })
@@ -38,8 +19,6 @@ describe('Component Home', () => {
   })
 
   it('Should not show new group button when has more than 5 groups', async () => {
-    mockUseRouter()
-
     jest
       .spyOn(require('services/group/hooks/useGetGroups'), 'default')
       .mockReturnValue({ groups: mockGroupsWithLimit })
@@ -52,8 +31,6 @@ describe('Component Home', () => {
   })
 
   it('Should show title when has groups', async () => {
-    mockUseRouter()
-
     jest
       .spyOn(require('services/group/hooks/useGetGroups'), 'default')
       .mockReturnValue({ groups: mockGroups })
@@ -66,8 +43,6 @@ describe('Component Home', () => {
   })
 
   it('Should not show title when no has groups', async () => {
-    mockUseRouter()
-
     jest
       .spyOn(require('services/group/hooks/useGetGroups'), 'default')
       .mockReturnValue({ groups: [] })
@@ -80,8 +55,6 @@ describe('Component Home', () => {
   })
 
   it('Should show groups', async () => {
-    mockUseRouter()
-
     jest
       .spyOn(require('services/group/hooks/useGetGroups'), 'default')
       .mockReturnValue({ groups: mockGroups })
@@ -95,25 +68,7 @@ describe('Component Home', () => {
     expect(group2).toBeInTheDocument()
   })
 
-  it('Should call router.push when click in some group', async () => {
-    const { mockPush } = mockUseRouter()
-
-    jest
-      .spyOn(require('services/group/hooks/useGetGroups'), 'default')
-      .mockReturnValue({ groups: mockGroups })
-
-    renderComponent(<Home user={mockUser} />)
-
-    const group1 = screen.getByText(mockGroups[0].name)
-
-    await userEvent.click(group1)
-
-    expect(mockPush).toHaveBeenCalledWith(`/grupo?idGroup=${mockGroups[0].id}`)
-  })
-
   it('Should show warning when no has groups', async () => {
-    mockUseRouter()
-
     jest
       .spyOn(require('services/group/hooks/useGetGroups'), 'default')
       .mockReturnValue({ groups: [] })
@@ -126,8 +81,6 @@ describe('Component Home', () => {
   })
 
   it('Should not render when groups is null', async () => {
-    mockUseRouter()
-
     jest
       .spyOn(require('services/group/hooks/useGetGroups'), 'default')
       .mockReturnValue({ groups: null })

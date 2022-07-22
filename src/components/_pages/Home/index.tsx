@@ -1,5 +1,3 @@
-import { useRouter } from 'next/router'
-
 import Link from 'next/link'
 
 import { convertToMoney } from 'utils/normalize'
@@ -12,8 +10,6 @@ import * as s from './styles'
 const groupsLimit = 5
 
 export default function Home({ user }: HomeProps) {
-  const router = useRouter()
-
   const { groups } = useGetGroups(user)
 
   if (!groups) return <></>
@@ -32,7 +28,7 @@ export default function Home({ user }: HomeProps) {
       <s.NewGroupWrapper>
         {totalMyGroups < groupsLimit && (
           <s.Button
-            onClick={() => router.push('/novo-grupo')}
+            href="/novo-grupo"
             type="button"
             variant="primary"
             size="medium"

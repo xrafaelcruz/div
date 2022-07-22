@@ -39,7 +39,6 @@ const Footer = ({ user }: t.FooterProps) => {
             type="button"
             photo={user?.photo || ''}
             aria-label="Perfil"
-            onClick={() => router.push('/perfil')}
           />
         </Link>
       </s.Wrapper>
